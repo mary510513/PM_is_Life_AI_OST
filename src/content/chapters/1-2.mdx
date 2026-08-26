@@ -9,21 +9,127 @@ previous: 1-1
 next: 1-3
 ---
 
-## WHY｜先確認猜測對不對
+import MethodCard from '../../components/MethodCard.astro';
+import PromptBlock from '../../components/PromptBlock.astro';
 
-1.1 是猜出問題可能是什麼；1.2 是回到真實使用者與情境，確認這個猜測是否成立。
+<p class="difference"><strong>跟 1.1 的差異：</strong>1.1 是先猜出問題可能是什麼，1.2 是去確認這個猜測對不對。</p>
 
-## HOW｜5 個方法
+## WHY｜為什麼要理解使用者與情境
 
-Empathy Map、User Journey Map、Persona、使用者訪談與觀察法，分別用來整理感受、旅程、代表性輪廓、直接敘述與實際行為。
+<ul class="why-list">
+  <li>1.1 整理出來的問題，還只是我們的猜測。</li>
+  <li>這一步要做的是：找真實使用者聊聊、觀察看看，看猜測有沒有猜對。</li>
+  <li>猜對了，後面的方向才會準；猜錯了，現在發現比之後發現便宜多了。</li>
+</ul>
 
-## WHAT｜提示詞
+## HOW｜可以嘗試的 5 個方法
 
-```text
-根據以下使用情境：【填入情境】
-請協助我列出要驗證的使用者行為、感受、阻礙與待確認假設；資訊不足處請標記待確認，不要自行補完。
-```
+<div class="method-grid research-method-grid">
+  <MethodCard title="Empathy Map" tagline="從使用者的所說、所想、所做、所感切入" example="外送員「說」路線沒問題，但「做」的時候常常自己改道，不走 App 建議路線。">
+    <div class="empathy-map" aria-label="Empathy Map 範例"><div><b>Says 說</b><span>「路線沒問題，都看導航」</span></div><div><b>Thinks 想</b><span>擔心遲到被扣分</span></div><div><b>Does 做</b><span>常常自己改道，不走建議路線</span></div><div><b>Feels 感</b><span>對系統路線沒有信任感</span></div></div>
+  </MethodCard>
+  <MethodCard title="User Journey Map" tagline="把使用者的完整體驗按時間排出來" example="「等店家出餐」是整趟旅程中外送員最容易感到煩躁的階段。">
+    <div class="journey-map" aria-label="外送員情緒旅程範例"><div class="journey-step journey-step--mid"><span>🙂</span><i></i><small>接單</small></div><div class="journey-step journey-step--high"><span>😐</span><i></i><small>前往店家</small></div><div class="journey-step journey-step--low"><span>😣</span><i></i><small>等店家出餐</small></div><div class="journey-step journey-step--high"><span>🙂</span><i></i><small>送餐完成</small></div></div>
+  </MethodCard>
+  <MethodCard title="Persona" tagline="把資料收斂成一個具體的人" example="「小陳」是兼職外送員，下班後接單，最怕遇到出餐慢又難停車的店家。">
+    <div class="persona-preview"><span class="persona-avatar" aria-hidden="true">陳</span><div><b>小陳・兼職外送員</b><p><strong>背景：</strong>白天上班，下班後接單<br /><strong>目標：</strong>多接單、少繞路<br /><strong>痛點：</strong>出餐慢又難停車的店家</p></div></div>
+  </MethodCard>
+  <MethodCard title="使用者訪談" tagline="直接問使用者本人" example="訪談時要問行為，不要問「你會不會用」這種假設性問題。">
+    <div class="interview-preview"><p class="interview-question">你平常送餐時，遇到出餐慢會怎麼處理？</p><p class="interview-answer">通常會先去接下一單，晚點再回來拿。</p><p class="interview-question">那你怎麼決定要不要先去接下一單？</p></div>
+  </MethodCard>
+  <MethodCard title="觀察法" tagline="看使用者實際怎麼做，不只聽他說" example="外送員說自己都看 App 導航，但觀察發現他其實常常憑記憶抄捷徑。">
+    <div class="observation-preview"><span aria-hidden="true">👁️</span><p><mark>說：都看 App 導航</mark><i aria-hidden="true">→</i><mark>觀察到：常憑記憶抄捷徑</mark></p></div>
+  </MethodCard>
+</div>
 
-## 建議產出
+## WHAT｜提示詞範例
 
-使用者輪廓、旅程痛點、訪談／觀察紀錄，以及被驗證或推翻的問題假設。
+<PromptBlock open title="Empathy Map 提示詞" prompt={`以下是我對使用者的觀察或訪談紀錄：
+
+【貼上內容】
+
+請幫我整理成 Empathy Map 的四個象限：
+1. Says：使用者實際說了什麼
+2. Thinks：使用者可能在想什麼
+3. Does：使用者實際做了什麼行為
+4. Feels：使用者可能有的情緒或感受
+
+請區分清楚哪些是使用者原話，哪些是你的推論，並標註推論部分。`} />
+
+<PromptBlock title="User Journey Map 提示詞" prompt={`以下是使用者完成一件任務的過程描述：
+
+【貼上內容】
+
+請幫我拆成時間軸上的幾個階段，每個階段請包含：
+1. 這個階段使用者在做什麼
+2. 使用者當下可能的情緒（正向／中性／負向）
+3. 這個階段是否有明顯的痛點
+
+請特別標出情緒最負向的階段。`} />
+
+<PromptBlock title="Persona 提示詞" prompt={`以下是我收集到的使用者訪談或觀察資料：
+
+【貼上內容】
+
+請幫我整理成 1–2 個 Persona，每個包含：
+1. 姓名（可用代稱）
+2. 背景與生活情境
+3. 主要目標
+4. 主要痛點
+5. 這個 Persona 是根據哪些資料整理出來的
+
+如果資料不足以支撐某個細節，請標記「待補充」，不要自行虛構。`} />
+
+<PromptBlock title="使用者訪談提示詞" prompt={`我想了解以下問題：
+
+【填入問題】
+
+請幫我設計一份不帶有引導性的使用者訪談大綱，包含：
+1. 使用者目前的行為
+2. 使用情境
+3. 遇到的困難
+4. 目前的替代方案
+5. 對理想解法的期待
+
+請避免直接問「你會不會使用這個功能」這類假設性問題。`} />
+
+<PromptBlock title="觀察法提示詞" prompt={`我想觀察使用者在以下情境中的行為：
+
+【填入情境】
+
+請幫我設計一份觀察清單，包含：
+1. 應該觀察哪些具體行為（不是感受或想法）
+2. 應該記錄哪些環境或情境細節
+3. 哪些行為可能跟使用者「說的」不一致，需要特別留意
+
+請聚焦在可以被實際看到、記錄下來的行為，不要包含需要詢問才能得知的內容。`} />
+
+## 研究整理工具箱
+
+<div class="research-toolkit">
+  <article><span>01</span><h3>研究問題與假設卡</h3><p>研究前先寫下想確認的使用者行為、目前假設、已有／缺少的證據，以及什麼結果會支持或推翻它。</p></article>
+  <article><span>02</span><h3>訪談／觀察筆記表</h3><p>將「使用者原話、實際行為、當下情境、研究者推論、待確認問題」分欄記錄，避免把推論誤當成事實。</p></article>
+  <article><span>03</span><h3>Affinity Mapping → 洞察表</h3><p>將多份原話與行為紀錄分成相似主題，再寫下洞察與下一步：驗證、保留，或帶進 1.3 收斂。</p></article>
+</div>
+
+## 延伸｜研究方法與 AI 資源
+
+<div class="resource-note"><p><strong>使用提醒：</strong>以下資源由第三方提供，內容、網址、授權與安裝方式可能變動。使用 AI Skill 前，請先確認其授權、相容性與資料處理方式；訪談逐字稿、錄音與可識別個資不應直接上傳至未經核准的外部服務。</p></div>
+
+### 方法與模板網站
+
+<div class="resource-list">
+  <article><h3><a href="https://www.gov.uk/service-manual/user-research" target="_blank" rel="noopener noreferrer">GOV.UK User Research Service Manual ↗</a></h3><p>適合規劃訪談、招募受訪者、情境觀察、研究筆記與研究後分析。可延伸閱讀：<a href="https://www.gov.uk/service-manual/user-research/contextual-research-and-observation" target="_blank" rel="noopener noreferrer">情境研究與觀察</a>、<a href="https://www.gov.uk/service-manual/user-research/analyse-a-research-session" target="_blank" rel="noopener noreferrer">Affinity Mapping 分析指引</a>。</p></article>
+  <article><h3><a href="https://digital.defra.gov.uk/user-research/research-methods" target="_blank" rel="noopener noreferrer">Defra Research Methods ↗</a></h3><p>提供研究方法與模板索引，包含訪談大綱、情境訪查紀錄、日記研究、問卷與卡片分類等工具；可依研究目的、時間與可接觸的使用者選擇做法。</p></article>
+</div>
+
+### AI 協作／開源 Skill
+
+<div class="resource-list">
+  <article><h3><a href="https://github.com/SkillMedev/skills/blob/main/skills/interview-synthesis/SKILL.md" target="_blank" rel="noopener noreferrer">Interview Synthesis ↗</a></h3><p>將訪談紀錄按主題分群，保留證據、出現頻率與代表性引言；適合在完成一輪訪談後協助做初步整理。</p></article>
+  <article><h3><a href="https://github.com/borghei/Claude-Skills/blob/main/product-team/research-summarizer/SKILL.md" target="_blank" rel="noopener noreferrer">Research Summarizer ↗</a></h3><p>將訪談、問卷開放題或客服資料整理成研究發現與決策摘要；使用前請另行確認授權與資料處理條件。</p></article>
+</div>
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>目標使用者描述</li><li>使用者情境與旅程</li><li>使用者目前的實際行為</li><li>主要痛點或需求（有初步證據支撐）</li><li>尚待進一步驗證的問題</li></ul></div>
