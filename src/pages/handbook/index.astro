@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+const parts = [['Part 1','從需求開始','找到、理解並收斂問題','1-1','先找到想處理的問題'],['Part 2','從需求形成 PRD','把問題變成可檢查的產品規格','2-1','把問題轉成產品機會'],['Part 3','從 PRD 做出成果','決定完成度、做出成果並診斷回饋','3-1','決定今天要做到哪裡'],['Part 4','回頭地圖與延伸方向','從卡點重新選擇下一步','4-1','重新看一次整體脈絡']];
+---
+<BaseLayout title="手冊總覽 — PM is Life"><section class="shell handbook-hero"><p class="eyebrow">HANDBOOK</p><h1>從你現在卡住的地方開始。</h1><p>可以從頭走，也可以直接選擇最接近你當下需求的一段。</p></section><section class="shell handbook-list">{parts.map(([part,title,copy,slug,chapter]) => <article class="handbook-part"><p class="eyebrow">{part}</p><h2>{title}</h2><p>{copy}</p><a href={`/handbook/${slug}/`}>{chapter} →</a></article>)}</section></BaseLayout>

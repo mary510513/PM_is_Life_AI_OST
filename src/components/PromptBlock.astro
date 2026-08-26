@@ -1,0 +1,6 @@
+---
+interface Props { title: string; prompt: string; open?: boolean }
+const { title, prompt, open = false } = Astro.props;
+---
+<details class="prompt" open={open}><summary><span>{title}</span><span>⌄</span></summary><div class="prompt-content"><button class="copy-button" type="button" data-copy>複製</button><pre><code>{prompt}</code></pre></div></details>
+<script>document.querySelectorAll('[data-copy]').forEach((button) => button.addEventListener('click', async () => { const text = button.parentElement?.querySelector('code')?.textContent ?? ''; await navigator.clipboard.writeText(text); button.textContent = '已複製'; setTimeout(() => button.textContent = '複製', 1500); }));</script>
