@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
+import '../styles/phase2.css';
 interface Props { title: string; description?: string }
 const { title, description = 'AI 工具介紹手冊' } = Astro.props;
 ---
-<!doctype html><html lang="zh-Hant"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content={description} /><title>{title}</title></head><body><header class="site-header"><a class="brand" href="/">PM <i>is</i> Life<span>.</span></a><nav aria-label="主要導覽"><a href="/handbook/">手冊</a><a href="/methods/">方法工具庫</a><a href="/resources/">延伸資源</a></nav></header><main><slot /></main><footer class="site-footer">PM is Life · Build with AI @ OST</footer></body></html>
+<!doctype html><html lang="zh-Hant"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content={description} /><title>{title}</title></head><body><header class="site-header"><a class="brand" href="/">PM <i>is</i> Life<span>.</span></a><nav aria-label="主要導覽"><a href="/handbook/">手冊</a><a href="/methods/">方法工具庫</a><a href="/resources/">延伸資源</a><a href="/search/">搜尋</a></nav></header><main><slot /></main><footer class="site-footer">PM is Life · Build with AI @ OST</footer></body></html>

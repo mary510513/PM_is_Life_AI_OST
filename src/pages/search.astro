@@ -1,0 +1,4 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="搜尋手冊 — PM is Life"><section class="shell simple-page"><p class="eyebrow">SEARCH</p><h1>搜尋方法、工具與提示詞</h1><div id="search"></div></section></BaseLayout><script is:inline>window.addEventListener('DOMContentLoaded', async () => { const { PagefindUI } = await import('/pagefind/pagefind-ui.js'); new PagefindUI({ element: '#search', showSubResults: true }); });</script>

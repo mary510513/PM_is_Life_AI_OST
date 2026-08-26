@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 export function getStaticPaths() {
-  return ['1-2','1-3','2-1','2-2','2-3','3-1','3-2','3-3','4-1','4-2','4-3','4-4'].map((chapter) => ({ params: { chapter } }));
+  const modules = import.meta.glob('../../content/chapters/*.mdx', { eager: true });
+  return Object.entries(modules).map(([path, module]) => ({ params: { chapter: path.split('/').pop()?.replace('.mdx', '') }, props: { chapter: module } }));
 }
-const { chapter } = Astro.params;
+const { chapter } = Astro.props;
+const Content = chapter.default;
+const { title, description, part, partTitle, number, previous, next, readingTime } = chapter.frontmatter;
 ---
-<BaseLayout title={`${chapter} — PM is Life`}><section class="shell simple-page"><p class="eyebrow">CHAPTER {chapter?.replace('-', '.')}</p><h1>這個章節正在遷移。</h1><p>網站骨架、導覽與內容欄位已準備完成；正式內容將在階段 2 依規格書逐章加入。</p><a class="button primary" href="/handbook/">回到手冊總覽 →</a></section></BaseLayout>
+<BaseLayout title={`${number} ${title} — PM is Life`} description={description}><article class="chapter shell"><a class="back-link" href="/handbook/">← 手冊總覽</a><header class="chapter-header"><p class="eyebrow">PART {part} · {partTitle}</p><p class="chapter-number">{number} · {readingTime}</p><h1>{title}</h1><p class="lead">{description}</p></header><div class="mdx-content"><Content /></div><nav class="chapter-nav">{previous ? <a href={`/handbook/${previous}/`}>← 上一章</a> : <span />}{next ? <a href={`/handbook/${next}/`}>下一章 →</a> : <a href="/handbook/">回到手冊總覽</a>}</nav></article></BaseLayout>
