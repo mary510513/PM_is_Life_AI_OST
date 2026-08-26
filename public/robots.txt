@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pm-is-life-ai-ost.pages.dev/sitemap-index.xml
