@@ -8,98 +8,25 @@ readingTime: 12 分鐘
 next: 1-2
 ---
 
+import MethodCard from '../../components/MethodCard.astro';
 import PromptBlock from '../../components/PromptBlock.astro';
 
 ## WHY｜為什麼要先找到問題
 
-- 沒有先定義問題，AI 只會順著你的假設走，PRD 與 Demo 容易建立在錯誤基礎上。
-- 在 OST 這種限時活動中，很容易急著做 Demo，最後卻做出沒人需要的東西。
-- 先花 10–15 分鐘想清楚問題，後面的 PRD 與 Demo 才不會白做。
-- 找到問題本身是一項可以練習的技能，不是浪費時間。
 
-## START｜先對齊你要處理的問題
-
-<div class="output-box">
-  <p><strong>Problem Framing</strong>：在討論解法以前，先讓團隊對「到底要解決什麼」有相同理解。</p>
-  <p><strong>問題陳述模板：</strong>［使用者］在［情境］下，因為［阻礙］無法［想完成的事］，導致［影響］。</p>
-  <p>例：雨天等待取餐的外送員，因為無法掌握出餐進度，難以安排下一筆訂單，導致等待焦慮與收入不確定。</p>
-</div>
+<ul class="why-list"><li>沒有先定義問題，AI 只會順著你的假設走，PRD 與 Demo 容易建立在錯誤基礎上。</li><li>在 OST 這種限時活動中，很容易急著做 Demo，最後卻做出沒人需要的東西。</li><li>先花 10–15 分鐘想清楚問題，後面的 PRD 與 Demo 才不會白做。</li><li>找到問題本身是一項可以練習的技能，不是浪費時間。</li></ul>
 
 ## HOW｜用 5 種角度理解問題
 
-<div class="method-grid">
-  <article class="method-card">
-    <h3>Design Thinking</h3>
-    <p>從使用者與情境出發。</p>
-    <p><strong>何時使用：</strong>還不清楚誰遇到問題、問題在哪個情境發生時。</p>
-    <pre>使用者 → 情境 → 觀察 → 問題</pre>
-    <p>例：觀察外送員在雨天等餐，發現比起準時送達，「等待焦慮」更困擾他們。</p>
-  </article>
-  <article class="method-card">
-    <h3>5 Whys</h3>
-    <p>一層層追問問題背後的原因。</p>
-    <p><strong>何時使用：</strong>已經看見表面問題，想找出可能根因時。</p>
-    <pre>取消訂單 → 導航錯誤 → 地圖未即時更新 → 缺乏自動校正</pre>
-    <p>例：從司機取消訂單，一路追到缺乏自動化地圖校正機制。</p>
-  </article>
-  <article class="method-card">
-    <h3>JTBD</h3>
-    <p>理解使用者真正想完成的任務。</p>
-    <p><strong>何時使用：</strong>需要釐清使用者動機，而非只聽功能要求時。</p>
-    <pre>情境 → 任務 → 阻礙 → 期待結果</pre>
-    <p>例：下班尖峰叫車的人，要的未必是更快的車，而是能否準時抵達的確定感。</p>
-  </article>
-  <article class="method-card">
-    <h3>問題樹</h3>
-    <p>拆解主要問題與可能原因。</p>
-    <p><strong>何時使用：</strong>一個問題可能同時有多個成因，不能直接選定單一答案時。</p>
-    <pre>等車過久 → 供給不足／派單不佳／路線低效</pre>
-    <p>例：同一個等車問題，可能同時來自供給、派單與路線三個原因。</p>
-  </article>
-  <article class="method-card">
-    <h3>Feynman Technique</h3>
-    <p>用自己的話確認是否真的理解問題。</p>
-    <p><strong>何時使用：</strong>團隊的說法太抽象，或自己還講不清楚問題時。</p>
-    <pre>複雜想法 → 簡單說明 → 找出缺口 → 補足理解</pre>
-    <p>例：如果你講不清楚問題，代表自己其實還沒有真正理解它。</p>
-  </article>
-</div>
-
-## REFRAME｜把洞察轉成機會題
-
-<div class="output-box">
-  <p><strong>How Might We（我們如何能）</strong>把已知洞察改寫成開放的問題，避免一開始就鎖定功能解法。</p>
-  <p><strong>洞察：</strong>外送員不確定還要等多久，因此難以決定是否接下一單。</p>
-  <p><strong>機會題：</strong>我們如何能讓外送員在等待取餐時，更有把握地安排下一筆訂單？</p>
-</div>
-
-## VALIDATE｜先驗證最關鍵的未知
-
-<div class="output-box">
-  <p><strong>Assumption Mapping</strong>：把假設依「重要性」與「已有證據」分類。時間有限時，先驗證高重要、低證據的項目。</p>
-
-  <table>
-    <thead><tr><th></th><th>證據少</th><th>證據多</th></tr></thead>
-    <tbody><tr><th>重要性高</th><td><strong>優先驗證</strong></td><td>持續追蹤</td></tr><tr><th>重要性低</th><td>暫不投入</td><td>已知背景</td></tr></tbody>
-  </table>
-
-  <p>例：外送員願意在等待時主動查看出餐預估時間。若這項假設錯誤，後續方案就可能不成立，因此應先用訪談、觀察或低保真 Demo 驗證。</p>
+<div class="method-grid research-method-grid">
+  <MethodCard title="Design Thinking" tagline="從使用者與情境出發" example="觀察外送員在雨天等餐，發現比起準時送達，「等待焦慮」更困擾他們。"><div class="thinking-flow"><b>使用者</b><span>→</span><b>情境</b><span>→</span><b>觀察</b><span>→</span><strong>問題</strong></div></MethodCard>
+  <MethodCard title="5 Whys" tagline="一層層追問問題背後的原因" example="從司機取消訂單，一路追到缺乏自動化地圖校正機制。"><ol class="why-chain"><li>取消訂單</li><li>導航錯誤</li><li>地圖未即時更新</li><li>缺乏自動校正</li></ol></MethodCard>
+  <MethodCard title="JTBD" tagline="理解使用者真正想完成的任務" example="下班尖峰叫車的人，要的未必是更快的車，而是能否準時抵達的確定感。"><div class="jtbd-flow"><span>下班尖峰叫車</span><i>想完成</i><b>準時抵達</b><i>但受阻於</i><span>到達時間不確定</span></div></MethodCard>
+  <MethodCard title="問題樹" tagline="拆解主要問題與可能原因" example="同一個等車問題，可能同時來自供給、派單與路線三個原因。"><div class="problem-tree"><strong>等車過久</strong><div><span>供給不足</span><span>派單不佳</span><span>路線低效</span></div></div></MethodCard>
+  <MethodCard title="Feynman Technique" tagline="用自己的話確認是否真的理解問題" example="如果你講不清楚問題，代表自己其實還沒有真正理解它。"><div class="feynman-flow"><b>複雜想法</b><span>→</span><b>簡單說明</b><span>→</span><b>找出缺口</b><span>→</span><strong>補足理解</strong></div></MethodCard>
 </div>
 
 ## WHAT｜提示詞工具箱
-
-<PromptBlock open title="Problem Framing 提示詞" prompt={`以下是我目前想處理的情況：
-
-【填入想法、觀察或抱怨】
-
-請不要提出解法。請協助我整理成問題陳述，並分別指出：
-1. 誰受到影響？
-2. 在什麼情境下發生？
-3. 他遇到什麼阻礙、想完成什麼事？
-4. 造成什麼影響？
-5. 哪些內容是已有證據，哪些只是推測？
-
-最後以「［使用者］在［情境］下，因為［阻礙］無法［想完成的事］，導致［影響］」格式寫出一版問題陳述。`} />
 
 <PromptBlock open title="Design Thinking 提示詞" prompt={`我目前有一個模糊的想法：
 
@@ -159,27 +86,14 @@ import PromptBlock from '../../components/PromptBlock.astro';
 
 請指出問題，不要直接幫我重寫整段描述。`} />
 
-<PromptBlock title="How Might We 提示詞" prompt={`以下是我整理出的使用者洞察：
+## 延伸｜開源 AI Skill 資源
 
-【填入洞察】
+<div class="resource-note"><p><strong>使用提醒：</strong>以下為社群開源延伸資源，非本手冊團隊開發或驗證；內容、網址、授權與使用方式可能變動。使用前請確認相容性與資料處理風險，引用內容時請保留原始出處與作者標註。</p></div>
 
-請將它改寫成 3 個「我們如何能……？」的機會題，分別呈現較聚焦、適中與較開放的範圍。
-規則：
-1. 不要預設產品功能、技術或特定解法。
-2. 每題都要保留使用者、情境與想達成的結果。
-3. 說明哪一題最適合現在探索，以及原因。`} />
-
-<PromptBlock title="Assumption Mapping 提示詞" prompt={`以下是我目前的問題陳述與可能方向：
-
-【填入問題陳述與方向】
-
-請協助我列出其中的假設，並以表格分類：
-1. 假設內容
-2. 重要性（高／低）
-3. 目前證據（多／少）
-4. 最小驗證行動
-
-請優先挑出「高重要、證據少」的一項，設計一個低成本驗證方法，並說明什麼結果會支持或推翻它。`} />
+<div class="resource-list">
+  <article><h3><a href="https://github.com/rampstackco/claude-skills" target="_blank" rel="noopener noreferrer">rampstackco/claude-skills — jtbd-framing ↗</a></h3><p>將 JTBD 方法包裝為 Claude Skill，聚焦 Job Statement 與使用者卡關時刻。</p></article>
+  <article><h3><a href="https://github.com/pratikshadake/claude-product-management-skills" target="_blank" rel="noopener noreferrer">pratikshadake/claude-product-management-skills ↗</a></h3><p>含 problem-clarity 與 assumption-mapper 等產品管理常用 Skill。</p></article>
+</div>
 
 ## CHECKLIST｜建議產出
 
@@ -189,17 +103,7 @@ import PromptBlock from '../../components/PromptBlock.astro';
     <li>目標使用者與發生情境</li>
     <li>已有證據，以及使用方法後得到的洞察</li>
     <li>1–3 個 How Might We 機會題</li>
-    <li>高重要、低證據的關鍵假設</li>
-    <li>下一步最小驗證行動</li>
-  </ul>
-</div>
-
-## 延伸｜開源 AI Skill 資源
-
-<div class="output-box">
-  <p><strong>使用提醒：</strong>以下是社群開源資源，不是本手冊團隊開發或驗證；使用前請自行確認用法、相容性與風險，引用時請保留來源與作者標註。</p>
-  <ul>
-    <li><a href="https://github.com/rampstackco/claude-skills" target="_blank" rel="noopener noreferrer">rampstackco/claude-skills — jtbd-framing</a>（https://github.com/rampstackco/claude-skills）：將 JTBD 方法包裝為 Claude Skill，聚焦 Job Statement 與使用者卡關時刻。</li>
-    <li><a href="https://github.com/pratikshadake/claude-product-management-skills" target="_blank" rel="noopener noreferrer">pratikshadake/claude-product-management-skills</a>（https://github.com/pratikshadake/claude-product-management-skills）：含 problem-clarity 與 assumption-mapper 等 PM 常用 Skill。</li>
+    <li>尚待確認的問題與證據缺口</li>
+    <li>帶往 1.2 驗證的下一步研究問題</li>
   </ul>
 </div>

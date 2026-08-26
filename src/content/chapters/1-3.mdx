@@ -9,21 +9,71 @@ previous: 1-2
 next: 2-1
 ---
 
-## WHY｜從很多可能性選一個方向
+import MethodCard from '../../components/MethodCard.astro';
+import PromptBlock from '../../components/PromptBlock.astro';
 
-收斂不是宣告唯一正解，而是在時間與證據有限時，選擇最值得先驗證的問題。
+<p class="difference"><strong>跟 1.1／1.2 的差異：</strong>1.1 猜、1.2 驗證，1.3 是從一堆真實但零散的痛點裡，選出一個現在最值得先做的方向。</p>
 
-## HOW｜5 個方法
+## WHY｜為什麼要收斂
 
-Impact / Effort Matrix、How Might We、Problem Statement、假設地圖與 Dot Voting，可協助比較影響、重述機會、檢查假設與做出選擇。
+<ul class="why-list"><li>1.2 讓你拿到好幾個真實但零散的痛點，不可能同時都做。</li><li>如果沒有先收斂，PRD 寫到一半會發現範圍太大、方向不聚焦。</li><li>這一步不是找出「最厲害」的方向，而是選出「現在最值得先做」的一個。</li></ul>
 
-## WHAT｜提示詞
+## HOW｜可以嘗試的 5 個方法
 
-```text
-以下是我們已發現的問題與證據：【貼上內容】
-請用影響力、投入成本、證據強度與可驗證性協助排序；清楚說明每個判斷依據與待驗證假設。
-```
+<div class="method-grid research-method-grid">
+  <MethodCard title="Impact / Effort Matrix" tagline="影響力大、花的力氣小的優先做" example="預估出餐等待時間落在「優先做」象限，適合當作今天的主攻方向。"><div class="priority-matrix" aria-label="Impact effort matrix"><div class="priority-matrix__grid"><span class="priority-cell">值得規劃<br />高影響／高力氣</span><strong class="priority-cell priority-cell--first">優先做<br />高影響／低力氣</strong><span class="priority-cell">不要做<br />低影響／高力氣</span><span class="priority-cell">有空再做<br />低影響／低力氣</span></div><small>影響力 ↑　　花的力氣 →</small></div><p class="matrix-note"><strong>解法：</strong>在店家頁面顯示「預估出餐等待時間」，用既有歷史資料估算；幾乎所有外送員都會遇到等餐，且不需即時串接店家系統。</p></MethodCard>
+  <MethodCard title="How Might We" tagline="把問題轉成「我們可以怎麼樣⋯」，避免太早鎖定答案" example="先轉成開放式問句，而不是直接跳去想「做一個等待進度條」。"><div class="hmw-preview"><p>痛點：外送員在等店家出餐時很焦躁</p><span>↓ 轉換</span><div><b>HMW 讓等待變得可預期？</b><b>HMW 讓等待時間變得有用？</b><b>HMW 減少不必要的等待？</b></div></div></MethodCard>
+  <MethodCard title="Problem Statement" tagline="用價值主張句型，把方向收斂成一句話" example="四個空格都填上具體內容，才算真正收斂完成。"><div class="value-proposition"><p>我們幫助 [目標用戶] 在 [特定場景] 下，透過 [核心功能] 解決 [核心痛點]</p><blockquote>我們幫助 <strong>外送員</strong>，在<strong>等待店家出餐</strong>時，透過<strong>預估出餐等待時間提示</strong>，解決<strong>不確定能不能先去接下一單的焦慮</strong>。</blockquote></div></MethodCard>
+  <MethodCard title="假設地圖" tagline="攤開還沒驗證的假設，看哪些風險最高" example="「店家願不願意提供即時出餐狀態」是風險最高、還沒驗證的假設。"><div class="assumption-map"><span>已知<br />低風險</span><strong>未知<br />高風險 ⚠</strong><span>已知<br />低風險</span><span>未知<br />中風險</span></div></MethodCard>
+  <MethodCard title="Dot Voting" tagline="團隊用投票方式快速收斂" example="團隊每人 5 票；「等餐焦躁」得 4 票，成為今天的主攻方向。"><div class="dot-voting"><p>等餐焦躁　<strong>● ● ● ●</strong> ○</p><p>路線不熟　<strong>●</strong> ○ ○ ○ ○</p><p>收入不穩　<strong>● ●</strong> ○ ○ ○</p></div></MethodCard>
+</div>
 
-## 建議產出
+## WHAT｜提示詞範例
 
-優先問題、問題陳述、選擇理由與需保留追蹤的假設。
+<PromptBlock open title="Impact / Effort Matrix 提示詞" prompt={`以下是我們目前收集到的幾個問題方向：
+
+【貼上問題清單】
+
+請幫我用 Impact / Effort Matrix 的方式評估每一個：
+1. 潛在影響力（高／中／低），並說明理由
+2. 需要投入的力氣（高／中／低），並說明理由
+3. 綜合以上，落在「優先做／值得規劃／有空再做／不要做」哪個象限
+
+請針對每個方向都給出評估，不要只挑一個講。`} />
+
+<PromptBlock title="How Might We 提示詞" prompt={`以下是我們確認過的一個痛點：
+
+【貼上痛點描述】
+
+請把這個痛點轉換成 5 個「How Might We（我們可以怎麼樣⋯）」的開放式問句。每個問句都要保留多種解法方向，不要直接暗示特定功能；盡量涵蓋減少發生、協助應對與改變情境等角度。請先列出問句，暫時不要幫我選解法。`} />
+
+<PromptBlock title="Problem Statement 提示詞" prompt={`以下是我們目前整理出的多個痛點與觀察：
+
+【貼上內容】
+
+請幫我收斂成一句清楚的價值主張：
+「我們幫助 [目標用戶] 在 [特定場景] 下，透過 [核心功能] 解決 [核心痛點]。」
+
+請只給一句話；最多列 2 個候選版本。`} />
+
+<PromptBlock title="假設地圖提示詞" prompt={`以下是我們目前的問題方向與初步想法：
+
+【貼上內容】
+
+請列出隱含的關鍵假設，並分類為「已知、低風險」「未知、高風險」「未知、中風險」。特別標出未知且高風險、應最優先驗證的假設。`} />
+
+<PromptBlock title="Dot Voting 提示詞" prompt={`我們團隊正在幾個方向之間做選擇：
+
+【貼上方向清單】
+
+請扮演中立第三方，針對每個方向列出：可能支持的理由、可能反對的理由，以及投票前應先確認的一個關鍵問題。請不要幫我們決定選哪個。`} />
+
+## 延伸｜開源 AI Skill 資源
+
+<div class="resource-note"><p><strong>使用提醒：</strong>以下為社群開源延伸資源，非本手冊團隊開發或驗證；內容、網址、授權與使用方式可能變動。使用前請確認相容性與資料處理風險，引用內容時請保留原始出處與作者標註。</p></div>
+
+<div class="resource-list"><article><h3><a href="https://github.com/lyndonkl" target="_blank" rel="noopener noreferrer">lyndonkl/claude — prioritization-effort-impact ↗</a></h3><p>處理 Impact / Effort 2×2 矩陣，將項目分為「優先做／值得規劃／有空再做／不要做」；需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://github.com/borghei/Claude-Skills" target="_blank" rel="noopener noreferrer">borghei/Claude-Skills — brainstorm-ideas ↗</a></h3><p>內含 How Might We 引導流程，可將痛點轉成開放式問句並協助比較想法；需搭配 Claude Code 安裝使用。</p></article></div>
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>一個暫定的問題方向（只選一個）</li><li>2–3 個可能解法（方向定了，解法保留彈性）</li><li>團隊選擇這個方向的理由</li><li>還沒驗證的假設清單</li></ul></div>
