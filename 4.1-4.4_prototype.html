@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Part 4 Prototype</title>
+<style>
+:root{
+  --bg:#0f1115; --panel:#171a21; --panel-2:#1e222b;
+  --accent:#7dd3fc; --accent-2:#a78bfa; --good:#34d399; --warn:#fbbf24; --bad:#fb7185;
+  --text:#e5e7eb; --muted:#9ca3af; --border:#2a2f3a; --radius:14px;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 60px;}
+.wrap{max-width:820px;margin:0 auto;padding:40px 20px;}
+.badge{display:inline-block;color:var(--accent);font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:12px;margin-bottom:10px;}
+h1{font-size:26px;margin:0 0 6px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 8px;}
+
+.intro-box{background:linear-gradient(135deg,rgba(125,211,252,0.08),rgba(167,139,250,0.08));border:1px solid rgba(125,211,252,0.3);border-radius:var(--radius);padding:20px 22px;font-size:13.5px;color:var(--text);margin-bottom:32px;}
+
+.part-divider{display:flex;align-items:center;gap:14px;margin:44px 0 18px;}
+.part-divider .num{background:var(--panel-2);border:1px solid var(--border);color:var(--accent);font-size:13px;font-weight:700;padding:4px 12px;border-radius:8px;}
+.part-divider h2{font-size:19px;margin:0;}
+.part-divider .line{flex:1;height:1px;background:var(--border);}
+
+.section-title{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;margin:26px 0 12px;}
+.section-title .tag{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#0f1115;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;}
+
+.why-box{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;font-size:13.5px;}
+.why-box p{margin:0 0 10px;}
+.why-box p:last-child{margin-bottom:0;}
+
+/* 4.1 flow diagram */
+.flow-wrap{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;background:var(--panel-2);border:1px solid var(--border);border-radius:12px;padding:22px 18px;margin-bottom:14px;}
+.flow-step{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;text-align:center;min-width:120px;}
+.flow-step .flow-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+.flow-step .flow-desc{font-size:10.5px;color:var(--muted);}
+.flow-arrow{color:var(--accent-2);font-size:18px;font-weight:700;}
+
+.closing-line{font-size:13px;color:var(--muted);padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:10px;margin-top:6px;}
+.closing-line b{color:var(--accent-2);}
+
+/* 4.2 三種使用方式 */
+.usage-grid{display:flex;flex-direction:column;gap:12px;}
+.usage-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;}
+.usage-num{flex:0 0 32px;height:32px;border-radius:50%;background:var(--panel-2);border:1px solid var(--border);color:var(--accent);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.usage-body{flex:1;}
+.usage-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.usage-desc{font-size:12.5px;color:var(--muted);}
+
+/* 4.3 卡點對照地圖 */
+.map-table{width:100%;border-collapse:separate;border-spacing:0 8px;}
+.map-table td{padding:12px 14px;background:var(--panel);border:1px solid var(--border);font-size:12.5px;vertical-align:middle;}
+.map-table tr td:first-child{border-radius:10px 0 0 10px;border-right:none;color:var(--text);}
+.map-table tr td:last-child{border-radius:0 10px 10px 0;border-left:none;color:var(--accent);font-weight:600;white-space:nowrap;text-align:right;}
+.map-note{font-size:12px;color:var(--muted);margin-top:10px;padding-top:10px;border-top:1px dashed var(--border);}
+
+/* 附件 方法總覽表 */
+.overview-table{width:100%;border-collapse:collapse;font-size:12px;}
+.overview-table th{background:var(--panel-2);color:var(--muted);text-align:left;padding:9px 12px;font-weight:600;border-bottom:1px solid var(--border);width:80px;}
+.overview-table td{padding:9px 12px;border-bottom:1px solid var(--border);color:var(--text);}
+
+/* 4.4 選修 */
+.optional-note{background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.35);border-radius:10px;padding:12px 16px;font-size:12.5px;color:#fde68a;margin-bottom:20px;}
+.optional-note b{color:var(--warn);}
+
+.sub-block{margin-bottom:26px;}
+.sub-block-title{font-size:14.5px;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sub-block-title .sbnum{background:var(--panel-2);border:1px solid var(--border);color:var(--accent);font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;}
+.sub-block-desc{font-size:12.5px;color:var(--muted);margin-bottom:12px;}
+
+.prompt-toggle{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+.prompt-toggle-head{padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;background:var(--panel-2);}
+.prompt-toggle-head span.name{font-size:13.5px;font-weight:600;}
+.chev{color:var(--accent);transition:transform .2s ease;}
+.prompt-toggle.open .chev{transform:rotate(90deg);}
+.prompt-toggle-body{display:none;padding:14px 16px;}
+.prompt-toggle.open .prompt-toggle-body{display:block;}
+.prompt-box{background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;}
+.prompt-box pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;color:#d1d5db;line-height:1.6;}
+.copy-btn{position:absolute;top:10px;right:10px;background:var(--panel-2);border:1px solid var(--border);color:var(--accent);font-size:11px;padding:4px 9px;border-radius:6px;cursor:pointer;}
+.copy-btn.copied{color:#34d399;border-color:#34d399;}
+
+.resource-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;}
+.resource-table th{background:var(--panel-2);color:var(--muted);text-align:left;padding:8px 10px;font-weight:600;border-bottom:1px solid var(--border);}
+.resource-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);}
+.resource-table td:first-child{font-weight:600;color:var(--accent);}
+.resource-table td.lang{color:var(--muted);white-space:nowrap;width:60px;}
+
+/* 結語 */
+.closing-box{background:linear-gradient(135deg,rgba(125,211,252,0.08),rgba(167,139,250,0.08));border:1px solid rgba(125,211,252,0.3);border-radius:var(--radius);padding:24px 26px;text-align:center;font-size:13.5px;color:var(--text);margin-top:20px;}
+.closing-box p{margin:0 0 14px;}
+.closing-box p:last-child{margin-bottom:0;}
+.closing-box b{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<p class="badge">Part 4</p>
+<h1>方法工具包與延伸方向</h1>
+<p class="sub">Prototype demo — 內容排版預覽，尚未套用到正式網站</p>
+
+<div class="intro-box">
+這份手冊不是一條標準作業流程，而是你的實驗方法。1.1 到 3.3 是我們建議的一種組合方式，但你完全可以依照自己的題目、自己的節奏，任意調整順序、跳過某些步驟、或反覆回頭——只要最後能讓你往你的目標前進，怎麼組合這本手冊都是對的。Part 4 要做的，就是幫你在「任意組合」的時候，還能找得到方向。
+</div>
+
+<!-- 4.1 -->
+<div class="part-divider"><span class="num">4.1</span><h2>重新看一次整體脈絡</h2><span class="line"></span></div>
+
+<div class="flow-wrap">
+<div class="flow-step"><div class="flow-title">Part 1</div><div class="flow-desc">從需求開始<br>找到問題</div></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><div class="flow-title">Part 2</div><div class="flow-desc">從需求形成 PRD<br>變成可以動手做的規格</div></div>
+<span class="flow-arrow">→</span>
+<div class="flow-step"><div class="flow-title">Part 3</div><div class="flow-desc">從 PRD 做出成果<br>做出東西、驗證、決定下一步</div></div>
+</div>
+
+<div class="closing-line">這個順序不是規定，是「風險最低、浪費最少」的一種走法。如果你已經很清楚問題和 PRD，直接跳到 Part 3 也完全合理；如果你只是想練習怎麼跟 AI 一起想清楚一個問題，走完 Part 1 就結束也可以。</div>
+
+<!-- 4.2 -->
+<div class="part-divider"><span class="num">4.2</span><h2>下一次該怎麼開始</h2><span class="line"></span></div>
+
+<div class="why-box">
+<p>手冊不是只有「照這個順序、一次走完」的用法，更常見的用法是——三個月後你在做另一個題目，卡在某個環節，想到「手冊裡好像有教過這個」，直接翻到那一節，不需要從頭看起。</p>
+</div>
+
+<div class="section-title" style="margin-top:18px;">三種使用方式</div>
+<div class="usage-grid">
+<div class="usage-card">
+<div class="usage-num">1</div>
+<div class="usage-body"><div class="usage-title">第一次使用，想完整體驗一次</div><div class="usage-desc">照 1.1 → 3.3 順序走一次，體驗完整的產品思考與 AI 互動流程。</div></div>
+</div>
+<div class="usage-card">
+<div class="usage-num">2</div>
+<div class="usage-body"><div class="usage-title">卡住時回來查</div><div class="usage-desc">用下面的「卡點對照地圖」，找到你現在卡住的那一句，直接跳過去，不需要回頭看前面的內容。</div></div>
+</div>
+<div class="usage-card">
+<div class="usage-num">3</div>
+<div class="usage-body"><div class="usage-title">只想用某一節</div><div class="usage-desc">每一節都是獨立可用的——不需要先看完前面才能用某一節的提示詞，就跟開源 Skill 一樣，想怎麼用就怎麼用，拿了就走。</div></div>
+</div>
+</div>
+
+<!-- 4.3 -->
+<div class="part-divider"><span class="num">4.3</span><h2>卡點對照地圖</h2><span class="line"></span></div>
+
+<table class="map-table">
+<tr><td>我有一堆想法，不知道哪個算是「真問題」</td><td>1.1</td></tr>
+<tr><td>我覺得這是個問題，但不確定是不是我自己腦補的</td><td>1.2</td></tr>
+<tr><td>我收集到好幾個痛點，不知道該先做哪一個</td><td>1.3</td></tr>
+<tr><td>我知道方向了，但不知道怎麼變成具體的使用者任務和成功指標</td><td>2.1</td></tr>
+<tr><td>我東西太多，不知道哪些才是這次真的要做的</td><td>2.2</td></tr>
+<tr><td>PRD 寫完了，但總覺得哪裡怪怪的，抓不出來是哪裡</td><td>2.3</td></tr>
+<tr><td>PRD 都確認了，但不知道今天要做到多完整才夠</td><td>3.1</td></tr>
+<tr><td>我知道要做到哪個程度了，但不知道要用哪個 AI 工具</td><td>3.2</td></tr>
+<tr><td>東西做出來了，但不知道要怎麼看回饋、下一步該幹嘛</td><td>3.3</td></tr>
+</table>
+<div class="map-note">這張表格解決的是「單一環節卡住」的情況；如果你是完全不知道從何開始，直接回 1.1 就對了。</div>
+
+<!-- 附件 方法總覽表 -->
+<div class="section-title" style="margin-top:30px;"><span class="tag">附件</span>方法總覽表（查詢用）</div>
+<table class="overview-table">
+<tr><th>小節</th><td>方法</td></tr>
+<tr><th>1.1</th><td>Design Thinking、5 Whys、JTBD、問題樹、Feynman Technique</td></tr>
+<tr><th>1.2</th><td>Empathy Map、User Journey Map、Persona、使用者訪談、觀察法</td></tr>
+<tr><th>1.3</th><td>Impact / Effort Matrix、How Might We、Problem Statement、假設地圖、Dot Voting</td></tr>
+<tr><th>2.1</th><td>Value Proposition Canvas、User Story、Product Vision Board、Opportunity Solution Tree、North Star Metric</td></tr>
+<tr><th>2.2</th><td>User Flow、Impact Mapping、MoSCoW、RICE Scoring、One-Pager PRD</td></tr>
+<tr><th>2.3</th><td>角色壓力測試、換模型交叉驗證、回饋整理表、Definition of Ready</td></tr>
+<tr><th>3.3</th><td>使用者測試、5 秒測試、Rose Thorn Bud</td></tr>
+</table>
+
+<!-- 4.4 -->
+<div class="part-divider"><span class="num">4.4</span><h2>如果你還想繼續</h2><span class="line"></span></div>
+
+<div class="optional-note"><b>提醒：</b>以下內容不是今天活動要完成的事，純粹是給「還想繼續走下去」的人的方向指引。</div>
+
+<div class="sub-block">
+<div class="sub-block-title"><span class="sbnum">1</span>把方法包裝成可重複使用的 AI 能力</div>
+<div class="sub-block-desc">把你在這本手冊裡用得最順手、最喜歡的框架，做成一個屬於自己的 AI Skill，之後遇到類似的題目，直接叫出來用，不用每次重新解釋一次規則。</div>
+
+<div class="prompt-toggle open">
+<div class="prompt-toggle-head" data-toggle><span class="name">GEM / Skill 基本結構</span><span class="chev">›</span></div>
+<div class="prompt-toggle-body">
+<div class="prompt-box">
+<button class="copy-btn" data-copy>複製</button>
+<pre>你是一位熟悉【方法名稱】的產品教練。
+
+你的任務是協助我處理：
+【要解決的問題】
+
+請遵循以下原則：
+1. 先理解背景，不要直接給答案。
+2. 一次只問一個關鍵問題。
+3. 資訊不足時請標記待確認。
+4. 保留多種可能性，不要太早收斂。
+5. 最後請用以下格式輸出：
+   - 問題整理
+   - 目前假設
+   - 可能方向
+   - 建議下一步</pre>
+</div>
+</div>
+</div>
+
+<table class="resource-table">
+<tr><th>資源</th><th>語言</th><th>內容</th></tr>
+<tr><td>Anthropic 官方 Prompt Engineering Interactive Tutorial</td><td class="lang">英文</td><td>Anthropic 官方出品，9 章節互動教學，教怎麼寫出好的 prompt</td></tr>
+<tr><td>Anthropic Courses（官方課程合集）</td><td class="lang">英文</td><td>API 基礎、Prompt Engineering、Real World Prompting、Tool Use 等 5 門免費課程</td></tr>
+</table>
+</div>
+
+<div class="sub-block">
+<div class="sub-block-title"><span class="sbnum">2</span>想把產出做到真的上線</div>
+<div class="sub-block-desc">如果 3.1 選了層級 4–5，想繼續往「真的能用」的方向走，最基本的一步是把做好的網頁部署上線。以下是幾個免費、零成本就能上手的教學：</div>
+
+<table class="resource-table">
+<tr><th>資源</th><th>語言</th><th>內容</th></tr>
+<tr><td>GitHub Pages 教學：DAY19（iThome 鐵人賽）</td><td class="lang">中文</td><td>零基礎教你把 HTML 網站部署到 GitHub Pages，圖文步驟清楚</td></tr>
+<tr><td>GitHub Pages 完整架站教學（feifei.tw）</td><td class="lang">中文</td><td>從建立儲存庫到綁定網域的完整流程，附程式碼模板</td></tr>
+<tr><td>Deploy with GitHub + Vercel（Medium）</td><td class="lang">英文</td><td>10 分鐘內從 GitHub 儲存庫部署到 Vercel，適合想要比 GitHub Pages 多一點彈性的人</td></tr>
+</table>
+
+<div class="prompt-toggle" style="margin-top:12px;">
+<div class="prompt-toggle-head" data-toggle><span class="name">跟 AI 討論部署方式的提示詞</span><span class="chev">›</span></div>
+<div class="prompt-toggle-body">
+<div class="prompt-box">
+<button class="copy-btn" data-copy>複製</button>
+<pre>以下是我目前做出來的東西：
+
+【描述或貼上你的產出】
+
+我看了 GitHub Pages / Vercel 的教學，想請你幫我確認：
+1. 依照我的產出內容，適合用哪一種方式部署（GitHub Pages 或 Vercel）？
+2. 部署前我還需要準備或調整什麼？
+3. 部署之後，如果想讓其他人也能用，還有什麼要注意的地方（例如網址分享、基本的安全性）？
+
+請根據我實際的東西給建議，不用假設我已經有工程背景。</pre>
+</div>
+</div>
+</div>
+</div>
+
+<!-- 結語 -->
+<div class="part-divider"><span class="num">結語</span><h2></h2><span class="line"></span></div>
+
+<div class="closing-box">
+<p>這本手冊從頭到尾，講的其實是同一件事：找到問題、把它變成 PRD、用 AI 做出一個可以驗證的東西、看回饋、再決定下一步。</p>
+<p>你今天可能只走到其中一段，這完全沒問題——這本手冊不是一條今天一定要走完的路，而是一個工具箱，你隨時可以回來，從你現在卡住的地方重新打開，用你自己的方式重新組合它。</p>
+<p>不管你今天做出了什麼、走到哪一步，你都完成了一次有效的嘗試。這就是 <b>OST 的精神</b>：自由選擇、允許重來，做出一個可以繼續往前走的東西，就已經足夠。</p>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-toggle]').forEach(h=>{
+  h.addEventListener('click',()=>h.closest('.prompt-toggle').classList.toggle('open'));
+});
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const text = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

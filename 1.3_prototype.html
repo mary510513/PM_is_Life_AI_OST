@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.3 收斂問題與選擇方向 — Prototype</title>
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#171a21;
+  --panel-2:#1e222b;
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#2a2f3a;
+  --radius:14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 60px;}
+.wrap{max-width:820px;margin:0 auto;padding:40px 20px;}
+
+.badge{
+  display:inline-block;color:var(--accent);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;font-size:12px;margin-bottom:10px;
+}
+h1{font-size:26px;margin:0 0 6px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 8px;}
+.diff-line{
+  background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.35);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--text);margin-bottom:28px;
+}
+.diff-line b{color:var(--accent-2);}
+
+.section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:18px;font-weight:700;margin:36px 0 14px;
+}
+.section-title .tag{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#0f1115;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;
+}
+
+.why-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.why-box ul{margin:0;padding-left:20px;color:var(--text);}
+.why-box li{margin-bottom:10px;}
+
+.method-grid{display:flex;flex-direction:column;gap:18px;}
+.method-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.method-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:14px;}
+.method-name{font-size:16px;font-weight:700;color:var(--text);}
+.method-oneline{font-size:13px;color:var(--muted);}
+
+.diagram{
+  background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+  padding:18px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;
+  overflow-x:auto;
+}
+
+/* Impact/Effort matrix */
+.ie-matrix{position:relative;width:100%;max-width:340px;aspect-ratio:1/1;}
+.ie-grid{
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+  width:100%;height:100%;border:1px solid var(--border);border-radius:8px;overflow:hidden;
+}
+.ie-cell{display:flex;align-items:center;justify-content:center;text-align:center;font-size:11.5px;padding:8px;color:var(--text);}
+.ie-cell.q1{background:rgba(52,211,153,0.18);color:#34d399;font-weight:700;}
+.ie-cell.q2{background:rgba(125,211,252,0.12);border-left:1px solid var(--border);}
+.ie-cell.q3{background:rgba(251,191,36,0.1);border-top:1px solid var(--border);}
+.ie-cell.q4{background:rgba(251,113,133,0.1);border-left:1px solid var(--border);border-top:1px solid var(--border);}
+.ie-axis-label{position:absolute;font-size:10.5px;color:var(--muted);}
+.ie-y{left:-8px;top:50%;transform:translate(-100%,-50%) rotate(-90deg);white-space:nowrap;}
+.ie-x{bottom:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;}
+.ie-note{
+  margin-top:10px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.3);
+  border-radius:8px;padding:10px 14px;font-size:12px;color:var(--text);max-width:420px;
+}
+.ie-note b{color:#34d399;}
+
+/* HMW: transform flow */
+.hmw-flow{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+.hmw-problem{
+  background:rgba(251,113,133,0.12);border:1px solid rgba(251,113,133,0.4);
+  border-radius:8px;padding:9px 14px;font-size:12px;color:var(--text);text-align:center;
+}
+.hmw-down{color:var(--accent);font-size:16px;}
+.hmw-branches{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.hmw-branch{
+  background:rgba(125,211,252,0.12);border:1px solid rgba(125,211,252,0.4);
+  border-radius:999px;padding:7px 13px;font-size:11.5px;color:var(--text);
+}
+
+/* Value proposition template */
+.vp-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+.vp-template{
+  font-size:11.5px;color:var(--muted);text-align:center;background:var(--panel);
+  border:1px dashed var(--border);border-radius:8px;padding:8px 12px;max-width:440px;
+}
+.vp-down{color:var(--accent-2);font-size:15px;}
+.vp-filled{
+  font-size:13px;line-height:1.9;color:var(--text);text-align:center;max-width:440px;
+  background:rgba(167,139,250,0.1);border:2px solid var(--accent-2);border-radius:10px;padding:14px 18px;
+}
+.vp-filled b{color:var(--accent-2);}
+
+/* 假設地圖 */
+.am-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:380px;}
+.am-cell{
+  border-radius:8px;padding:10px;font-size:11.5px;text-align:center;
+}
+.am-cell.high-risk{background:rgba(251,113,133,0.18);border:1px solid rgba(251,113,133,0.5);color:#fda4af;font-weight:700;}
+.am-cell.med1{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.4);color:#fde68a;}
+.am-cell.med2{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.4);color:#fde68a;}
+.am-cell.low-risk{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.4);color:#6ee7b7;}
+
+/* Dot voting */
+.dv-options{display:flex;flex-direction:column;gap:8px;width:100%;max-width:380px;}
+.dv-row{display:flex;align-items:center;gap:10px;}
+.dv-label{font-size:12px;color:var(--text);flex:0 0 110px;}
+.dv-dots{display:flex;gap:4px;}
+.dv-dot{width:12px;height:12px;border-radius:50%;background:var(--accent-2);}
+.dv-dot.empty{background:transparent;border:1px solid var(--border);}
+
+.example-line{
+  font-size:13px;color:var(--muted);padding-top:6px;border-top:1px dashed var(--border);
+}
+.example-line b{color:var(--accent);font-weight:600;}
+
+/* Prompts */
+.prompt-toggle{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:14px;overflow:hidden;
+}
+.prompt-toggle-head{
+  padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  background:var(--panel-2);
+}
+.prompt-toggle-head span.name{font-size:14.5px;font-weight:600;}
+.chev{color:var(--accent);transition:transform .2s ease;}
+.prompt-toggle.open .chev{transform:rotate(90deg);}
+.prompt-toggle-body{display:none;padding:16px 18px;}
+.prompt-toggle.open .prompt-toggle-body{display:block;}
+.prompt-box{
+  background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;
+}
+.prompt-box pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;color:#d1d5db;line-height:1.6;
+}
+.copy-btn{
+  position:absolute;top:10px;right:10px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--accent);font-size:11.5px;padding:4px 9px;border-radius:6px;cursor:pointer;
+}
+.copy-btn.copied{color:#34d399;border-color:#34d399;}
+
+.skill-note{
+  background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.35);
+  border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#fde68a;
+}
+.skill-note b{color:#fbbf24;}
+
+.skill-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.skill-list li{
+  background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;
+}
+.skill-list a{color:var(--accent);text-decoration:none;font-weight:600;font-size:13.5px;}
+.skill-list a:hover{text-decoration:underline;}
+.skill-list p{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+.note-tag{
+  display:inline-block;font-size:10.5px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--muted);padding:2px 7px;border-radius:6px;margin-top:6px;
+}
+
+.output-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;
+}
+.output-box ul{margin:0;padding-left:20px;color:var(--muted);}
+.output-box li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="badge">Part 1 · 從需求開始</p>
+  <h1>1.3 收斂問題與選擇方向</h1>
+  <p class="sub">Prototype demo — 內容排版預覽，尚未套用到正式網站</p>
+  <div class="diff-line"><b>跟 1.1 / 1.2 的差異：</b>1.1 猜、1.2 驗證，1.3 是從一堆真實但零散的痛點裡，選出一個現在最值得先做的方向。</div>
+
+  <!-- WHY -->
+  <div class="section-title"><span class="tag">WHY</span> 為什麼要收斂</div>
+  <div class="why-box">
+    <ul>
+      <li>1.2 讓你拿到好幾個真實但零散的痛點，不可能同時都做。</li>
+      <li>如果沒有先收斂，PRD 寫到一半會發現範圍太大、方向不聚焦。</li>
+      <li>這一步不是要找出「最厲害」的方向，只是要選出「現在最值得先做」的一個。</li>
+    </ul>
+  </div>
+
+  <!-- HOW -->
+  <div class="section-title"><span class="tag">HOW</span> 可以嘗試的 5 個方法</div>
+  <div class="method-grid">
+
+    <!-- Impact / Effort Matrix (修正版) -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Impact / Effort Matrix</span>
+        <span class="method-oneline">影響力大、花的力氣小的優先做</span>
+      </div>
+      <div class="diagram">
+        <div class="ie-matrix">
+          <div class="ie-grid">
+            <div class="ie-cell q2">值得規劃<br>（高影響／高力氣）</div>
+            <div class="ie-cell q1">優先做<br>（高影響／低力氣）</div>
+            <div class="ie-cell q4">不要做<br>（低影響／高力氣）</div>
+            <div class="ie-cell q3">有空再做<br>（低影響／低力氣）</div>
+          </div>
+          <span class="ie-axis-label ie-y">影響力 →</span>
+          <span class="ie-axis-label ie-x">花的力氣 →</span>
+        </div>
+      </div>
+      <div class="ie-note">
+        <b>解法：</b>在店家頁面顯示「預估出餐等待時間」，用店家過去平均出餐時間估算，不需要即時串接店家系統。<br>
+        <b>為什麼高影響：</b>幾乎每個外送員每天都會遇到等餐，能讓多數人受益。<br>
+        <b>為什麼低力氣：</b>用既有歷史資料估算即可，不用跟店家系統整合，也不用改動核心派單邏輯。
+      </div>
+      <div class="example-line"><b>例：</b>這個解法落在「優先做」象限，適合當作今天的主攻方向。</div>
+    </div>
+
+    <!-- How Might We -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">How Might We</span>
+        <span class="method-oneline">把問題轉成「我們可以怎麼樣⋯」，避免太早鎖定答案</span>
+      </div>
+      <div class="diagram">
+        <div class="hmw-flow">
+          <div class="hmw-problem">痛點：外送員在等店家出餐時很焦躁</div>
+          <span class="hmw-down">↓ 轉換</span>
+          <div class="hmw-branches">
+            <span class="hmw-branch">HMW 讓等待變得可預期？</span>
+            <span class="hmw-branch">HMW 讓等待時間變得有用？</span>
+            <span class="hmw-branch">HMW 減少不必要的等待？</span>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>先轉成幾個開放式問句，而不是直接跳去想「做一個等待進度條」這種單一答案。</div>
+    </div>
+
+    <!-- Problem Statement → 改為價值主張句型 -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Problem Statement</span>
+        <span class="method-oneline">用價值主張句型，把方向收斂成一句話</span>
+      </div>
+      <div class="diagram">
+        <div class="vp-wrap">
+          <div class="vp-template">句型：我們幫助 [目標用戶] 在 [特定場景] 下，透過 [核心功能] 解決 [核心痛點]</div>
+          <span class="vp-down">↓ 填入內容</span>
+          <div class="vp-filled">
+            我們幫助 <b>外送員</b>，在 <b>等待店家出餐</b> 時，
+            透過 <b>預估出餐等待時間提示</b>，
+            解決 <b>不確定能不能先去接下一單的焦慮</b>。
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>四個空格都填上具體內容，才算是真正收斂完成，不是還在講抽象方向。</div>
+    </div>
+
+    <!-- 假設地圖 -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">假設地圖</span>
+        <span class="method-oneline">攤開還沒驗證的假設，看哪些風險最高</span>
+      </div>
+      <div class="diagram">
+        <div class="am-grid">
+          <div class="am-cell med1">已知<br>低風險</div>
+          <div class="am-cell high-risk">未知<br>高風險 ⚠️</div>
+          <div class="am-cell low-risk">已知<br>低風險</div>
+          <div class="am-cell med2">未知<br>中風險</div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>「店家願不願意提供即時出餐狀態」是風險最高、還沒驗證的假設，要優先確認。</div>
+    </div>
+
+    <!-- Dot Voting -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Dot Voting</span>
+        <span class="method-oneline">團隊用投票方式快速收斂</span>
+      </div>
+      <div class="diagram">
+        <div class="dv-options">
+          <div class="dv-row">
+            <span class="dv-label">等餐焦躁</span>
+            <div class="dv-dots">
+              <div class="dv-dot"></div><div class="dv-dot"></div><div class="dv-dot"></div><div class="dv-dot"></div><div class="dv-dot empty"></div>
+            </div>
+          </div>
+          <div class="dv-row">
+            <span class="dv-label">路線不熟</span>
+            <div class="dv-dots">
+              <div class="dv-dot"></div><div class="dv-dot empty"></div><div class="dv-dot empty"></div><div class="dv-dot empty"></div><div class="dv-dot empty"></div>
+            </div>
+          </div>
+          <div class="dv-row">
+            <span class="dv-label">收入不穩</span>
+            <div class="dv-dots">
+              <div class="dv-dot"></div><div class="dv-dot"></div><div class="dv-dot empty"></div><div class="dv-dot empty"></div><div class="dv-dot empty"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>團隊每人 5 票，投完後「等餐焦躁」得票最多，成為今天的主攻方向。</div>
+    </div>
+
+  </div>
+
+  <!-- WHAT -->
+  <div class="section-title"><span class="tag">WHAT</span> 提示詞範例（5 個方法）</div>
+
+  <div class="prompt-toggle open">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Impact / Effort Matrix 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們目前收集到的幾個問題方向：
+
+【貼上問題清單】
+
+請幫我用 Impact / Effort Matrix 的方式評估每一個：
+1. 這個方向的潛在影響力（高／中／低），並說明理由
+2. 這個方向需要投入的力氣（高／中／低），並說明理由
+3. 綜合以上，這個方向落在「優先做／值得規劃／有空再做／不要做」哪一個象限
+
+請針對每個方向都給出評估，不要只挑一個講。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">How Might We 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們確認過的一個痛點：
+
+【貼上痛點描述】
+
+請幫我把這個痛點轉換成 5 個「How Might We（我們可以怎麼樣⋯）」的開放式問句。
+要求：
+1. 每個問句都要保留多種可能的解法方向，不要直接暗示某個特定功能。
+2. 問句盡量涵蓋不同角度（例如：減少發生、讓使用者更容易應對、改變情境本身）。
+
+請先列出問句，暫時不要幫我選解法。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Problem Statement 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們目前整理出的多個痛點與觀察：
+
+【貼上內容】
+
+請幫我收斂成一句清楚的價值主張，格式為：
+「我們幫助 [目標用戶] 在 [特定場景] 下，透過 [核心功能] 解決 [核心痛點]。」
+
+請只給一句話，如果有多個候選版本，最多列 2 個讓我選，不要超過。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">假設地圖提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們目前的問題方向與初步想法：
+
+【貼上內容】
+
+請幫我列出這個方向背後隱含的關鍵假設，並依照「風險高低」與「已知程度」分類：
+1. 已知、低風險：我們有把握、資料也支持
+2. 未知、高風險：完全沒驗證過，一旦錯了影響很大
+3. 未知、中風險：還沒驗證，但影響相對有限
+
+請特別標出「未知、高風險」的假設，這些應該最優先想辦法驗證。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Dot Voting 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>我們團隊正在幾個方向之間做選擇：
+
+【貼上方向清單】
+
+在團隊實際投票之前，請先扮演一個中立的第三方，針對每個方向：
+1. 列出可能支持這個方向的理由
+2. 列出可能反對這個方向的理由
+3. 提出一個團隊投票前應該先確認的關鍵問題
+
+請不要幫我們決定選哪個，只是幫我們把利弊看得更清楚。</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL -->
+  <div class="section-title"><span class="tag">延伸</span> 開源 AI Skill 資源</div>
+
+  <div class="skill-note">
+    <b>但書：</b>以下為社群開源的延伸資源，非本手冊團隊開發或驗證，內容與使用方式可能隨時變動。建議使用前先與 AI 協作確認實際用法與相容性，使用前請自行評估風險；若引用其內容，請保留原始出處與作者標註。
+  </div>
+
+  <ul class="skill-list">
+    <li>
+      <a href="https://github.com/lyndonkl" target="_blank">lyndonkl/claude — prioritization-effort-impact</a>
+      <p>專門處理 Impact / Effort 2x2 矩陣，能把一堆待選項目自動分成「優先做／值得規劃／有空再做／不要做」四個象限，對應本節的 Impact / Effort Matrix 方法。需搭配 Claude Code 安裝使用。</p>
+      <span class="note-tag">來源：GitHub · 開源社群專案</span>
+    </li>
+    <li>
+      <a href="https://github.com/borghei/Claude-Skills" target="_blank">borghei/Claude-Skills — brainstorm-ideas</a>
+      <p>內建 How Might We（HMW）引導流程，能把一個痛點轉成多個「我們可以怎麼樣⋯」的問句，並協助評估每個想法的影響力與可行性。需搭配 Claude Code 安裝使用。</p>
+      <span class="note-tag">來源：GitHub · 開源社群專案</span>
+    </li>
+  </ul>
+
+  <!-- OUTPUT -->
+  <div class="section-title"><span class="tag">產出</span> 建議產出</div>
+  <div class="output-box">
+    <ul>
+      <li>一個暫定的問題方向（只選一個）</li>
+      <li>2–3 個可能解法（方向定了，解法保留彈性）</li>
+      <li>團隊選擇這個方向的理由</li>
+      <li>還沒驗證的假設清單</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-toggle]').forEach(h=>{
+  h.addEventListener('click',()=>h.closest('.prompt-toggle').classList.toggle('open'));
+});
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const text = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

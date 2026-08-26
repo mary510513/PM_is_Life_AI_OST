@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.2 建立 PRD 初稿 — Prototype</title>
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#171a21;
+  --panel-2:#1e222b;
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#2a2f3a;
+  --radius:14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 60px;}
+.wrap{max-width:840px;margin:0 auto;padding:40px 20px;}
+
+.badge{
+  display:inline-block;color:var(--accent);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;font-size:12px;margin-bottom:10px;
+}
+h1{font-size:26px;margin:0 0 6px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 8px;}
+.diff-line{
+  background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.35);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--text);margin-bottom:28px;
+}
+.diff-line b{color:var(--accent-2);}
+
+.section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:18px;font-weight:700;margin:36px 0 14px;
+}
+.section-title .tag{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#0f1115;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;
+}
+.step-num{
+  background:var(--panel-2);border:1px solid var(--border);color:var(--accent);
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-right:6px;
+}
+
+.why-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.why-box ul{margin:0;padding-left:20px;color:var(--text);}
+.why-box li{margin-bottom:10px;}
+
+.method-grid{display:flex;flex-direction:column;gap:18px;}
+.method-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.method-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:14px;}
+.method-name{font-size:16px;font-weight:700;color:var(--text);}
+.method-oneline{font-size:13px;color:var(--muted);}
+
+.diagram{
+  background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+  padding:18px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;
+  overflow-x:auto;
+}
+
+/* User Flow */
+.uf-flow{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:center;}
+.uf-node{
+  background:rgba(125,211,252,0.12);border:1px solid rgba(125,211,252,0.4);
+  border-radius:8px;padding:8px 11px;font-size:11px;text-align:center;color:var(--text);white-space:nowrap;
+}
+.uf-node.decision{
+  background:rgba(251,191,36,0.15);border-color:rgba(251,191,36,0.5);border-radius:20px;
+}
+.uf-arrow{color:var(--accent);font-size:14px;}
+
+/* Impact Mapping tree */
+.im-tree{display:flex;flex-direction:column;align-items:center;gap:5px;width:100%;}
+.im-goal{
+  background:rgba(52,211,153,0.15);border:1px solid rgba(52,211,153,0.5);color:#34d399;
+  padding:7px 14px;border-radius:8px;font-size:11.5px;font-weight:700;
+}
+.im-line{width:1px;height:10px;background:var(--border);}
+.im-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.im-actor{
+  background:rgba(125,211,252,0.12);border:1px solid rgba(125,211,252,0.4);
+  border-radius:7px;padding:6px 10px;font-size:10.5px;color:var(--text);
+}
+.im-impact{
+  background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.4);
+  border-radius:7px;padding:6px 10px;font-size:10px;color:var(--text);margin-top:4px;
+}
+.im-deliverable{
+  background:rgba(251,113,133,0.12);border:1px solid rgba(251,113,133,0.4);
+  border-radius:7px;padding:5px 9px;font-size:9.5px;color:var(--text);margin-top:4px;
+}
+.im-col{display:flex;flex-direction:column;align-items:center;gap:0;}
+
+/* MoSCoW */
+.mos-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%;}
+.mos-col{border-radius:8px;padding:10px;font-size:10px;}
+.mos-col b{display:block;font-size:10.5px;margin-bottom:6px;}
+.mos-col.must{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.4);color:#6ee7b7;}
+.mos-col.should{background:rgba(125,211,252,0.12);border:1px solid rgba(125,211,252,0.4);color:#7dd3fc;}
+.mos-col.could{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.4);color:#fbbf24;}
+.mos-col.wont{background:rgba(251,113,133,0.12);border:1px solid rgba(251,113,133,0.4);color:#fb7185;}
+.mos-col div.item{color:var(--text);margin-bottom:3px;}
+
+/* RICE table */
+.rice-table{width:100%;border-collapse:collapse;font-size:10.5px;}
+.rice-table th{
+  background:var(--panel-2);color:var(--accent);padding:7px 8px;text-align:left;
+  border-bottom:1px solid var(--border);font-size:10px;
+}
+.rice-table td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text);}
+.rice-table tr:last-child td{border-bottom:none;}
+.rice-score{font-weight:700;color:#34d399;}
+
+/* One-pager checklist (方案C) */
+.op-listC{display:flex;flex-direction:column;gap:0;}
+.op-itemC{
+  display:flex;gap:12px;padding:10px 4px;border-bottom:1px solid var(--border);
+  align-items:flex-start;
+}
+.op-itemC:last-child{border-bottom:none;}
+.op-checkC{
+  width:19px;height:19px;border-radius:5px;border:2px solid #34d399;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;color:#34d399;font-size:11px;font-weight:900;
+  margin-top:1px;
+}
+.op-itemC-body{flex:1;}
+.op-itemC .oplabel{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:2px;}
+.op-itemC .opvalue{font-size:12px;color:var(--text);}
+
+.example-line{
+  font-size:13px;color:var(--muted);padding-top:6px;border-top:1px dashed var(--border);
+}
+.example-line b{color:var(--accent);font-weight:600;}
+
+/* Prompts */
+.prompt-toggle{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:14px;overflow:hidden;
+}
+.prompt-toggle-head{
+  padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  background:var(--panel-2);
+}
+.prompt-toggle-head span.name{font-size:14.5px;font-weight:600;}
+.chev{color:var(--accent);transition:transform .2s ease;}
+.prompt-toggle.open .chev{transform:rotate(90deg);}
+.prompt-toggle-body{display:none;padding:16px 18px;}
+.prompt-toggle.open .prompt-toggle-body{display:block;}
+.prompt-box{
+  background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;
+}
+.prompt-box pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;color:#d1d5db;line-height:1.6;
+}
+.copy-btn{
+  position:absolute;top:10px;right:10px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--accent);font-size:11.5px;padding:4px 9px;border-radius:6px;cursor:pointer;
+}
+.copy-btn.copied{color:#34d399;border-color:#34d399;}
+
+.skill-note{
+  background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.35);
+  border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#fde68a;
+}
+.skill-note b{color:#fbbf24;}
+
+.skill-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.skill-list li{
+  background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;
+}
+.skill-list a{color:var(--accent);text-decoration:none;font-weight:600;font-size:13.5px;}
+.skill-list a:hover{text-decoration:underline;}
+.skill-list p{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+.note-tag{
+  display:inline-block;font-size:10.5px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--muted);padding:2px 7px;border-radius:6px;margin-top:6px;
+}
+
+.output-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;
+}
+.output-box ul{margin:0;padding-left:20px;color:var(--muted);}
+.output-box li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="badge">Part 2 · 從需求形成 PRD</p>
+  <h1>2.2 建立 PRD 初稿</h1>
+  <p class="sub">Prototype demo — 內容排版預覽，尚未套用到正式網站</p>
+  <div class="diff-line"><b>跟 2.1 的差異：</b>2.1 給了零件（任務敘事、產品概念、成功指標），2.2 是把這些零件排成流程、決定範圍，組裝成一份完整的 PRD 初稿。</div>
+
+  <!-- WHY -->
+  <div class="section-title"><span class="tag">WHY</span> 為什麼要做這一步</div>
+  <div class="why-box">
+    <ul>
+      <li>2.1 給的是零散的零件，還沒有排成使用者實際會走的流程。</li>
+      <li>沒有先決定 MVP 範圍，很容易把所有想到的功能都塞進去，做不完也做不好。</li>
+      <li>一份完整的 PRD，能讓工程師、設計師不用再回頭問「這個到底要不要做」。</li>
+    </ul>
+  </div>
+
+  <!-- HOW -->
+  <div class="section-title"><span class="tag">HOW</span> 5 個方法（依「鋪流程→檢查→定範圍(分類)→定範圍(排序)→組裝成品」排序）</div>
+  <div class="method-grid">
+
+    <!-- 1. User Flow -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name"><span class="step-num">1</span>User Flow</span>
+        <span class="method-oneline">把 2.1 的 User Story 畫成使用者實際操作的流程圖</span>
+      </div>
+      <div class="diagram">
+        <div class="uf-flow">
+          <div class="uf-node">接單</div>
+          <span class="uf-arrow">→</span>
+          <div class="uf-node">前往店家</div>
+          <span class="uf-arrow">→</span>
+          <div class="uf-node">顯示預估等待時間</div>
+          <span class="uf-arrow">→</span>
+          <div class="uf-node decision">是否先接下一單？</div>
+          <span class="uf-arrow">→</span>
+          <div class="uf-node">取餐</div>
+          <span class="uf-arrow">→</span>
+          <div class="uf-node">送達</div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>把 2.1 那句 User Story 拆成 6 個步驟，中間插入一個關鍵決策點，方便後面檢查每一步是否必要。</div>
+    </div>
+
+    <!-- 2. Impact Mapping -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name"><span class="step-num">2</span>Impact Mapping</span>
+        <span class="method-oneline">從目標往下拆，檢查每個流程步驟是不是真的對目標有幫助</span>
+      </div>
+      <div class="diagram">
+        <div class="im-tree">
+          <div class="im-goal">目標：降低外送員因等待取消訂單</div>
+          <div class="im-line"></div>
+          <div class="im-row">
+            <div class="im-col">
+              <div class="im-actor">Actor：外送員</div>
+              <div class="im-impact">Impact：能提前規劃行程</div>
+              <div class="im-deliverable">Deliverable：顯示預估等待時間</div>
+            </div>
+            <div class="im-col">
+              <div class="im-actor">Actor：店家</div>
+              <div class="im-impact">Impact：減少被催單</div>
+              <div class="im-deliverable">Deliverable：（暫無對應功能）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>檢查「顯示預估等待時間」這個功能，確實連得到目標；同時發現「店家」這個 Actor 目前沒有對應功能，可能是之後的機會。</div>
+    </div>
+
+    <!-- 3. MoSCoW -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name"><span class="step-num">3</span>MoSCoW</span>
+        <span class="method-oneline">把檢查過的功能分成 Must／Should／Could／Won't</span>
+      </div>
+      <div class="diagram">
+        <div class="mos-grid">
+          <div class="mos-col must">
+            <b>Must</b>
+            <div class="item">顯示預估等待時間</div>
+          </div>
+          <div class="mos-col should">
+            <b>Should</b>
+            <div class="item">等待超時提醒</div>
+          </div>
+          <div class="mos-col could">
+            <b>Could</b>
+            <div class="item">顯示店家忙碌程度</div>
+          </div>
+          <div class="mos-col wont">
+            <b>Won't</b>
+            <div class="item">即時串接店家出餐系統</div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>「顯示預估等待時間」是這次一定要做的 Must，「即時串接店家系統」明確列為這次不做的 Won't。</div>
+    </div>
+
+    <!-- 4. RICE Scoring -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name"><span class="step-num">4</span>RICE Scoring</span>
+        <span class="method-oneline">針對 Should/Could 的功能，用分數排出優先順序</span>
+      </div>
+      <div class="diagram" style="overflow-x:auto;">
+        <table class="rice-table">
+          <tr><th>功能</th><th>Reach</th><th>Impact</th><th>Confidence</th><th>Effort</th><th>RICE Score</th></tr>
+          <tr><td>等待超時提醒</td><td>800人/月</td><td>2（高）</td><td>70%</td><td>1人月</td><td class="rice-score">1120</td></tr>
+          <tr><td>顯示店家忙碌程度</td><td>500人/月</td><td>1（中）</td><td>40%（推估）</td><td>3人月</td><td class="rice-score">67</td></tr>
+        </table>
+      </div>
+      <div class="example-line"><b>例：</b>Reach 和 Confidence 若沒有真實數據，用合理推估填入並標記「推估」，公式為 (Reach × Impact × Confidence) / Effort。</div>
+    </div>
+
+    <!-- 5. One-Pager PRD -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name"><span class="step-num">5</span>One-Pager PRD</span>
+        <span class="method-oneline">把以上所有結果，收斂成一頁完整的 PRD</span>
+      </div>
+      <div class="diagram">
+        <div class="op-listC">
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">1. 問題背景</div><div class="opvalue">外送員因無法預期等待時長而焦躁，可能取消訂單。</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">2. 目標使用者</div><div class="opvalue">兼職與全職外送員</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">3. 使用情境</div><div class="opvalue">抵達店家發現要等 15 分鐘以上</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">4. 要解決的問題</div><div class="opvalue">不知道還要等多久，無法決定要不要先接下一單</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">5. 產品概念</div><div class="opvalue">訂單頁面顯示「預估出餐等待時間」</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">6. 核心使用流程</div><div class="opvalue">接單→前往店家→顯示預估等待時間→決定是否先接單→取餐→送達</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">7. MVP 範圍</div><div class="opvalue">Must：預估等待時間；Should：超時提醒（RICE 排序第一）</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">8. 不處理的事情</div><div class="opvalue">不即時串接店家系統，不做忙碌地圖</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">9. 成功指標</div><div class="opvalue">外送員因等待而取消訂單的比例</div></div>
+          </div>
+          <div class="op-itemC">
+            <div class="op-checkC">✓</div>
+            <div class="op-itemC-body"><div class="oplabel">10. 風險與待確認問題</div><div class="opvalue">店家歷史出餐資料是否足夠準確</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WHAT -->
+  <div class="section-title"><span class="tag">WHAT</span> 提示詞範例（5 個方法）</div>
+
+  <div class="prompt-toggle open">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">User Flow 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們的 User Story：
+
+【貼上 2.1 的 User Story】
+
+請幫我把這個故事拆成一個完整的使用者流程（User Flow），包含：
+1. 每個步驟使用者具體在做什麼
+2. 標出流程中的關鍵決策點（使用者需要做選擇的地方）
+3. 標出流程的起點和終點
+
+請用條列的步驟呈現，不要跳過任何一個使用者實際會經歷的動作。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Impact Mapping 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>我們的目標是：
+
+【填入目標，例如：降低取消率、提升某個行為比例】
+
+以下是我們目前規劃的流程與功能：
+
+【貼上 User Flow】
+
+請幫我用 Impact Mapping 的方式檢查：
+1. 誰（Actor）能幫助我們達成這個目標？
+2. 這些人需要做出什麼改變（Impact），目標才會被達成？
+3. 我們規劃的每個功能（Deliverable），分別對應到哪個 Impact？
+4. 有沒有哪個功能，其實對目標沒有明顯幫助？
+
+請誠實指出可能對目標沒有貢獻的功能，不要為了保留它硬找理由。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">MoSCoW 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們目前規劃的功能清單：
+
+【貼上功能清單】
+
+請幫我用 MoSCoW 的方式分類：
+1. Must：沒有它，這次的目標就無法達成
+2. Should：重要但有替代方案，可以晚一點做
+3. Could：做了會更好，但不影響核心目標
+4. Won't：這次明確不做
+
+請針對每個功能說明分類理由，不要只給分類結果。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">RICE Scoring 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們 MoSCoW 分類中的 Should / Could 功能：
+
+【貼上功能清單】
+
+請幫我用 RICE 方式評分並排序：
+1. Reach：這個功能每個月大約會影響多少使用者
+2. Impact：對這些使用者的影響程度（0.25=minimal, 0.5=low, 1=medium, 2=high, 3=massive）
+3. Confidence：對這個估算的信心程度（百分比）
+4. Effort：大約需要投入多少人月
+
+計算方式：RICE Score = (Reach × Impact × Confidence) / Effort
+
+如果沒有真實數據，請用合理推估填入，並明確標記「此為推估」，不要假裝是真實數據。最後依分數排序。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">One-Pager PRD 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們目前累積的所有內容：
+
+【貼上問題背景、User Story、Product Vision Board、User Flow、MoSCoW、RICE 結果】
+
+請幫我整理成一份一頁版 PRD，包含以下 10 個項目，每項用 1–2 句話呈現：
+1. 問題背景
+2. 目標使用者
+3. 使用情境
+4. 要解決的問題
+5. 產品概念
+6. 核心使用流程
+7. MVP 範圍
+8. 不處理的事情
+9. 成功指標
+10. 風險與待確認問題
+
+請用清單格式呈現，每項精簡到 1–2 句話。如果某一項資訊不足，請標記「待確認」，不要自行虛構內容。</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL -->
+  <div class="section-title"><span class="tag">延伸</span> 開源 AI Skill 資源</div>
+
+  <div class="skill-note">
+    <b>但書：</b>以下為社群開源的延伸資源，非本手冊團隊開發或驗證，內容與使用方式可能隨時變動。建議使用前先與 AI 協作確認實際用法與相容性，使用前請自行評估風險；若引用其內容，請保留原始出處與作者標註。
+  </div>
+
+  <ul class="skill-list">
+    <li>
+      <a href="https://github.com/neurofoo/agent-skills" target="_blank">neurofoo/agent-skills — rice</a>
+      <p>專門處理 RICE 評分，會針對每個候選功能明確列出 Reach／Impact／Confidence／Effort 的估算依據並算出排序，對應本節的 RICE Scoring 方法。需搭配 Claude Code 安裝使用。</p>
+      <span class="note-tag">來源：GitHub · 開源社群專案</span>
+    </li>
+    <li>
+      <a href="https://claudeskills.info/skills/lyndonkl/claude/one-pager-prd/" target="_blank">lyndonkl/claude — one-pager-prd</a>
+      <p>協助產出精簡、可決策的一頁式 PRD，涵蓋問題、解法、使用者、成功指標、範圍界定，對應本節的 One-Pager PRD 方法。需搭配 Claude Code 安裝使用。</p>
+      <span class="note-tag">來源：GitHub · 開源社群專案</span>
+    </li>
+  </ul>
+
+  <!-- OUTPUT -->
+  <div class="section-title"><span class="tag">產出</span> 建議產出</div>
+  <div class="output-box">
+    <ul>
+      <li>一頁版 PRD（檢查清單式摘要格式）</li>
+      <li>MVP 功能清單</li>
+      <li>使用者流程</li>
+      <li>不做清單</li>
+      <li>風險與待確認事項</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-toggle]').forEach(h=>{
+  h.addEventListener('click',()=>h.closest('.prompt-toggle').classList.toggle('open'));
+});
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const text = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

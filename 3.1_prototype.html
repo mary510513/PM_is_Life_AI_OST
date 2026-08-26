@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.1 決定今天要做到哪裡 — Prototype</title>
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#171a21;
+  --panel-2:#1e222b;
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#2a2f3a;
+  --radius:14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 60px;}
+.wrap{max-width:840px;margin:0 auto;padding:40px 20px;}
+
+.badge{
+  display:inline-block;color:var(--accent);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;font-size:12px;margin-bottom:10px;
+}
+h1{font-size:26px;margin:0 0 6px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 8px;}
+.diff-line{
+  background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.35);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--text);margin-bottom:28px;
+}
+.diff-line b{color:var(--accent-2);}
+
+.section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:18px;font-weight:700;margin:36px 0 14px;
+}
+.section-title .tag{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#0f1115;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;
+}
+
+.why-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.why-box ul{margin:0;padding-left:20px;color:var(--text);}
+.why-box li{margin-bottom:10px;}
+
+/* 決策流程 - 3 questions */
+.decision-flow{display:flex;flex-direction:column;gap:14px;}
+.q-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 20px;
+}
+.q-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;background:var(--accent);color:#0f1115;
+  font-size:12px;font-weight:700;margin-right:8px;
+}
+.q-title{font-size:14.5px;font-weight:700;color:var(--text);display:flex;align-items:center;margin-bottom:8px;}
+.q-body{font-size:13px;color:var(--muted);padding-left:32px;}
+.q-answer-box{
+  margin-top:10px;padding-left:32px;
+}
+.q-options{display:flex;gap:8px;flex-wrap:wrap;}
+.q-opt{
+  background:var(--panel-2);border:1px solid var(--border);border-radius:8px;
+  padding:6px 12px;font-size:12px;color:var(--text);
+}
+.q-opt.picked{
+  background:rgba(125,211,252,0.15);border-color:var(--accent);color:var(--accent);font-weight:600;
+}
+.q-arrow-down{
+  text-align:center;color:var(--accent-2);font-size:16px;margin:2px 0;
+}
+
+/* 光譜表 */
+.spectrum-table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:6px;}
+.spectrum-table th{
+  background:var(--panel-2);color:var(--accent);padding:8px 10px;text-align:left;
+  border-bottom:1px solid var(--border);font-size:10.5px;
+}
+.spectrum-table td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;}
+.spectrum-table tr:last-child td{border-bottom:none;}
+.spectrum-table tr.selected{background:rgba(125,211,252,0.08);}
+.spectrum-table tr.selected td:first-child{
+  border-left:3px solid var(--accent);
+}
+.level-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:20px;height:20px;border-radius:50%;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--muted);font-size:10px;font-weight:700;margin-right:6px;
+}
+.spectrum-table tr.selected .level-num{background:var(--accent);color:#0f1115;border-color:var(--accent);}
+.pick-tag{
+  display:inline-block;font-size:9.5px;background:rgba(52,211,153,0.2);color:#34d399;
+  border:1px solid rgba(52,211,153,0.4);border-radius:5px;padding:1px 7px;margin-left:6px;
+}
+
+.example-line{
+  font-size:13px;color:var(--muted);padding-top:6px;border-top:1px dashed var(--border);margin-top:14px;
+}
+.example-line b{color:var(--accent);font-weight:600;}
+
+/* Prompts */
+.prompt-toggle{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:14px;overflow:hidden;
+}
+.prompt-toggle-head{
+  padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  background:var(--panel-2);
+}
+.prompt-toggle-head span.name{font-size:14.5px;font-weight:600;}
+.chev{color:var(--accent);transition:transform .2s ease;}
+.prompt-toggle.open .chev{transform:rotate(90deg);}
+.prompt-toggle-body{display:none;padding:16px 18px;}
+.prompt-toggle.open .prompt-toggle-body{display:block;}
+.prompt-box{
+  background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;
+}
+.prompt-box pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;color:#d1d5db;line-height:1.6;
+}
+.copy-btn{
+  position:absolute;top:10px;right:10px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--accent);font-size:11.5px;padding:4px 9px;border-radius:6px;cursor:pointer;
+}
+.copy-btn.copied{color:#34d399;border-color:#34d399;}
+
+.output-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;
+}
+.output-box ul{margin:0;padding-left:20px;color:var(--muted);}
+.output-box li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="badge">Part 3 · 把 PRD 變成可以驗證的東西</p>
+  <h1>3.1 決定今天要做到哪裡</h1>
+  <p class="sub">Prototype demo — 內容排版預覽，尚未套用到正式網站</p>
+  <div class="diff-line"><b>跟 2.3 的差異：</b>2.3 產出的是定案的 PRD v2，3.1 是把這份 PRD 攤開，判斷今天要把它做成多完整的東西——不是選一個「方法」，是做一個「決策」。</div>
+
+  <!-- WHY -->
+  <div class="section-title"><span class="tag">WHY</span> 為什麼要先做這個判斷</div>
+  <div class="why-box">
+    <ul>
+      <li>PRD v2 裡的 MVP 範圍和風險，不是每一項都要做出東西才能確認。</li>
+      <li>先想清楚要做到哪裡，才不會在 OST 現場把時間花在不必要的細節上。</li>
+      <li>這個判斷會直接決定 3.2 要用哪個 AI 工具、走哪條路徑。</li>
+    </ul>
+  </div>
+
+  <!-- 決策流程 -->
+  <div class="section-title"><span class="tag">決策流程</span> 3 個問題，想清楚就有答案</div>
+  <div class="decision-flow">
+
+    <div class="q-card">
+      <div class="q-title"><span class="q-num">1</span>今天要做全部 MVP，還是先做核心的一部分？</div>
+      <div class="q-body">回頭看 2.2 的 MoSCoW 分類，Must-have 裡如果還有好幾項，today 可以只挑「最能代表核心價值」的那一項先做。</div>
+      <div class="q-answer-box">
+        <div class="q-options">
+          <div class="q-opt picked">先做核心的一部分</div>
+          <div class="q-opt">做完整個 MVP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-arrow-down">↓</div>
+
+    <div class="q-card">
+      <div class="q-title"><span class="q-num">2</span>剩下的風險裡，哪些一定要做出東西才能檢查？</div>
+      <div class="q-body">回頭看 PRD v2 的「風險與待確認問題」，區分「討論就能解決」和「必須做出實際東西才能驗證」。</div>
+      <div class="q-answer-box">
+        <div class="q-options">
+          <div class="q-opt">店家資料來源 → 討論／查資料即可</div>
+          <div class="q-opt picked">預估時間準不準 → 一定要做出東西測</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-arrow-down">↓</div>
+
+    <div class="q-card">
+      <div class="q-title"><span class="q-num">3</span>對照光譜表，今天要停在哪一層？</div>
+      <div class="q-body">依照上面兩個答案，往下對照右邊的光譜表，選一個今天要做到的完整度。</div>
+    </div>
+
+  </div>
+
+  <!-- 光譜表 -->
+  <div class="section-title"><span class="tag">光譜</span> 5 個完整度層級</div>
+  <div class="q-card">
+    <table class="spectrum-table">
+      <tr><th>層級</th><th>形式</th><th>驗證什麼</th></tr>
+      <tr><td><span class="level-num">1</span>文字流程</td><td>文字劇本／情境模擬對話</td><td>問題和流程本身合不合理</td></tr>
+      <tr><td><span class="level-num">2</span>Wireframe</td><td>畫面架構草圖／Storyboard</td><td>畫面架構和體驗流程</td></tr>
+      <tr class="selected"><td><span class="level-num">3</span>可點擊原型<span class="pick-tag">今天選這層</span></td><td>可操作但用假資料的原型</td><td>使用者能不能順著流程走完，預估時間邏輯是否合理</td></tr>
+      <tr><td><span class="level-num">4</span>可運作 Demo</td><td>真的能跑的核心邏輯</td><td>技術上做不做得出來</td></tr>
+      <tr><td><span class="level-num">5</span>可部署產品</td><td>真的能發布給任何人用</td><td>有沒有人真的想用</td></tr>
+    </table>
+    <div class="example-line"><b>例：</b>因為這次最想驗證的是「預估等待時間的邏輯合不合理」，屬於流程層面而非技術可行性，所以選層級 3（可點擊原型）就足夠，不需要衝去做層級 5 的可部署產品。</div>
+  </div>
+
+  <!-- WHAT -->
+  <div class="section-title"><span class="tag">WHAT</span> 提示詞範例（1 段）</div>
+
+  <div class="prompt-toggle open">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">判斷完整度提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們的 PRD v2：
+
+【貼上 PRD v2】
+
+我們今天大約還剩下【填入剩餘時間，例如：3 小時】。
+
+請幫我判斷：
+1. PRD 裡的 Must-have 功能，今天適合全部做出來，還是只做核心的一部分？如果只做一部分，建議做哪一項？
+2. PRD 裡列出的風險，哪些可以只靠討論或查資料解決，哪些必須做出實際東西才能驗證？
+3. 綜合以上，你建議我們今天做到以下哪個完整度，並說明理由：
+   - 文字流程
+   - Wireframe
+   - 可點擊原型
+   - 可運作 Demo
+   - 可部署產品
+
+請給一個明確建議，不要同時建議兩個層級。</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="section-title"><span class="tag">產出</span> 建議產出</div>
+  <div class="output-box">
+    <ul>
+      <li>今天要做到的完整度層級（1 個明確答案）</li>
+      <li>今天要做的 MVP 範圍（全部或哪一部分）</li>
+      <li>今天要驗證的核心風險（1–2 項）</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-toggle]').forEach(h=>{
+  h.addEventListener('click',()=>h.closest('.prompt-toggle').classList.toggle('open'));
+});
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const text = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

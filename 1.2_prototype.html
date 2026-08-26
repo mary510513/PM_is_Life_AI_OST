@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1.2 理解使用者與情境 — Prototype</title>
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#171a21;
+  --panel-2:#1e222b;
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#2a2f3a;
+  --radius:14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 60px;}
+.wrap{max-width:820px;margin:0 auto;padding:40px 20px;}
+
+.badge{
+  display:inline-block;color:var(--accent);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;font-size:12px;margin-bottom:10px;
+}
+h1{font-size:26px;margin:0 0 6px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 8px;}
+.diff-line{
+  background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.35);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--text);margin-bottom:28px;
+}
+.diff-line b{color:var(--accent-2);}
+
+.section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:18px;font-weight:700;margin:36px 0 14px;
+}
+.section-title .tag{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#0f1115;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;
+}
+
+.why-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.why-box ul{margin:0;padding-left:20px;color:var(--text);}
+.why-box li{margin-bottom:10px;}
+
+.method-grid{display:flex;flex-direction:column;gap:18px;}
+.method-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.method-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:14px;}
+.method-name{font-size:16px;font-weight:700;color:var(--text);}
+.method-oneline{font-size:13px;color:var(--muted);}
+
+.diagram{
+  background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+  padding:18px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;
+  overflow-x:auto;
+}
+
+/* Empathy Map: 4 quadrant */
+.em-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:400px;}
+.em-cell{
+  background:rgba(125,211,252,0.1);border:1px solid rgba(125,211,252,0.35);
+  border-radius:8px;padding:10px;font-size:12px;color:var(--text);
+}
+.em-cell b{display:block;color:var(--accent);font-size:11.5px;margin-bottom:4px;}
+
+/* User Journey Map: timeline with dip */
+.journey{display:flex;align-items:flex-end;gap:4px;width:100%;max-width:460px;position:relative;padding-top:20px;}
+.journey-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.journey-bar{
+  width:100%;border-radius:6px 6px 0 0;background:rgba(125,211,252,0.25);border:1px solid rgba(125,211,252,0.5);
+}
+.journey-step.low .journey-bar{height:20px;background:rgba(251,113,133,0.25);border-color:rgba(251,113,133,0.5);}
+.journey-step.mid .journey-bar{height:40px;}
+.journey-step.high .journey-bar{height:56px;}
+.journey-label{font-size:11px;color:var(--muted);text-align:center;}
+.journey-emo{font-size:14px;}
+
+/* Persona card */
+.persona-card{
+  display:flex;gap:14px;align-items:flex-start;background:rgba(167,139,250,0.08);
+  border:1px solid rgba(167,139,250,0.35);border-radius:10px;padding:14px 16px;max-width:420px;
+}
+.persona-avatar{
+  width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#0f1115;font-weight:700;font-size:16px;
+}
+.persona-info{font-size:12px;color:var(--text);}
+.persona-info .p-name{font-size:14px;font-weight:700;color:var(--accent-2);margin-bottom:4px;}
+.persona-info div{margin-bottom:3px;}
+.persona-info b{color:var(--muted);font-weight:600;}
+
+/* Interview: chat bubbles */
+.chat{display:flex;flex-direction:column;gap:8px;width:100%;max-width:380px;}
+.chat-row{display:flex;}
+.chat-row.right{justify-content:flex-end;}
+.bubble{
+  padding:8px 13px;border-radius:14px;font-size:12px;max-width:75%;
+}
+.bubble.q{background:rgba(125,211,252,0.15);border:1px solid rgba(125,211,252,0.4);color:var(--text);}
+.bubble.a{background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.4);color:var(--text);}
+
+/* Observation: eye + trace */
+.observe{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+.eye{font-size:28px;}
+.trace{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center;}
+.trace-dot{
+  background:rgba(52,211,153,0.15);border:1px solid rgba(52,211,153,0.5);color:#34d399;
+  padding:6px 11px;border-radius:999px;font-size:11.5px;
+}
+.trace-arrow{color:var(--muted);font-size:13px;}
+
+.example-line{
+  font-size:13px;color:var(--muted);padding-top:6px;border-top:1px dashed var(--border);
+}
+.example-line b{color:var(--accent);font-weight:600;}
+
+/* Prompts */
+.prompt-toggle{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:14px;overflow:hidden;
+}
+.prompt-toggle-head{
+  padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  background:var(--panel-2);
+}
+.prompt-toggle-head span.name{font-size:14.5px;font-weight:600;}
+.chev{color:var(--accent);transition:transform .2s ease;}
+.prompt-toggle.open .chev{transform:rotate(90deg);}
+.prompt-toggle-body{display:none;padding:16px 18px;}
+.prompt-toggle.open .prompt-toggle-body{display:block;}
+.prompt-box{
+  background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;
+}
+.prompt-box pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;color:#d1d5db;line-height:1.6;
+}
+.copy-btn{
+  position:absolute;top:10px;right:10px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--accent);font-size:11.5px;padding:4px 9px;border-radius:6px;cursor:pointer;
+}
+.copy-btn.copied{color:#34d399;border-color:#34d399;}
+
+.skill-note{
+  background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.35);
+  border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#fde68a;
+}
+.skill-note b{color:#fbbf24;}
+
+.skill-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.skill-list li{
+  background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;
+}
+.skill-list p{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+.pending-note{
+  font-size:12.5px;color:var(--muted);font-style:italic;padding:12px 16px;
+  border:1px dashed var(--border);border-radius:10px;
+}
+
+.output-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;
+}
+.output-box ul{margin:0;padding-left:20px;color:var(--muted);}
+.output-box li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="badge">Part 1 · 從需求開始</p>
+  <h1>1.2 理解使用者與情境</h1>
+  <p class="sub">Prototype demo — 內容排版預覽，尚未套用到正式網站</p>
+  <div class="diff-line"><b>跟 1.1 的差異：</b>1.1 是先猜出問題可能是什麼，1.2 是去確認這個猜測對不對。</div>
+
+  <!-- WHY -->
+  <div class="section-title"><span class="tag">WHY</span> 為什麼要理解使用者與情境</div>
+  <div class="why-box">
+    <ul>
+      <li>1.1 整理出來的問題，還只是我們的猜測。</li>
+      <li>這一步要做的是：找真實使用者聊聊、觀察看看，看猜測有沒有猜對。</li>
+      <li>猜對了，後面的方向才會準；猜錯了，現在發現比之後發現便宜多了。</li>
+    </ul>
+  </div>
+
+  <!-- HOW -->
+  <div class="section-title"><span class="tag">HOW</span> 可以嘗試的 5 個方法</div>
+  <div class="method-grid">
+
+    <!-- Empathy Map -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Empathy Map</span>
+        <span class="method-oneline">從使用者的所說、所想、所做、所感切入</span>
+      </div>
+      <div class="diagram">
+        <div class="em-grid">
+          <div class="em-cell"><b>Says 說</b>「路線沒問題，都看導航」</div>
+          <div class="em-cell"><b>Thinks 想</b>擔心遲到被扣分</div>
+          <div class="em-cell"><b>Does 做</b>常常自己改道，不走建議路線</div>
+          <div class="em-cell"><b>Feels 感</b>對系統的路線建議沒有信任感</div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>外送員「說」路線沒問題，但「做」的時候常常自己改道，不走 App 建議路線。</div>
+    </div>
+
+    <!-- User Journey Map -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">User Journey Map</span>
+        <span class="method-oneline">把使用者的完整體驗按時間排出來</span>
+      </div>
+      <div class="diagram">
+        <div class="journey">
+          <div class="journey-step mid">
+            <span class="journey-emo">🙂</span>
+            <div class="journey-bar"></div>
+            <div class="journey-label">接單</div>
+          </div>
+          <div class="journey-step high">
+            <span class="journey-emo">😐</span>
+            <div class="journey-bar"></div>
+            <div class="journey-label">前往店家</div>
+          </div>
+          <div class="journey-step low">
+            <span class="journey-emo">😣</span>
+            <div class="journey-bar"></div>
+            <div class="journey-label">等店家出餐</div>
+          </div>
+          <div class="journey-step high">
+            <span class="journey-emo">🙂</span>
+            <div class="journey-bar"></div>
+            <div class="journey-label">送餐完成</div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>「等店家出餐」是整趟旅程中外送員最容易感到煩躁的階段。</div>
+    </div>
+
+    <!-- Persona -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Persona</span>
+        <span class="method-oneline">把資料收斂成一個具體的人</span>
+      </div>
+      <div class="diagram">
+        <div class="persona-card">
+          <div class="persona-avatar">陳</div>
+          <div class="persona-info">
+            <div class="p-name">小陳・兼職外送員</div>
+            <div><b>背景：</b>白天上班，下班後接單</div>
+            <div><b>目標：</b>多接單、少繞路</div>
+            <div><b>痛點：</b>最怕遇到出餐慢又難停車的店家</div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>「小陳」是兼職外送員，下班後接單，最怕遇到出餐慢又難停車的店家。</div>
+    </div>
+
+    <!-- 使用者訪談 -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">使用者訪談</span>
+        <span class="method-oneline">直接問使用者本人</span>
+      </div>
+      <div class="diagram">
+        <div class="chat">
+          <div class="chat-row"><div class="bubble q">你平常送餐時，遇到出餐慢會怎麼處理？</div></div>
+          <div class="chat-row right"><div class="bubble a">通常會先去接下一單，晚點再回來拿</div></div>
+          <div class="chat-row"><div class="bubble q">那你怎麼決定要不要先去接下一單？</div></div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>訪談時要問行為，不要問「你會不會用」這種假設性問題。</div>
+    </div>
+
+    <!-- 觀察法 -->
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">觀察法</span>
+        <span class="method-oneline">看使用者實際怎麼做，不只聽他說</span>
+      </div>
+      <div class="diagram">
+        <div class="observe">
+          <div class="eye">👁️</div>
+          <div class="trace">
+            <span class="trace-dot">說：都看 App 導航</span>
+            <span class="trace-arrow">→</span>
+            <span class="trace-dot">觀察到：常憑記憶抄捷徑</span>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>外送員說自己都看 App 導航，但觀察發現他其實常常憑記憶抄捷徑。</div>
+    </div>
+
+  </div>
+
+  <!-- WHAT -->
+  <div class="section-title"><span class="tag">WHAT</span> 提示詞範例（5 個方法）</div>
+
+  <div class="prompt-toggle open">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Empathy Map 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我對使用者的觀察或訪談紀錄：
+
+【貼上內容】
+
+請幫我整理成 Empathy Map 的四個象限：
+1. Says：使用者實際說了什麼
+2. Thinks：使用者可能在想什麼
+3. Does：使用者實際做了什麼行為
+4. Feels：使用者可能有的情緒或感受
+
+請區分清楚哪些是使用者原話，哪些是你的推論，並標註推論部分。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">User Journey Map 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是使用者完成一件任務的過程描述：
+
+【貼上內容】
+
+請幫我拆成時間軸上的幾個階段，每個階段請包含：
+1. 這個階段使用者在做什麼
+2. 使用者當下可能的情緒（正向／中性／負向）
+3. 這個階段是否有明顯的痛點
+
+請特別標出情緒最負向的階段。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Persona 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我收集到的使用者訪談或觀察資料：
+
+【貼上內容】
+
+請幫我整理成 1–2 個 Persona，每個包含：
+1. 姓名（可用代稱）
+2. 背景與生活情境
+3. 主要目標
+4. 主要痛點
+5. 這個 Persona 是根據哪些資料整理出來的
+
+如果資料不足以支撐某個細節，請標記「待補充」，不要自行虛構。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">使用者訪談提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>我想了解以下問題：
+
+【填入問題】
+
+請幫我設計一份不帶有引導性的使用者訪談大綱，包含：
+1. 使用者目前的行為
+2. 使用情境
+3. 遇到的困難
+4. 目前的替代方案
+5. 對理想解法的期待
+
+請避免直接問「你會不會使用這個功能」這類假設性問題。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">觀察法提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>我想觀察使用者在以下情境中的行為：
+
+【填入情境】
+
+請幫我設計一份觀察清單，包含：
+1. 應該觀察哪些具體行為（不是感受或想法）
+2. 應該記錄哪些環境或情境細節
+3. 哪些行為可能跟使用者「說的」不一致，需要特別留意
+
+請聚焦在可以被實際看到、記錄下來的行為，不要包含需要詢問才能得知的內容。</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL -->
+  <div class="section-title"><span class="tag">延伸</span> 開源 AI Skill 資源</div>
+
+  <div class="skill-note">
+    <b>但書：</b>以下為社群開源的延伸資源，非本手冊團隊開發或驗證，內容與使用方式可能隨時變動。建議使用前先與 AI 協作確認實際用法與相容性，使用前請自行評估風險；若引用其內容，請保留原始出處與作者標註。
+  </div>
+
+  <div class="pending-note">
+    這裡預計放 1–2 個跟「使用者研究／訪談整理」相關的開源資源（待後續補充搜尋與確認，格式會跟 1.1 一致）。
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="section-title"><span class="tag">產出</span> 建議產出</div>
+  <div class="output-box">
+    <ul>
+      <li>目標使用者描述</li>
+      <li>使用者情境與旅程</li>
+      <li>使用者目前的實際行為</li>
+      <li>主要痛點或需求（有初步證據支撐）</li>
+      <li>尚待進一步驗證的問題</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-toggle]').forEach(h=>{
+  h.addEventListener('click',()=>h.closest('.prompt-toggle').classList.toggle('open'));
+});
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const text = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

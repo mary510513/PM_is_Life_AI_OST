@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2.3 用不同角色檢查 PRD — Prototype</title>
+<style>
+:root{
+  --bg:#0f1115;
+  --panel:#171a21;
+  --panel-2:#1e222b;
+  --accent:#7dd3fc;
+  --accent-2:#a78bfa;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#2a2f3a;
+  --radius:14px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--text);line-height:1.7;padding:0 0 60px;}
+.wrap{max-width:840px;margin:0 auto;padding:40px 20px;}
+
+.badge{
+  display:inline-block;color:var(--accent);font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;font-size:12px;margin-bottom:10px;
+}
+h1{font-size:26px;margin:0 0 6px;}
+.sub{color:var(--muted);font-size:14px;margin:0 0 8px;}
+.diff-line{
+  background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.35);
+  border-radius:10px;padding:12px 16px;font-size:13.5px;color:var(--text);margin-bottom:28px;
+}
+.diff-line b{color:var(--accent-2);}
+
+.section-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:18px;font-weight:700;margin:36px 0 14px;
+}
+.section-title .tag{
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#0f1115;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;
+}
+.stage-badge{
+  background:var(--panel-2);border:1px solid var(--border);color:var(--accent-2);
+  font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;margin-right:8px;
+}
+
+.why-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.why-box ul{margin:0;padding-left:20px;color:var(--text);}
+.why-box li{margin-bottom:10px;}
+
+.stage-block{margin-bottom:26px;}
+.stage-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.stage-head h3{font-size:15.5px;margin:0;color:var(--text);}
+
+.method-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 22px;
+}
+.method-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:14px;}
+.method-name{font-size:16px;font-weight:700;color:var(--text);}
+.method-oneline{font-size:13px;color:var(--muted);}
+
+.diagram{
+  background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+  padding:18px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;
+  overflow-x:auto;
+}
+
+/* Role grill cards */
+.role-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;}
+.role-card{
+  border-radius:9px;padding:10px 8px;font-size:10px;text-align:center;
+}
+.role-card .remoji{font-size:20px;margin-bottom:5px;}
+.role-card .rname{font-weight:700;font-size:10.5px;margin-bottom:5px;}
+.role-card .rq{font-size:9.5px;line-height:1.4;color:var(--text);}
+.role-card.r1{background:rgba(125,211,252,0.12);border:1px solid rgba(125,211,252,0.4);}
+.role-card.r2{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.4);}
+.role-card.r3{background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.4);}
+.role-card.r4{background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.4);}
+.role-card.r5{background:rgba(251,113,133,0.12);border:1px solid rgba(251,113,133,0.4);}
+.role-card.r1 .rname{color:#7dd3fc;}
+.role-card.r2 .rname{color:#34d399;}
+.role-card.r3 .rname{color:#fbbf24;}
+.role-card.r4 .rname{color:#a78bfa;}
+.role-card.r5 .rname{color:#fb7185;}
+
+/* Cross-model validation */
+.xm-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;width:100%;}
+.xm-model{
+  background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+  padding:12px 16px;font-size:12px;text-align:center;min-width:140px;
+}
+.xm-model .memoji{font-size:22px;margin-bottom:4px;}
+.xm-arrow{font-size:18px;color:var(--muted);}
+.xm-compare{width:100%;margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.xm-col{border-radius:8px;padding:10px;font-size:10.5px;}
+.xm-col.common{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.4);color:var(--text);}
+.xm-col.unique{background:rgba(251,113,133,0.1);border:1px solid rgba(251,113,133,0.4);color:var(--text);}
+.xm-col b{display:block;margin-bottom:4px;font-size:10.5px;}
+.xm-col.common b{color:#34d399;}
+.xm-col.unique b{color:#fb7185;}
+
+/* Feedback reconciliation table */
+.fr-table{width:100%;border-collapse:collapse;font-size:10.5px;}
+.fr-table th{
+  background:var(--panel-2);color:var(--accent);padding:7px 8px;text-align:left;
+  border-bottom:1px solid var(--border);font-size:10px;
+}
+.fr-table td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text);}
+.fr-table tr:last-child td{border-bottom:none;}
+.fr-decision{font-weight:700;padding:2px 7px;border-radius:5px;font-size:9.5px;display:inline-block;}
+.fr-decision.accept{background:rgba(52,211,153,0.2);color:#34d399;}
+.fr-decision.modify{background:rgba(251,191,36,0.2);color:#fbbf24;}
+.fr-decision.reject{background:rgba(251,113,133,0.2);color:#fb7185;}
+
+/* Definition of Ready checklist */
+.dor-list{display:flex;flex-direction:column;gap:0;}
+.dor-item{
+  display:flex;gap:12px;padding:10px 4px;border-bottom:1px solid var(--border);
+  align-items:flex-start;
+}
+.dor-item:last-child{border-bottom:none;}
+.dor-check{
+  width:19px;height:19px;border-radius:5px;border:2px solid #34d399;flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;color:#34d399;font-size:11px;font-weight:900;
+  margin-top:1px;
+}
+.dor-body{flex:1;font-size:12px;color:var(--text);}
+.dor-tag{
+  display:inline-block;font-size:9.5px;background:rgba(52,211,153,0.15);color:#34d399;
+  border:1px solid rgba(52,211,153,0.4);border-radius:5px;padding:1px 6px;margin-left:6px;
+}
+.v2-badge{
+  display:inline-block;margin-top:12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#0f1115;font-size:11px;font-weight:700;padding:5px 12px;border-radius:999px;
+}
+
+.example-line{
+  font-size:13px;color:var(--muted);padding-top:6px;border-top:1px dashed var(--border);
+}
+.example-line b{color:var(--accent);font-weight:600;}
+
+/* Prompts */
+.prompt-toggle{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  margin-bottom:14px;overflow:hidden;
+}
+.prompt-toggle-head{
+  padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  background:var(--panel-2);
+}
+.prompt-toggle-head span.name{font-size:14.5px;font-weight:600;}
+.chev{color:var(--accent);transition:transform .2s ease;}
+.prompt-toggle.open .chev{transform:rotate(90deg);}
+.prompt-toggle-body{display:none;padding:16px 18px;}
+.prompt-toggle.open .prompt-toggle-body{display:block;}
+.prompt-box{
+  background:#0b0d11;border:1px solid var(--border);border-radius:10px;padding:14px;position:relative;
+}
+.prompt-box pre{
+  margin:0;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;color:#d1d5db;line-height:1.6;
+}
+.copy-btn{
+  position:absolute;top:10px;right:10px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--accent);font-size:11.5px;padding:4px 9px;border-radius:6px;cursor:pointer;
+}
+.copy-btn.copied{color:#34d399;border-color:#34d399;}
+
+.skill-note{
+  background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.35);
+  border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#fde68a;
+}
+.skill-note b{color:#fbbf24;}
+
+.skill-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.skill-list li{
+  background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 16px;
+}
+.skill-list a{color:var(--accent);text-decoration:none;font-weight:600;font-size:13.5px;}
+.skill-list a:hover{text-decoration:underline;}
+.skill-list p{margin:6px 0 0;font-size:12.5px;color:var(--muted);}
+.note-tag{
+  display:inline-block;font-size:10.5px;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--muted);padding:2px 7px;border-radius:6px;margin-top:6px;
+}
+
+.output-box{
+  background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 22px;
+}
+.output-box ul{margin:0;padding-left:20px;color:var(--muted);}
+.output-box li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="badge">Part 2 · 從需求形成 PRD</p>
+  <h1>2.3 用不同角色檢查 PRD</h1>
+  <p class="sub">Prototype demo — 內容排版預覽，尚未套用到正式網站</p>
+  <div class="diff-line"><b>跟 2.2 的差異：</b>2.2 組裝出一份 PRD 初稿，2.3 是用不同視角把它打破重組，抓出漏洞，最後產出一份真正可以往下走的 PRD v2。</div>
+
+  <!-- WHY -->
+  <div class="section-title"><span class="tag">WHY</span> 為什麼要做這一步</div>
+  <div class="why-box">
+    <ul>
+      <li>PRD 初稿是一個人（或一路都用同一個 AI）的視角，容易有盲點看不到。</li>
+      <li>只用同一個 AI 扮演不同角色還不夠，因為同一個模型可能有自己的系統性盲點，換一個完全不同的 AI 交叉驗證，才能抓到所有角色都沒發現的問題。</li>
+      <li>收到回饋不代表要全部照做，需要一個機制篩選、決策，PRD 才能真的變得更好，而不是越改越亂。</li>
+    </ul>
+  </div>
+
+  <!-- HOW -->
+  <div class="section-title"><span class="tag">HOW</span> 3 階段、4 個方法</div>
+
+  <!-- 階段一 -->
+  <div class="stage-block">
+    <div class="stage-head"><span class="stage-badge">階段一</span><h3>角色壓力測試</h3></div>
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Role-based Grill</span>
+        <span class="method-oneline">5 個角色，針對假設清單逐條質疑，不是泛泛而談</span>
+      </div>
+      <div class="diagram">
+        <div class="role-grid">
+          <div class="role-card r1">
+            <div class="remoji">🧑</div>
+            <div class="rname">外部使用者</div>
+            <div class="rq">這真的解決我的問題嗎？預估錯了怎麼辦？</div>
+          </div>
+          <div class="role-card r2">
+            <div class="remoji">💳</div>
+            <div class="rname">外部購買者</div>
+            <div class="rq">值得付費／採用嗎？跟其他選擇比優勢在哪？</div>
+          </div>
+          <div class="role-card r3">
+            <div class="remoji">🛠️</div>
+            <div class="rname">工程師</div>
+            <div class="rq">做得出來嗎？哪個假設錯了會讓方案垮掉？</div>
+          </div>
+          <div class="role-card r4">
+            <div class="remoji">🎨</div>
+            <div class="rname">設計師</div>
+            <div class="rq">使用者會不會看不懂？流程是否夠直覺？</div>
+          </div>
+          <div class="role-card r5">
+            <div class="remoji">🧭</div>
+            <div class="rname">內部決策者</div>
+            <div class="rq">值得投入資源嗎？成功指標夠不夠說服人？</div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>工程師角色質疑「店家歷史出餐資料從哪來？如果店家從沒紀錄過怎麼辦？」——直接針對假設清單裡的一條發問，不是空泛地說「這個風險要注意」。</div>
+    </div>
+  </div>
+
+  <!-- 階段二 -->
+  <div class="stage-block">
+    <div class="stage-head"><span class="stage-badge">階段二</span><h3>換模型交叉驗證</h3></div>
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Cross-Model Validation</span>
+        <span class="method-oneline">同一份 PRD 換一個完全不同的 AI 檢查，抓出所有角色都沒發現的系統性問題</span>
+      </div>
+      <div class="diagram">
+        <div class="xm-wrap">
+          <div class="xm-model"><div class="memoji">🤖</div>AI 模型 A<br><span style="color:var(--muted);font-size:9.5px;">（階段一使用的）</span></div>
+          <span class="xm-arrow">⇄</span>
+          <div class="xm-model"><div class="memoji">🧠</div>AI 模型 B<br><span style="color:var(--muted);font-size:9.5px;">（換一個不同的）</span></div>
+          <div class="xm-compare">
+            <div class="xm-col common"><b>✓ 共同發現</b>Reach 數字（800人/月）沒有標明資料來源</div>
+            <div class="xm-col unique"><b>⚠ 只有 B 發現</b>完全沒考慮店家可能拒絕分享出餐資料</div>
+          </div>
+        </div>
+      </div>
+      <div class="example-line"><b>例：</b>階段一用同一個 AI 扮演角色，容易受限於這個模型本身的思考習慣；換一個完全不同的 AI，才能抓到「所有角色都沒發現」的系統性問題。</div>
+    </div>
+  </div>
+
+  <!-- 階段三 -->
+  <div class="stage-block">
+    <div class="stage-head"><span class="stage-badge">階段三</span><h3>校正並產出 PRD v2</h3></div>
+
+    <div class="method-card" style="margin-bottom:16px;">
+      <div class="method-head">
+        <span class="method-name">Feedback Reconciliation（回饋整理表）</span>
+        <span class="method-oneline">把階段一、二的所有回饋，逐條決定接受／修改／不採用</span>
+      </div>
+      <div class="diagram" style="overflow-x:auto;">
+        <table class="fr-table">
+          <tr><th>回饋來源</th><th>回饋內容</th><th>決策</th><th>理由</th></tr>
+          <tr><td>工程師角色</td><td>店家歷史出餐資料可能不準確</td><td><span class="fr-decision accept">接受</span></td><td>真實風險，補進風險清單</td></tr>
+          <tr><td>換模型驗證</td><td>店家可能拒絕分享出餐資料</td><td><span class="fr-decision accept">接受</span></td><td>補一條新假設，標記待驗證</td></tr>
+          <tr><td>內部決策者</td><td>建議先做付費功能</td><td><span class="fr-decision reject">不採用</span></td><td>超出這次 MVP 範圍，記錄但不處理</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="method-card">
+      <div class="method-head">
+        <span class="method-name">Definition of Ready（就緒檢查清單）</span>
+        <span class="method-oneline">確認 PRD 已經準備好交給 Part 3 做 Demo</span>
+      </div>
+      <div class="diagram">
+        <div class="dor-list">
+          <div class="dor-item"><div class="dor-check">✓</div><div class="dor-body">每個 Must-have 功能都有清楚的使用者流程了嗎？</div></div>
+          <div class="dor-item"><div class="dor-check">✓</div><div class="dor-body">已知的高風險假設，是否都已經有初步回應？</div></div>
+          <div class="dor-item"><div class="dor-check">✓</div><div class="dor-body">是否已經看過至少一個跟自己角色不同的觀點？</div></div>
+          <div class="dor-item"><div class="dor-check">✓</div><div class="dor-body">是否已經用第二個 AI 模型交叉檢查過一次？</div></div>
+          <div class="dor-item"><div class="dor-check">✓</div><div class="dor-body">這份 PRD 是否已經不再包含「待確認」以外的模糊字眼？</div></div>
+        </div>
+        <span class="v2-badge">✓ 全數通過 → 產出 PRD v2</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT -->
+  <div class="section-title"><span class="tag">WHAT</span> 提示詞範例（4 段）</div>
+
+  <div class="prompt-toggle open">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">角色壓力測試提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們的 PRD 初稿，以及還沒驗證的假設清單：
+
+【貼上 PRD】
+【貼上假設清單】
+
+請分別用以下五種角色檢查，並針對假設清單逐條質疑，不要只是泛泛而談：
+
+1. 外部使用者：這個產品真的解決我的問題嗎？如果預估錯誤會怎樣？
+2. 外部購買者：值得採用或付費嗎？跟其他選擇比起來優勢在哪？
+3. 工程師：這做得出來嗎？哪一條假設如果是錯的，會讓整個技術方案垮掉？
+4. 設計師：使用者會不會看不懂這個流程？有沒有不夠直覺的地方？
+5. 內部決策者：這值得投入資源嗎？成功指標夠不夠有說服力？
+
+請針對每個角色，明確指出「哪一條假設」讓他們最擔心，不要給空泛的建議。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">換模型交叉驗證提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>請把以下 PRD 貼給另一個 AI 工具（例如換到 Claude、Gemini 或 ChatGPT，選一個跟你剛剛用的不同）：
+
+【貼上 PRD】
+
+請該 AI 扮演一個對這個專案完全不熟悉的資深產品顧問，直接指出：
+1. 這份 PRD 最大的三個風險是什麼？
+2. 有沒有明顯被忽略、但很重要的使用者情境？
+3. 如果你是決策者，你會卡在哪一點不敢放行？
+
+拿到回覆後，請對照第一個 AI 給的角色回饋，列出：
+- 兩邊都提到的共同問題
+- 只有這個新 AI 提到、但第一個 AI 沒發現的問題</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">回饋整理表提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們收到的所有回饋：
+
+【貼上階段一、階段二收到的所有回饋】
+
+請幫我整理成一張表格，欄位為：回饋來源、回饋內容、建議決策（接受／修改／不採用）、理由。
+
+決策原則：
+1. 涉及真實風險或明顯漏洞的回饋，傾向接受。
+2. 超出這次 MVP 範圍的建議，先標記「不採用，但記錄」。
+3. 如果兩個回饋互相矛盾，請列出來讓我自己判斷，不要自動選一邊。</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="prompt-toggle">
+    <div class="prompt-toggle-head" data-toggle>
+      <span class="name">Definition of Ready 提示詞</span><span class="chev">›</span>
+    </div>
+    <div class="prompt-toggle-body">
+      <div class="prompt-box">
+        <button class="copy-btn" data-copy>複製</button>
+        <pre>以下是我們修改後的 PRD：
+
+【貼上修改後的 PRD】
+
+請幫我用以下清單檢查這份 PRD 是否已經準備好交給下一階段做 Demo：
+1. 每個 Must-have 功能都有清楚的使用者流程了嗎？
+2. 已知的高風險假設，是否都已經有初步回應（不用已驗證，但至少知道怎麼驗證）？
+3. 是否已經納入至少一個跟原始撰寫者不同的觀點？
+4. 這份 PRD 是否已經不再包含「待確認」以外的模糊字眼？
+
+請針對還沒通過的項目，具體說明還缺什麼，不要只回答「通過」或「不通過」。</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILL -->
+  <div class="section-title"><span class="tag">延伸</span> 開源 AI Skill 資源</div>
+
+  <div class="skill-note">
+    <b>但書：</b>以下為社群開源的延伸資源，非本手冊團隊開發或驗證，內容與使用方式可能隨時變動。建議使用前先與 AI 協作確認實際用法與相容性，使用前請自行評估風險；若引用其內容，請保留原始出處與作者標註。
+  </div>
+
+  <ul class="skill-list">
+    <li>
+      <a href="https://github.com/yangro/pmkit" target="_blank">yangro/pmkit</a>
+      <p>把 PRD 貼給 AI，模擬 5 個不同角色（CTO／UX Lead／Sales Lead／Exec／User Advocate）分別回饋，且可自訂角色設定，對應本節的角色壓力測試方法。需搭配 Claude 使用。</p>
+      <span class="note-tag">來源：GitHub · 開源社群專案</span>
+    </li>
+    <li>
+      <a href="https://claudemarketplaces.com/skills/hoangnguyen0403/agent-skills-standard/implementation-readiness" target="_blank">hoangnguyen0403/agent-skills-standard — Implementation Readiness</a>
+      <p>走一遍 BRD/PRD/UX/測試計畫，確認商業目標、可測試驗收標準、需求追溯完整，給出「可以開始做／需要退回規劃／部分可先做」的判斷，對應本節的 Definition of Ready 方法。需搭配 Claude Code 安裝使用。</p>
+      <span class="note-tag">來源：GitHub · 開源社群專案</span>
+    </li>
+  </ul>
+
+  <!-- OUTPUT -->
+  <div class="section-title"><span class="tag">產出</span> 建議產出</div>
+  <div class="output-box">
+    <ul>
+      <li>PRD 修正版（PRD v2）</li>
+      <li>回饋整理表</li>
+      <li>Definition of Ready 檢查結果</li>
+      <li>團隊需要做的決策</li>
+      <li>下一步驗證事項</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('[data-toggle]').forEach(h=>{
+  h.addEventListener('click',()=>h.closest('.prompt-toggle').classList.toggle('open'));
+});
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const text = btn.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(()=>{
+      const original = btn.textContent;
+      btn.textContent = '已複製';
+      btn.classList.add('copied');
+      setTimeout(()=>{btn.textContent=original;btn.classList.remove('copied');},1500);
+    });
+  });
+});
+</script>
+</body>
+</html>

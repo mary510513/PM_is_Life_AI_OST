@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3.2 依完整度層級選 AI 工具與形式</title>
+<style>
+  :root{
+    --ink:#1f2430;
+    --sub:#5b6270;
+    --line:#e7e5df;
+    --paper:#faf8f4;
+    --accent:#c8562f;
+    --accent-soft:#f3e3da;
+    --chip:#eef1ea;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Noto Sans TC","PingFang TC","Helvetica Neue",Arial,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.75;
+  }
+  .wrap{
+    max-width:880px;
+    margin:0 auto;
+    padding:56px 24px 96px;
+  }
+  .kicker{
+    font-size:13px;
+    letter-spacing:.12em;
+    color:var(--accent);
+    font-weight:700;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  h1{
+    font-size:28px;
+    margin:0 0 6px;
+    font-weight:800;
+    letter-spacing:.01em;
+  }
+  .subtitle{
+    color:var(--sub);
+    font-size:15px;
+    margin-bottom:36px;
+  }
+  .relation-box{
+    background:var(--accent-soft);
+    border-left:4px solid var(--accent);
+    padding:16px 20px;
+    border-radius:8px;
+    font-size:14.5px;
+    color:#5c3420;
+    margin-bottom:40px;
+  }
+  .relation-box b{color:var(--accent);}
+  section{margin-bottom:48px;}
+  h2{
+    font-size:19px;
+    font-weight:800;
+    margin:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  h2 .tag{
+    font-size:11px;
+    font-weight:700;
+    padding:3px 9px;
+    border-radius:999px;
+    background:var(--chip);
+    color:var(--sub);
+    letter-spacing:.05em;
+  }
+  p{margin:0 0 12px;color:#33394a;}
+  ol.why-list{
+    padding-left:0;
+    list-style:none;
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  ol.why-list li{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  ol.why-list .num{
+    flex:0 0 auto;
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .table-wrap{
+    overflow-x:auto;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#fff;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+    min-width:680px;
+  }
+  thead th{
+    background:#f1efe8;
+    text-align:left;
+    padding:14px 16px;
+    font-weight:700;
+    color:var(--ink);
+    border-bottom:1px solid var(--line);
+    white-space:nowrap;
+  }
+  tbody td{
+    padding:16px 16px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+    color:#3a4050;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#fbf7f0;}
+  .level-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .level-num{
+    width:22px;height:22px;
+    border-radius:6px;
+    background:var(--accent);
+    color:#fff;
+    font-size:12px;
+    display:flex;align-items:center;justify-content:center;
+    flex:0 0 auto;
+  }
+  .tool-chip{
+    display:inline-block;
+    background:var(--chip);
+    color:#3f4a3a;
+    padding:2px 8px;
+    border-radius:6px;
+    font-size:12.5px;
+    margin:2px 3px 2px 0;
+  }
+  .l5-note{
+    margin-top:14px;
+    font-size:13.5px;
+    color:var(--sub);
+    background:#f6f5f0;
+    border:1px dashed var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+  }
+  .l5-note b{color:var(--accent);}
+  .prompt-box{
+    background:#1e2128;
+    color:#e7e5df;
+    border-radius:12px;
+    padding:22px 24px;
+    font-family:"SF Mono",Consolas,Menlo,monospace;
+    font-size:13.5px;
+    line-height:1.9;
+    white-space:pre-wrap;
+    position:relative;
+  }
+  .prompt-box .fill{
+    color:#f0a875;
+    font-weight:700;
+  }
+  .prompt-label{
+    position:absolute;
+    top:-11px;
+    left:18px;
+    background:var(--accent);
+    color:#fff;
+    font-size:11px;
+    font-weight:700;
+    padding:3px 10px;
+    border-radius:999px;
+    letter-spacing:.05em;
+  }
+  .steps-note{
+    margin-top:14px;
+    font-size:13.5px;
+    color:#4a5a3f;
+    background:#eef3e8;
+    border-left:3px solid #7a9a63;
+    padding:12px 16px;
+    border-radius:6px;
+  }
+  .flow-strip{
+    display:flex;
+    gap:10px;
+    margin-top:16px;
+    flex-wrap:wrap;
+  }
+  .flow-step{
+    flex:1;
+    min-width:150px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:13px;
+    color:var(--sub);
+    text-align:center;
+  }
+  .flow-step b{
+    display:block;
+    color:var(--ink);
+    font-size:13.5px;
+    margin-bottom:4px;
+  }
+  .flow-arrow{
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent);
+    font-weight:700;
+    font-size:16px;
+  }
+  .output-box{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px 20px;
+  }
+  .output-box ul{margin:0;padding-left:20px;}
+  .output-box li{margin-bottom:8px;color:#3a4050;font-size:14.5px;}
+  .extra-section{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:28px 24px;
+  }
+  .extra-desc{
+    font-size:13.5px;
+    color:var(--sub);
+    margin-bottom:18px;
+  }
+  .footer-note{
+    margin-top:56px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+    font-size:12.5px;
+    color:#9a9488;
+    text-align:center;
+  }
+  @media (max-width:600px){
+    .flow-strip{flex-direction:column;}
+    .flow-arrow{transform:rotate(90deg);}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker">Part 3 · 用 AI 做出來</div>
+  <h1>3.2 依完整度層級選 AI 工具與形式</h1>
+  <p class="subtitle">把 PRD v2,換成你在 3.1 選定層級所需要的呈現方式。</p>
+
+  <div class="relation-box">
+    <b>跟 3.1 的關係：</b>3.1 決定「今天要做到哪一層」,3.2 是把 PRD,換成那個層級所需要的呈現方式,並告訴你要打開哪個 AI 工具。這裡不是重新選一次,直接對照你選的那一列就好。
+  </div>
+
+  <section>
+    <h2>為什麼要這麼做 <span class="tag">WHY</span></h2>
+    <ol class="why-list">
+      <li><span class="num">1</span><span>PRD 本身只是文字,但你要驗證的是「體驗好不好」——體驗這種東西,光看文字感覺不出來,要換成畫面、流程或可操作的東西,才能看出問題在哪。</span></li>
+      <li><span class="num">2</span><span>換成哪一種呈現方式,取決於你在 3.1 選的完整度層級。層級越高,呈現方式越接近真實使用情境,能測出的問題也越深,但花的力氣也越多。</span></li>
+      <li><span class="num">3</span><span>選對工具,是為了讓「把 PRD 換成你要的呈現方式」這件事花最少力氣完成,而不是卡在學工具本身,把時間都花在不該花的地方。</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>五層級對照表 <span class="tag">HOW</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>層級</th>
+            <th>工具</th>
+            <th>做法</th>
+            <th>產出</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="level-badge"><span class="level-num">1</span>文字流程</span></td>
+            <td><span class="tool-chip">ChatGPT</span><span class="tool-chip">Claude</span></td>
+            <td>請 AI 把 User Flow 寫成情境模擬對話或文字劇本</td>
+            <td>一段文字,唸出來就能感覺順不順</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge"><span class="level-num">2</span>Wireframe</span></td>
+            <td><span class="tool-chip">ChatGPT</span><span class="tool-chip">Claude</span><span class="tool-chip">Gemini</span></td>
+            <td>條列每個畫面該有什麼元素、怎麼排;若需示意圖再交給 Gemini</td>
+            <td>畫面架構描述或簡易示意圖</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge"><span class="level-num">3</span>可點擊原型</span></td>
+            <td><span class="tool-chip">Gemini / AI Studio</span><span class="tool-chip">v0</span></td>
+            <td>請 AI 生成一個可在瀏覽器操作的網頁原型,用假資料</td>
+            <td>一個能打開、能點擊操作的網頁</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge"><span class="level-num">4</span>可運作 Demo</span></td>
+            <td><span class="tool-chip">Cursor</span><span class="tool-chip">Claude Code</span></td>
+            <td>請 AI 協助寫出核心邏輯的程式碼（例如真的計算預估時間）</td>
+            <td>一段可以實際執行、驗證邏輯對不對的程式</td>
+          </tr>
+          <tr>
+            <td><span class="level-badge"><span class="level-num">5</span>可部署產品</span></td>
+            <td><span class="tool-chip">Cursor / Claude Code</span><span class="tool-chip">GitHub Pages</span><span class="tool-chip">Vercel</span><span class="tool-chip">Netlify</span></td>
+            <td>在 Demo 基礎上加部署步驟,讓任何人透過網址使用</td>
+            <td>一個真實網址,能發給任何人測試</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="l5-note">
+      <b>層級 5 補充：</b>如果 PRD 需要簡單的資料儲存,可搭配 Supabase／Firebase 這類免寫後端程式碼的服務。這超出今天範圍,僅作為想繼續走下去的人的下一步指引。
+    </div>
+  </section>
+
+  <section>
+    <h2>萬用提示詞模板 <span class="tag">WHAT</span></h2>
+    <p>只需替換「今天決定做到的完整度」空格,同一段提示詞可套用在所有 5 個層級。</p>
+    <div class="prompt-box">
+<span class="prompt-label">PROMPT TEMPLATE</span>以下是我們的 PRD v2：
+
+【貼上 PRD v2】
+
+我們今天決定做到的完整度是：<span class="fill">【填入 3.1 選定的層級,例如：可點擊原型】</span>
+
+請先不要直接生成內容,而是：
+1. 說明你理解這個層級應該包含哪些具體畫面或內容（不要超出這個層級該有的細節）
+2. 依照 PRD 裡的核心使用流程,說明你打算怎麼把它做成這個層級的產出
+3. 如果我提供的資訊不足以生成,請具體告訴我還缺什麼
+
+等我確認你的理解和規劃都沒問題,回覆「請開始」之後,你才開始正式生成內容。
+    </div>
+    <div class="steps-note">先確認理解與規劃 → 使用者確認沒問題 → 回覆「請開始」→ AI 才正式生成內容。避免方向錯誤還要重做。</div>
+    <div class="flow-strip">
+      <div class="flow-step"><b>Step 1</b>貼上 PRD＋填層級</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><b>Step 2</b>AI 回覆理解與規劃</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><b>Step 3</b>確認沒問題</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><b>Step 4</b>回覆「請開始」</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><b>Step 5</b>AI 正式生成</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>建議產出</h2>
+    <div class="output-box">
+      <ul>
+        <li>依 3.1 選定層級,實際做出來的東西（文字／畫面描述／可點擊網頁／可執行程式／可部署網址）</li>
+        <li>AI 對這個層級的理解與規劃確認記錄</li>
+        <li>如果選層級 5：一個可分享的真實網址</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="extra-section">
+    <h2>延伸資源 <span class="tag">選讀・非今日範圍</span></h2>
+    <p class="extra-desc">這些工具跟前面對照表裡「用聊天視窗下指令」的方式不同,是自備 PRD、直接跑出完整原型或可執行專案的開源工具,適合手冊之外想繼續深入的人。</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>工具</th>
+            <th>定位</th>
+            <th>開源／自架</th>
+            <th>適合層級</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dyad</td>
+            <td>桌面版 AI App Builder,本機執行、自帶模型金鑰</td>
+            <td>MIT,完全開源,本機執行</td>
+            <td>4–5</td>
+          </tr>
+          <tr>
+            <td>bolt.diy</td>
+            <td>Bolt 的開源版本,瀏覽器內生成完整網頁應用</td>
+            <td>開源,可瀏覽器直接用</td>
+            <td>3–5</td>
+          </tr>
+          <tr>
+            <td>ai-app-builder-open</td>
+            <td>自架版 prompt-to-full-stack app builder,含 hosting、資料庫、auth</td>
+            <td>MIT,可自架</td>
+            <td>4–5（含後端）</td>
+          </tr>
+          <tr>
+            <td>Llama Coder</td>
+            <td>一句話生成可執行小型網頁應用,用 Llama 3.1 跑</td>
+            <td>開源,可自架</td>
+            <td>3–4</td>
+          </tr>
+          <tr>
+            <td>Adorable</td>
+            <td>Lovable 的開源自架替代品,文字轉網站</td>
+            <td>開源,可自架</td>
+            <td>3–4</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="footer-note">pm-life-ost · Part 3 · 用 AI 做出來 · 3.2</div>
+
+</div>
+</body>
+</html>
