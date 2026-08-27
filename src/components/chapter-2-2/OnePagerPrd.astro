@@ -1,0 +1,16 @@
+<ol class="one-pager-prd">
+  <li><b>問題背景</b><span>外送員因無法預期等待時長而焦躁，可能取消訂單。</span></li>
+  <li><b>目標使用者</b><span>兼職與全職外送員。</span></li>
+  <li><b>使用情境</b><span>抵達店家發現要等 15 分鐘以上。</span></li>
+  <li><b>要解決的問題</b><span>不知道還要等多久，無法決定要不要先接下一單。</span></li>
+  <li><b>產品概念</b><span>訂單頁面顯示「預估出餐等待時間」。</span></li>
+  <li><b>核心使用流程</b><span>接單→前往店家→顯示等待時間→決定是否先接單→取餐→送達。</span></li>
+  <li><b>MVP 範圍</b><span>Must：預估等待時間；Should：超時提醒（RICE 排序第一）。</span></li>
+  <li><b>不處理的事情</b><span>不即時串接店家系統，不做忙碌地圖。</span></li>
+  <li><b>成功指標</b><span>外送員因等待而取消訂單的比例。</span></li>
+  <li><b>風險與待確認問題</b><span>店家歷史出餐資料是否足夠準確。</span></li>
+</ol>
+
+<style>
+  .one-pager-prd{display:grid;gap:7px;width:min(100%,620px);margin:0;padding:0;list-style:none;counter-reset:prd;font-size:11px}.one-pager-prd li{display:grid;grid-template-columns:22px minmax(105px,.8fr) 2.2fr;gap:8px;align-items:start;padding:8px 10px;border:1px solid var(--border);border-radius:7px;background:#171a21;line-height:1.4;counter-increment:prd}.one-pager-prd li::before{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:rgba(52,211,153,.15);color:#8de6bc;content:"✓";font-weight:800}.one-pager-prd b{color:var(--accent)}.one-pager-prd span{color:var(--muted)}@media(max-width:500px){.one-pager-prd li{grid-template-columns:22px 1fr}.one-pager-prd span{grid-column:2}}
+</style>

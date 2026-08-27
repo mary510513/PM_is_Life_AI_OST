@@ -1,0 +1,10 @@
+<div class="moscow" aria-label="MoSCoW 優先級範例">
+  <div class="must"><b>Must</b><span>顯示預估等待時間</span></div>
+  <div class="should"><b>Should</b><span>等待超時提醒</span></div>
+  <div class="could"><b>Could</b><span>顯示店家忙碌程度</span></div>
+  <div class="wont"><b>Won't</b><span>即時串接店家出餐系統</span></div>
+</div>
+
+<style>
+  .moscow{display:grid;grid-template-columns:repeat(4,minmax(105px,1fr));gap:8px;width:min(100%,600px);font-size:11px}.moscow>div{display:grid;gap:8px;min-height:92px;padding:10px;border:1px solid;border-radius:8px}.moscow b{font-size:12px}.moscow span{padding:7px;border-radius:5px;background:rgba(15,17,21,.38);line-height:1.35}.must{color:#8de6bc;border-color:rgba(52,211,153,.55)!important;background:rgba(52,211,153,.09)}.should{color:var(--accent);border-color:rgba(125,211,252,.55)!important;background:rgba(125,211,252,.09)}.could{color:#f5d786;border-color:rgba(251,191,36,.55)!important;background:rgba(251,191,36,.09)}.wont{color:#fda4af;border-color:rgba(251,113,133,.55)!important;background:rgba(251,113,133,.09)}@media(max-width:560px){.moscow{grid-template-columns:repeat(2,1fr)}}
+</style>

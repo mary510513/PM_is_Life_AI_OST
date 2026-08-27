@@ -1,0 +1,11 @@
+<div class="impact-map" aria-label="Impact Mapping 範例">
+  <div class="impact-goal">目標：降低外送員因等待取消訂單</div>
+  <div class="impact-branches">
+    <div><b>Actor：外送員</b><span>Impact：能提前規劃行程</span><strong>Deliverable：顯示預估等待時間</strong></div>
+    <div><b>Actor：店家</b><span>Impact：減少被催單</span><strong class="potential">Deliverable：暫無對應功能</strong></div>
+  </div>
+</div>
+
+<style>
+  .impact-map{display:grid;gap:18px;width:min(100%,570px);font-size:11px;text-align:center}.impact-goal{justify-self:center;padding:9px 14px;border:1px solid rgba(125,211,252,.55);border-radius:999px;background:rgba(125,211,252,.12);font-weight:700}.impact-branches{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;position:relative}.impact-branches::before{position:absolute;top:-11px;left:25%;right:25%;height:11px;border-top:1px solid var(--border);border-right:1px solid var(--border);border-left:1px solid var(--border);content:""}.impact-branches>div{display:grid;gap:7px;padding-top:5px}.impact-branches b,.impact-branches span,.impact-branches strong{padding:8px;border:1px solid var(--border);border-radius:7px;background:#171a21;line-height:1.35}.impact-branches b{color:var(--accent)}.impact-branches span{color:#d8c8ff;border-color:rgba(167,139,250,.35)}.impact-branches strong{color:#8de6bc;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}.impact-branches .potential{color:#f5d786;border-color:rgba(251,191,36,.42);background:rgba(251,191,36,.08)}@media(max-width:520px){.impact-branches{grid-template-columns:1fr}.impact-branches::before{display:none}}
+</style>

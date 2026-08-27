@@ -9,23 +9,108 @@ previous: 2-2
 next: 3-1
 ---
 
+import MethodCard from '../../components/MethodCard.astro';
+import PromptBlock from '../../components/PromptBlock.astro';
+import RoleBasedGrill from '../../components/chapter-2-3/RoleBasedGrill.astro';
+import CrossModelValidation from '../../components/chapter-2-3/CrossModelValidation.astro';
+import FeedbackReconciliation from '../../components/chapter-2-3/FeedbackReconciliation.astro';
+import DefinitionOfReady from '../../components/chapter-2-3/DefinitionOfReady.astro';
+import CriticalFlowExampleMap from '../../components/chapter-2-3/CriticalFlowExampleMap.astro';
+import PremortemRiskActionCard from '../../components/chapter-2-3/PremortemRiskActionCard.astro';
+import DecisionOwnershipCard from '../../components/chapter-2-3/DecisionOwnershipCard.astro';
+
+<p class="difference"><strong>跟 2.2 的差異：</strong>2.2 組裝出一份 PRD 初稿；2.3 則用不同視角把它打破重組，抓出漏洞，最後產出一份真正可以往下走的 PRD v2。</p>
+
 ## WHY｜讓 PRD 通過壓力測試
 
-2.2 組裝 PRD 初稿；2.3 用使用者、購買者、工程、設計與決策者視角找出漏洞，並將回饋轉為可追蹤決策。
+<ul class="why-list"><li>PRD 初稿通常來自一個人，或一路都用同一個 AI 的視角，容易有盲點看不到。</li><li>同一個 AI 就算扮演不同角色，仍可能有系統性盲點；換一個模型交叉驗證，才能補上所有角色都沒發現的問題。</li><li>收到回饋不代表全部照做；逐條篩選與決策，才能讓 PRD 變得更好，而不是越改越亂。</li></ul>
 
-## HOW｜3 個階段
+## HOW｜3 個階段、4 個方法
 
-1. **角色壓力測試**：針對每一條假設具體發問。
-2. **換模型交叉驗證**：讓不同 AI 找出原本沒看見的系統性問題。
-3. **回饋整理與就緒檢查**：逐條接受、修改或不採用，確認 PRD 是否已準備進入製作。
+### 階段一｜角色壓力測試
 
-## WHAT｜提示詞
+<MethodCard title="Role-based Grill" tagline="讓 5 個角色針對假設清單逐條質疑，而不是泛泛評論" example="工程師質疑：「店家歷史出餐資料從哪來？如果店家從沒紀錄過怎麼辦？」這是直接針對一條假設發問，而不是只說『這個風險要注意』。"><RoleBasedGrill /></MethodCard>
 
-```text
-以下是 PRD 初稿：【貼上 PRD】
-請分別以使用者、購買者、工程師、設計師與內部決策者的角度，針對假設、流程、資料、範圍與成功指標提出具體質疑；不要給空泛建議。
-```
+### 階段二｜換模型交叉驗證
 
-## 建議產出
+<MethodCard title="Cross-Model Validation" tagline="用另一個 AI 檢查同一份 PRD，補足單一模型的系統性盲點" example="第一階段讓同一個 AI 扮演角色，仍可能受限於它的思考習慣；換一個模型重新檢查，能抓到所有角色都沒發現的問題。"><CrossModelValidation /></MethodCard>
 
-回饋整理表、Definition of Ready 檢查清單，以及已校正的 PRD v2。
+### 階段三｜校正並產出 PRD v2
+
+<MethodCard title="Feedback Reconciliation｜回饋整理表" tagline="將所有回饋逐條決定接受、修改或不採用，並記下理由" example="若建議超出這次 MVP，記錄原因後先不採用；真實風險則寫回 PRD 的風險與待確認問題。"><FeedbackReconciliation /></MethodCard>
+
+<MethodCard title="Definition of Ready｜就緒檢查清單" tagline="確認 PRD 已準備好交給 Part 3 做成可驗證的成果" example="這不是要求所有假設都已驗證；高風險假設至少要有初步回應或明確的驗證方式。"><DefinitionOfReady /></MethodCard>
+
+## 工具箱｜讓 PRD v2 可被交付與接手
+
+這三張卡不取代前面的審查流程；它們把關鍵流程、風險處置與決策責任整理成團隊可以接著執行的紀錄。
+
+<div class="research-toolkit decision-toolkit">
+  <article><span>01</span><h3>關鍵流程案例圖</h3><p>只挑 1–2 個 Must-have 流程，從商業、開發與測試觀點把規則、案例、未解問題與範圍決策說清楚。</p><CriticalFlowExampleMap /></article>
+  <article><span>02</span><h3>Pre-mortem 風險行動卡</h3><p>假設 PRD 最後失敗，找出最可能的失敗模式、早期警訊與預防行動，並指定負責人與期限。</p><PremortemRiskActionCard /></article>
+  <article><span>03 · 團隊選配</span><h3>決策責任卡（DACI-lite）</h3><p>跨職能意見有衝突時，補上誰推進、誰拍板、誰提供意見與下一動作；單人作業可略過。</p><DecisionOwnershipCard /></article>
+</div>
+
+## WHAT｜提示詞範例
+
+<PromptBlock open title="角色壓力測試提示詞" prompt={`以下是我們的 PRD 初稿，以及還沒驗證的假設清單：
+
+【貼上 PRD】
+【貼上假設清單】
+
+請分別用以下五種角色檢查，並針對假設清單逐條質疑，不要只是泛泛而談：
+
+1. 外部使用者：這個產品真的解決我的問題嗎？如果預估錯誤會怎樣？
+2. 外部購買者：值得採用或付費嗎？跟其他選擇比起來優勢在哪？
+3. 工程師：這做得出來嗎？哪一條假設如果是錯的，會讓整個技術方案垮掉？
+4. 設計師：使用者會不會看不懂這個流程？有沒有不夠直覺的地方？
+5. 內部決策者：這值得投入資源嗎？成功指標夠不夠有說服力？
+
+請針對每個角色，明確指出「哪一條假設」讓他們最擔心，不要給空泛的建議。`} />
+
+<PromptBlock title="換模型交叉驗證提示詞" prompt={`請把以下 PRD 貼給另一個 AI 工具（選一個與剛才不同的模型）：
+
+【貼上 PRD】
+
+請該 AI 扮演一位對這個專案完全不熟悉的資深產品顧問，直接指出：
+1. 這份 PRD 最大的三個風險是什麼？
+2. 有沒有明顯被忽略、但很重要的使用者情境？
+3. 如果你是決策者，你會卡在哪一點不敢放行？
+
+拿到回覆後，請對照第一個 AI 給的角色回饋，列出：
+- 兩邊都提到的共同問題
+- 只有新 AI 提到、但第一個 AI 沒發現的問題`} />
+
+<PromptBlock title="回饋整理表提示詞" prompt={`以下是我們收到的所有回饋：
+
+【貼上階段一、階段二收到的所有回饋】
+
+請幫我整理成一張表格，欄位為：回饋來源、回饋內容、建議決策（接受／修改／不採用）、理由。
+
+決策原則：
+1. 涉及真實風險或明顯漏洞的回饋，傾向接受。
+2. 超出這次 MVP 範圍的建議，先標記「不採用，但記錄」。
+3. 如果兩個回饋互相矛盾，請列出來讓我自己判斷，不要自動選一邊。`} />
+
+<PromptBlock title="Definition of Ready 提示詞" prompt={`以下是我們修改後的 PRD：
+
+【貼上修改後的 PRD】
+
+請幫我用以下清單檢查這份 PRD 是否已經準備好交給下一階段做成可驗證的成果：
+1. 每個 Must-have 功能都有清楚的使用者流程了嗎？
+2. 已知的高風險假設，是否都有初步回應或至少知道怎麼驗證？
+3. 是否已經納入至少一個跟原始撰寫者不同的觀點？
+4. 是否已經用第二個 AI 模型交叉檢查過一次？
+5. 這份 PRD 是否已經不再包含「待確認」以外的模糊字眼？
+
+請針對還沒通過的項目，具體說明還缺什麼，不要只回答「通過」或「不通過」。`} />
+
+## 延伸｜開源 AI Skill 資源
+
+<div class="resource-note"><p><strong>使用提醒：</strong>以下為社群開源延伸資源，非本手冊團隊開發或驗證；內容、網址、授權與使用方式可能變動。使用前請確認相容性與資料處理風險，引用內容時請保留原始出處與作者標註。</p></div>
+
+<div class="resource-list"><article><h3><a href="https://github.com/yangro/pmkit" target="_blank" rel="noopener noreferrer">yangro/pmkit ↗</a></h3><p>把 PRD 貼給 AI，模擬不同角色分別回饋，且可自訂角色設定；對應本節的角色壓力測試。需搭配 Claude 使用。</p></article><article><h3><a href="https://claudemarketplaces.com/skills/hoangnguyen0403/agent-skills-standard/implementation-readiness" target="_blank" rel="noopener noreferrer">agent-skills-standard — Implementation Readiness ↗</a></h3><p>檢查 BRD、PRD、UX 與測試計畫的就緒度，協助判斷能否進入實作；對應本節的 Definition of Ready。需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://github.com/AndyShaman/premortem" target="_blank" rel="noopener noreferrer">AndyShaman/premortem ↗</a></h3><p>在正式投入前找出計畫可能失敗的具體原因，並將高風險問題整理為預防、偵測、止損與負責行動；對應本節的 Pre-mortem 風險行動卡。需搭配 Claude Code 使用。</p></article></div>
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>PRD 修正版（PRD v2）</li><li>回饋整理表</li><li>Definition of Ready 檢查結果</li><li>團隊需要做的決策</li><li>下一步驗證事項</li></ul></div>

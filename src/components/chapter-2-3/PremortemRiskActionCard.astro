@@ -1,0 +1,8 @@
+<div class="premortem-card" aria-label="Pre-mortem 風險行動卡">
+  <p class="premortem-card__question">假設上線後失敗：使用者不信任等待時間，放棄下單。</p>
+  <dl><div><dt>早期警訊</dt><dd>查看等待時間後的離開率上升</dd></div><div><dt>影響</dt><dd>高</dd></div><div><dt>預防行動</dt><dd>顯示估計依據與區間，先找 5 位使用者測試理解度</dd></div><div><dt>負責人／期限</dt><dd>產品＋設計／本週五</dd></div></dl>
+</div>
+
+<style is:global>
+  .premortem-card{display:grid;gap:10px;width:min(100%,560px);margin:auto;padding:13px;border:1px solid rgba(251,191,36,.38);border-radius:10px;background:rgba(251,191,36,.06)}.premortem-card__question{margin:0!important;padding-bottom:10px!important;border-bottom:1px dashed rgba(251,191,36,.35);color:#fcd34d!important;font-size:12px!important;font-weight:700}.premortem-card dl{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0}.premortem-card dl div{padding:8px;border:1px solid var(--border);border-radius:7px;background:var(--surface)}.premortem-card dt{color:var(--muted);font-size:10px}.premortem-card dd{margin:3px 0 0;color:var(--text);font-size:11px;line-height:1.5}@media(max-width:520px){.premortem-card dl{grid-template-columns:1fr}}
+</style>

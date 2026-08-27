@@ -12,8 +12,6 @@ next: 2-1
 import MethodCard from '../../components/MethodCard.astro';
 import PromptBlock from '../../components/PromptBlock.astro';
 
-<p class="difference"><strong>跟 1.1／1.2 的差異：</strong>1.1 猜、1.2 驗證，1.3 是從一堆真實但零散的痛點裡，選出一個現在最值得先做的方向。</p>
-
 ## WHY｜為什麼要收斂
 
 <ul class="why-list"><li>1.2 讓你拿到好幾個真實但零散的痛點，不可能同時都做。</li><li>如果沒有先收斂，PRD 寫到一半會發現範圍太大、方向不聚焦。</li><li>這一步不是找出「最厲害」的方向，而是選出「現在最值得先做」的一個。</li></ul>
@@ -21,40 +19,42 @@ import PromptBlock from '../../components/PromptBlock.astro';
 ## HOW｜可以嘗試的 5 個方法
 
 <div class="method-grid research-method-grid">
-  <MethodCard title="Impact / Effort Matrix" tagline="影響力大、花的力氣小的優先做" example="預估出餐等待時間落在「優先做」象限，適合當作今天的主攻方向。"><div class="priority-matrix" aria-label="Impact effort matrix"><div class="priority-matrix__grid"><span class="priority-cell">值得規劃<br />高影響／高力氣</span><strong class="priority-cell priority-cell--first">優先做<br />高影響／低力氣</strong><span class="priority-cell">不要做<br />低影響／高力氣</span><span class="priority-cell">有空再做<br />低影響／低力氣</span></div><small>影響力 ↑　　花的力氣 →</small></div><p class="matrix-note"><strong>解法：</strong>在店家頁面顯示「預估出餐等待時間」，用既有歷史資料估算；幾乎所有外送員都會遇到等餐，且不需即時串接店家系統。</p></MethodCard>
-  <MethodCard title="How Might We" tagline="把問題轉成「我們可以怎麼樣⋯」，避免太早鎖定答案" example="先轉成開放式問句，而不是直接跳去想「做一個等待進度條」。"><div class="hmw-preview"><p>痛點：外送員在等店家出餐時很焦躁</p><span>↓ 轉換</span><div><b>HMW 讓等待變得可預期？</b><b>HMW 讓等待時間變得有用？</b><b>HMW 減少不必要的等待？</b></div></div></MethodCard>
-  <MethodCard title="Problem Statement" tagline="用價值主張句型，把方向收斂成一句話" example="四個空格都填上具體內容，才算真正收斂完成。"><div class="value-proposition"><p>我們幫助 [目標用戶] 在 [特定場景] 下，透過 [核心功能] 解決 [核心痛點]</p><blockquote>我們幫助 <strong>外送員</strong>，在<strong>等待店家出餐</strong>時，透過<strong>預估出餐等待時間提示</strong>，解決<strong>不確定能不能先去接下一單的焦慮</strong>。</blockquote></div></MethodCard>
+  <MethodCard title="Opportunity Assessment Card" tagline="先比較問題本身，不急著比較解法" example="等餐焦躁高頻、影響多數受訪者，且有訪談紀錄支持；比路線不熟更值得優先處理。"><div class="assessment-card"><span>影響範圍<br /><b>多數人</b></span><span>發生頻率<br /><b>每天</b></span><span>證據強度<br /><b>訪談支持</b></span><span>目標契合<br /><b>高</b></span><span>待驗證風險<br /><b>中</b></span></div></MethodCard>
+  <MethodCard title="Opportunity Scoring" tagline="用重要性與目前滿意度找未被滿足的需求" example="使用者認為「掌握出餐時間」很重要、目前卻很不滿意，因此是優先研究的機會。"><div class="opportunity-score"><span>重要性<br /><b>9／10</b></span><i>＋</i><span>重要性 − 滿意度<br /><b>9 − 3</b></span><i>＝</i><strong>機會分數<br />15</strong></div></MethodCard>
+  <MethodCard title="Weighted Decision Matrix" tagline="當多個問題都合理時，用共同標準透明比較" example="以使用者影響、證據、目標契合與可驗證性評分後，等餐焦躁總分最高。"><div class="decision-matrix"><span>候選問題</span><span>影響 × 3</span><span>證據 × 2</span><span>總分</span><b>等餐焦躁</b><b>5</b><b>4</b><strong>23</strong><b>路線不熟</b><b>3</b><b>3</b><strong>15</strong></div></MethodCard>
   <MethodCard title="假設地圖" tagline="攤開還沒驗證的假設，看哪些風險最高" example="「店家願不願意提供即時出餐狀態」是風險最高、還沒驗證的假設。"><div class="assumption-map"><span>已知<br />低風險</span><strong>未知<br />高風險 ⚠</strong><span>已知<br />低風險</span><span>未知<br />中風險</span></div></MethodCard>
-  <MethodCard title="Dot Voting" tagline="團隊用投票方式快速收斂" example="團隊每人 5 票；「等餐焦躁」得 4 票，成為今天的主攻方向。"><div class="dot-voting"><p>等餐焦躁　<strong>● ● ● ●</strong> ○</p><p>路線不熟　<strong>●</strong> ○ ○ ○ ○</p><p>收入不穩　<strong>● ●</strong> ○ ○ ○</p></div></MethodCard>
+  <MethodCard title="DACI Decision Record" tagline="讓團隊知道誰整理、誰拍板、誰提供意見" example="由 PM 整理證據、產品負責人拍板；研究與工程成員提供意見，最後同步決定結果。"><div class="daci-record"><span><b>D</b> Driver<br />整理決策</span><span><b>A</b> Approver<br />最終拍板</span><span><b>C</b> Contributors<br />提供建議</span><span><b>I</b> Informed<br />同步結果</span></div></MethodCard>
 </div>
 
 ## WHAT｜提示詞範例
 
-<PromptBlock open title="Impact / Effort Matrix 提示詞" prompt={`以下是我們目前收集到的幾個問題方向：
+<PromptBlock open title="Opportunity Assessment Card 提示詞" prompt={`以下是我們從訪談、觀察或資料中整理出的問題：
 
 【貼上問題清單】
 
-請幫我用 Impact / Effort Matrix 的方式評估每一個：
-1. 潛在影響力（高／中／低），並說明理由
-2. 需要投入的力氣（高／中／低），並說明理由
-3. 綜合以上，落在「優先做／值得規劃／有空再做／不要做」哪個象限
+請為每個問題建立 Opportunity Assessment Card，評估：
+1. 受影響的使用者範圍
+2. 發生頻率
+3. 使用者結果的重要性
+4. 目前證據強度
+5. 與本次目標的契合度
+6. 最關鍵的待驗證風險
 
-請針對每個方向都給出評估，不要只挑一個講。`} />
+請清楚區分已有證據與推測；暫時不要提出功能或解法。`} />
 
-<PromptBlock title="How Might We 提示詞" prompt={`以下是我們確認過的一個痛點：
+<PromptBlock title="Opportunity Scoring 提示詞" prompt={`以下是使用者針對各需求提供的重要性與目前滿意度資料：
 
-【貼上痛點描述】
+【貼上需求、重要性與滿意度資料】
 
-請把這個痛點轉換成 5 個「How Might We（我們可以怎麼樣⋯）」的開放式問句。每個問句都要保留多種解法方向，不要直接暗示特定功能；盡量涵蓋減少發生、協助應對與改變情境等角度。請先列出問句，暫時不要幫我選解法。`} />
+請以「機會分數 = 重要性 + max(0, 重要性 − 滿意度)」計算各需求的分數，並依分數排序。請列出計算過程，說明分數高代表什麼；資料不足時請指出還需要蒐集什麼。`} />
 
-<PromptBlock title="Problem Statement 提示詞" prompt={`以下是我們目前整理出的多個痛點與觀察：
+<PromptBlock title="Weighted Decision Matrix 提示詞" prompt={`以下是我們需要在其中選出一個優先問題的候選清單：
 
 【貼上內容】
 
-請幫我收斂成一句清楚的價值主張：
-「我們幫助 [目標用戶] 在 [特定場景] 下，透過 [核心功能] 解決 [核心痛點]。」
+請先建議 4–5 個適合比較問題的標準，例如使用者影響、證據強度、目標契合度、可驗證性與風險。等待我確認每個標準的權重後，再建立加權決策矩陣並計算總分。
 
-請只給一句話；最多列 2 個候選版本。`} />
+不要比較功能或開發成本；請清楚標示每個分數的依據與不確定性。`} />
 
 <PromptBlock title="假設地圖提示詞" prompt={`以下是我們目前的問題方向與初步想法：
 
@@ -62,18 +62,28 @@ import PromptBlock from '../../components/PromptBlock.astro';
 
 請列出隱含的關鍵假設，並分類為「已知、低風險」「未知、高風險」「未知、中風險」。特別標出未知且高風險、應最優先驗證的假設。`} />
 
-<PromptBlock title="Dot Voting 提示詞" prompt={`我們團隊正在幾個方向之間做選擇：
+<PromptBlock title="DACI Decision Record 提示詞" prompt={`我們已選出一個暫定優先問題：
 
-【貼上方向清單】
+【貼上問題、證據、排序理由與待驗證假設】
 
-請扮演中立第三方，針對每個方向列出：可能支持的理由、可能反對的理由，以及投票前應先確認的一個關鍵問題。請不要幫我們決定選哪個。`} />
+請建立一份 DACI 決策紀錄，包含：
+1. 要做的決策與期限
+2. Driver、Approver、Contributors、Informed 的角色與責任
+3. 已考慮的候選問題與選擇理由
+4. 尚未解決的問題與下一步行動
+5. 最終決定的 Target Opportunity Statement
 
-## 延伸｜開源 AI Skill 資源
+Target Opportunity Statement 請使用：
+「我們優先要幫助 [目標使用者] 在 [特定情境] 下，減少／改善 [已驗證痛點]，因為 [證據與選擇理由]。」
 
-<div class="resource-note"><p><strong>使用提醒：</strong>以下為社群開源延伸資源，非本手冊團隊開發或驗證；內容、網址、授權與使用方式可能變動。使用前請確認相容性與資料處理風險，引用內容時請保留原始出處與作者標註。</p></div>
+不要加入功能或解法。`} />
 
-<div class="resource-list"><article><h3><a href="https://github.com/lyndonkl" target="_blank" rel="noopener noreferrer">lyndonkl/claude — prioritization-effort-impact ↗</a></h3><p>處理 Impact / Effort 2×2 矩陣，將項目分為「優先做／值得規劃／有空再做／不要做」；需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://github.com/borghei/Claude-Skills" target="_blank" rel="noopener noreferrer">borghei/Claude-Skills — brainstorm-ideas ↗</a></h3><p>內含 How Might We 引導流程，可將痛點轉成開放式問句並協助比較想法；需搭配 Claude Code 安裝使用。</p></article></div>
+## 延伸｜參考工具與模板
+
+<div class="resource-note"><p><strong>使用提醒：</strong>以下為第三方方法與模板，內容、網址與使用方式可能變動。請依你的研究資料、團隊權責與決策情境選用；評分只是協助討論，不能取代使用者證據與最終判斷。</p></div>
+
+<div class="resource-list"><article><h3><a href="https://www.producttalk.org/glossary-discovery-prioritizing-opportunities/" target="_blank" rel="noopener noreferrer">Product Talk — Prioritizing Opportunities ↗</a></h3><p>說明先比較使用者問題與需求，再探索解法的優先順序原則。</p></article><article><h3><a href="https://strategyn.com/outcome-driven-innovation/market-opportunity/" target="_blank" rel="noopener noreferrer">Strategyn — Opportunity Scoring ↗</a></h3><p>介紹以重要性與滿意度量化未被滿足需求的機會分數。</p></article><article><h3><a href="https://www.atlassian.com/team-playbook/plays/daci" target="_blank" rel="noopener noreferrer">Atlassian Team Playbook — DACI ↗</a></h3><p>提供團隊決策角色、決策紀錄與定案流程的 Playbook。</p></article><article><h3><a href="https://www.atlassian.com/work-management/team-management-and-leadership/decision-making/" target="_blank" rel="noopener noreferrer">Atlassian — Decision Matrix ↗</a></h3><p>說明如何設定判斷標準與權重，透明比較多個候選方向。</p></article></div>
 
 ## CHECKLIST｜建議產出
 
-<div class="output-box"><ul><li>一個暫定的問題方向（只選一個）</li><li>2–3 個可能解法（方向定了，解法保留彈性）</li><li>團隊選擇這個方向的理由</li><li>還沒驗證的假設清單</li></ul></div>
+<div class="output-box"><ul><li>一個目標機會／優先問題</li><li>排序依據、使用的證據與被暫緩問題的原因</li><li>高風險、待驗證的假設清單</li><li>DACI 決策紀錄（含拍板者與決策期限）</li><li>一句 Target Opportunity Statement，帶往 2.1 探索產品機會與解法</li></ul></div>

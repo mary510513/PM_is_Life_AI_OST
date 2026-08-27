@@ -1,0 +1,18 @@
+---
+const checks = [
+  '每個 Must-have 功能都有清楚的使用者流程了嗎？',
+  '已知的高風險假設，是否都已經有初步回應或驗證方式？',
+  '是否已經看過至少一個跟自己角色不同的觀點？',
+  '是否已經用第二個 AI 模型交叉檢查過一次？',
+  '這份 PRD 是否已經不再包含「待確認」以外的模糊字眼？',
+];
+---
+
+<div class="definition-ready">
+  <ul>{checks.map((check) => <li><span aria-hidden="true">✓</span>{check}</li>)}</ul>
+  <p>✓ 全數通過 → 產出 <strong>PRD v2</strong></p>
+</div>
+
+<style is:global>
+  .definition-ready ul{display:grid;gap:8px;margin:0!important;padding:0!important;list-style:none}.definition-ready li{display:flex;gap:10px;align-items:flex-start;margin:0!important;padding:10px 12px!important;border:1px solid rgba(52,211,153,.28);border-radius:8px;background:rgba(52,211,153,.06);font-size:13px}.definition-ready li span{color:#6ee7b7;font-weight:800}.definition-ready>p{display:inline-block;margin:14px 0 0!important;padding:7px 10px;border-radius:999px;background:rgba(125,211,252,.13);color:var(--accent)!important;font-size:12px!important}.definition-ready strong{color:var(--text)}
+</style>

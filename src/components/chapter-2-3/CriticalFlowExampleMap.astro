@@ -1,0 +1,13 @@
+<div class="critical-flow-map" aria-label="關鍵流程案例圖">
+  <strong>Must-have：查看等待時間</strong>
+  <div class="critical-flow-map__columns">
+    <div><b>規則</b><p>資料不足時，不顯示精準分鐘數。</p></div>
+    <div><b>案例</b><p>正常：顯示 10–15 分鐘；尖峰：顯示較長區間。</p></div>
+    <div><b>未解問題</b><p>店家從未記錄出餐時間時，改用什麼依據？</p></div>
+    <div><b>範圍決策</b><p>本次先做區間估計；即時串接延後。</p></div>
+  </div>
+</div>
+
+<style is:global>
+  .critical-flow-map{display:grid;gap:10px}.critical-flow-map>strong{width:max-content;max-width:100%;padding:6px 10px;border-radius:999px;background:rgba(167,139,250,.14);color:#c4b5fd;font-size:12px}.critical-flow-map__columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.critical-flow-map__columns>div{padding:10px;border:1px solid var(--border);border-radius:8px;background:rgba(125,211,252,.06)}.critical-flow-map__columns>div:nth-child(3){border-color:rgba(251,113,133,.4);background:rgba(251,113,133,.07)}.critical-flow-map__columns>div:nth-child(4){border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.07)}.critical-flow-map b{color:var(--accent);font-size:11px}.critical-flow-map__columns>div:nth-child(3) b{color:#fda4af}.critical-flow-map__columns>div:nth-child(4) b{color:#6ee7b7}.critical-flow-map p{margin:5px 0 0!important;font-size:11px!important;line-height:1.55}
+</style>

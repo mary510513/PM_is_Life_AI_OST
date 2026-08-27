@@ -1,0 +1,14 @@
+<div class="feedback-table-wrap" role="region" aria-label="回饋整理表示例" tabindex="0">
+  <table class="feedback-table">
+    <thead><tr><th>回饋來源</th><th>回饋內容</th><th>決策</th><th>理由</th></tr></thead>
+    <tbody>
+      <tr><td>工程師角色</td><td>店家歷史出餐資料可能不準確</td><td><span class="decision decision--accept">接受</span></td><td>真實風險，補進風險與待確認問題</td></tr>
+      <tr><td>設計師角色</td><td>等待時間只用數字，使用者不易理解</td><td><span class="decision decision--change">修改</span></td><td>改為區間與說明文字，保留原流程</td></tr>
+      <tr><td>內部決策者</td><td>建議先做付費功能</td><td><span class="decision decision--reject">不採用</span></td><td>超出這次 MVP 範圍，記錄但不處理</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<style is:global>
+  .feedback-table-wrap{overflow-x:auto}.feedback-table{min-width:620px;margin:0!important;font-size:12px}.feedback-table th,.feedback-table td{vertical-align:top}.decision{display:inline-block;padding:2px 7px;border-radius:999px;font-size:11px;font-weight:700}.decision--accept{background:rgba(52,211,153,.16);color:#6ee7b7}.decision--change{background:rgba(251,191,36,.16);color:#fcd34d}.decision--reject{background:rgba(251,113,133,.16);color:#fda4af}
+</style>

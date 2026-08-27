@@ -4,26 +4,163 @@ description: 將優先問題拆為目標使用者、價值、方案與可衡量�
 part: 2
 partTitle: 從需求形成 PRD
 number: 2.1
-readingTime: 9 分鐘
+readingTime: 18 分鐘
 previous: 1-3
 next: 2-2
 ---
 
+import MethodCard from '../../components/MethodCard.astro';
+import PromptBlock from '../../components/PromptBlock.astro';
+import ValuePropositionCanvas from '../../components/chapter-2-1/ValuePropositionCanvas.astro';
+import UserStoryExample from '../../components/chapter-2-1/UserStoryExample.astro';
+import ProductVisionBoard from '../../components/chapter-2-1/ProductVisionBoard.astro';
+import OpportunitySolutionTree from '../../components/chapter-2-1/OpportunitySolutionTree.astro';
+import NorthStarMetric from '../../components/chapter-2-1/NorthStarMetric.astro';
+import OpportunityQualityCard from '../../components/chapter-2-1/OpportunityQualityCard.astro';
+import AssumptionLearningCard from '../../components/chapter-2-1/AssumptionLearningCard.astro';
+import MetricDefinitionCard from '../../components/chapter-2-1/MetricDefinitionCard.astro';
+import MethodGrid from '../../components/chapter-2-1/MethodGrid.astro';
+
 ## WHY｜把問題拆成 PRD 的素材
 
-這一步不是直接寫 PRD，而是先把問題、價值、使用者故事、方案與衡量方式整理成可組裝的零件。
+<ul class="why-list"><li>1.3 給的是一句方向宣言，還缺使用者任務、產品概念、成功指標，不能直接拿去寫 PRD。</li><li>如果沒有先盤點所有可能的使用者需求，容易漏掉比目前解法更好的做法。</li><li>沒有先定義成功指標，PRD 做完也不知道怎麼算是做對了。</li></ul>
 
-## HOW｜5 個方法
+## HOW｜依「往廣 → 往深 → 定型 → 發散 → 收斂成指標」排序的 5 個方法
 
-Value Proposition Canvas、User Story、Product Vision Board、Opportunity Solution Tree 與 North Star Metric。
+<MethodGrid>
+  <MethodCard title="1. Value Proposition Canvas" tagline="左邊看產品能給什麼，右邊看使用者要什麼，中間檢查對不對得上" example="先填右邊 Customer Profile，再填左邊 Value Proposition；替每一格標上「已有證據／待驗證／解法假設」，避免把推論誤當事實。"><ValuePropositionCanvas /></MethodCard>
+  <MethodCard title="2. User Story" tagline="從全貌裡挑出最重要的一組，套進模板句子寫成敘事" example="把觸發情境、任務、阻礙與期待結果寫具體，才能讓團隊理解這個功能要解決的情境。"><UserStoryExample /></MethodCard>
+  <MethodCard title="3. Product Vision Board" tagline="最上面一句願景，底下四欄補齊細節" example="先用一句願景統整方向，再確認目標族群、需求、產品概念與商業目標是否彼此一致；若涉及商業模式，再選配補上競品、收入、成本與通路。"><ProductVisionBoard /></MethodCard>
+  <MethodCard title="4. Opportunity Solution Tree" tagline="從問題展開多個機會點，再對應可能方案，避免太早只想一個解法" example="先展開多個機會點和方案，暫不急著選；每個優先方案都要接一個最小的假設測試。"><OpportunitySolutionTree /></MethodCard>
+  <MethodCard title="5. North Star Metric" tagline="定義一個能代表「這個產品做對了」的關鍵指標" example="除了北極星，還要說清楚它代表的使用者價值，以及團隊能日常影響的 input metrics。"><NorthStarMetric /></MethodCard>
+</MethodGrid>
 
-## WHAT｜提示詞
+## 工具箱｜把機會變成可驗證決策
 
-```text
-根據以下問題、使用者研究與限制：【貼上內容】
-請整理目標使用者、痛點、價值主張、可探索方案、使用者故事與北極星指標；每一項都標註證據或待驗證假設。
-```
+這三張卡不會取代上面的五個方法；它們把方法產生的洞察、假設與指標整理成可帶進 PRD 的決策紀錄。
 
-## 建議產出
+<div class="research-toolkit decision-toolkit">
+  <article><span>01</span><h3>機會品質卡</h3><p>確認機會點是使用者的需求，而不是預先想好的功能；同時保留證據與待驗證問題。</p><OpportunityQualityCard /></article>
+  <article><span>02</span><h3>假設與學習卡</h3><p>把最有風險的推論轉成最小測試，並明確記錄結果會導向繼續、調整或放棄。</p><AssumptionLearningCard /></article>
+  <article><span>03</span><h3>指標定義卡</h3><p>把北極星從口號變成可量測的定義：使用者價值、輸入指標與不可犧牲的護欄。</p><MetricDefinitionCard /></article>
+</div>
 
-一組可寫入 PRD 的問題、價值、使用者故事、方案與指標素材。
+## WHAT｜提示詞範例
+
+<PromptBlock open title="Value Proposition Canvas 提示詞" prompt={`以下是我們已經確認的問題情境：
+
+【貼上情境或 1.3 的價值主張】
+
+請幫我用 Value Proposition Canvas 的架構整理：
+
+Customer Profile（使用者側）：
+1. Customer Jobs：使用者想完成的任務
+2. Pains：使用者遇到的阻礙或負面感受
+3. Gains：使用者期待得到的正面結果
+
+Value Proposition（產品側），對應我們目前的解法：
+
+【貼上目前的解法】
+
+1. Products & Services：這個解法具體是什麼
+2. Pain Relievers：它緩解了哪些 Pains
+3. Gain Creators：它創造了哪些 Gains
+
+最後請檢查左右兩邊對不對得上：有沒有明顯的 Pain 或 Gain，是目前的 Value Proposition 完全沒有回應到的？`} />
+
+<PromptBlock title="User Story 提示詞" prompt={`以下是我們整理出的 Jobs / Pains / Gains：
+
+【貼上 VPC 結果】
+
+請從中挑出最重要的一組，直接套進以下模板句子，輸出一句完整的 User Story：
+
+「當【觸發情境】時，我想要【任務】，但目前【阻礙】，所以我希望【期待的結果】。」
+
+請把四個空格都填上具體內容，輸出成一句自然的完整句子（不要用條列或標籤呈現），並說明你為什麼選這一組作為最重要的。如果有第二個候選版本，請額外提供，最多 2 句。`} />
+
+<PromptBlock title="Product Vision Board 提示詞" prompt={`以下是我們目前累積的內容：
+
+【貼上問題、User Story、初步解法構想】
+
+請幫我整理成 Product Vision Board，格式如下：
+
+先給一句 Vision（這個產品想達成的願景，只要一句話）。
+
+再分四欄整理：
+1. Target Group：目標使用者族群
+2. Needs：使用者的核心需求
+3. Product：產品概念（不用寫死功能細節）
+4. Business Goals：對應到的商業目標
+
+如果某個部分資訊不足，請標記「待確認」，不要自行虛構。`} />
+
+<PromptBlock title="Opportunity Solution Tree 提示詞" prompt={`我們想達成的目標是：
+
+【填入目標，例如：降低使用者流失、提升某個行為比例】
+
+已知的使用者痛點如下：
+
+【貼上痛點清單】
+
+請幫我展開一個 Opportunity Solution Tree：
+1. 把痛點分組成 2–3 個「機會點」（用使用者角度描述，例如「我很難⋯」）
+2. 針對每個機會點，提出至少 2 個可能的解決方案
+3. 暫時不要幫我選最好的方案，先呈現完整的樹狀選項`} />
+
+<PromptBlock title="North Star Metric 提示詞" prompt={`以下是我們的產品概念：
+
+【貼上 Product Vision Board 或產品概念描述】
+
+請幫我建議：
+1. 一個北極星指標（North Star Metric），能代表這個產品是否真的成功
+2. 2–3 個支撐這個指標的次級指標
+3. 說明為什麼這個指標能代表成功，而不只是看起來相關
+
+請避免選擇太容易被操弄、卻不代表真實價值的指標（例如單純的點擊次數）。`} />
+
+<PromptBlock title="機會品質檢查提示詞" prompt={`以下是我們目前整理出的機會點或功能想法：
+
+【貼上清單與使用者研究證據】
+
+請逐項檢查：
+1. 這是否以使用者需求、痛點或渴望表述，而不是功能解法？若不是，請改寫成使用者角度的機會點。
+2. 有哪些直接證據支持它？請區分使用者原話、觀察與推論。
+3. 若解決這個機會點，預期會推動哪一個產品目標？
+4. 還缺哪一項最關鍵的證據？
+
+請用「機會點／證據／信心程度／待驗證問題」表格輸出。`} />
+
+<PromptBlock title="假設與學習卡提示詞" prompt={`以下是我們的產品機會、方案與已有證據：
+
+【貼上內容】
+
+請找出 3 個最有風險、但尚未被證實的假設。每一個假設請提供：
+1. 假設本身與它為何高風險
+2. 最小可行的測試方式
+3. 要觀察什麼，以及通過／不通過的判準
+4. 依結果應繼續、調整還是放棄哪個方案
+
+不要把偏好或功能清單當成證據；資訊不足時請標記待驗證。`} />
+
+<PromptBlock title="指標定義卡提示詞" prompt={`以下是我們的產品概念與候選北極星指標：
+
+【貼上內容】
+
+請將候選指標整理成一張指標定義卡：
+1. 北極星指標名稱與明確計算公式
+2. 它代表的使用者價值
+3. 3–5 個團隊可影響的 input metrics
+4. 1–2 個護欄指標，避免為了拉高主指標而傷害使用者或業務
+5. 建議的基準值、目標值與觀察週期；沒有資料時標記待取得
+
+請解釋各 input metrics 與北極星之間的假設關係。`} />
+
+## 延伸｜開源 AI Skill 資源
+
+<div class="resource-note"><p><strong>使用提醒：</strong>以下為社群開源延伸資源，非本手冊團隊開發或驗證；內容、網址、授權與使用方式可能變動。使用前請確認相容性與資料處理風險，引用內容時請保留原始出處與作者標註。</p></div>
+
+<div class="resource-list"><article><h3><a href="https://github.com/phuryn/pm-skills" target="_blank" rel="noopener noreferrer">phuryn/pm-skills ↗</a></h3><p>除了 opportunity-solution-tree 與 north-star-metric，也包含 identify-assumptions、prioritize-assumptions、brainstorm-experiments 等工作流；可用來找出高風險假設、排序並設計最小測試，對應本節的假設與學習卡。需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://github.com/guia-matthieu/clawfu-skills" target="_blank" rel="noopener noreferrer">guia-matthieu/clawfu-skills — value-proposition-canvas ↗</a></h3><p>走一遍 Osterwalder 的 Value Proposition Canvas，協助盤點使用者的 Jobs／Pains／Gains，並檢查產品設計是否真正對應這些需求。需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://github.com/borghei/Claude-Skills/blob/main/project-management/discovery/opportunity-solution-tree/SKILL.md" target="_blank" rel="noopener noreferrer">borghei/Claude-Skills — opportunity-solution-tree ↗</a></h3><p>協助區分使用者機會點與功能解法、比較機會的嚴重度與策略契合度，並為候選方案接上假設測試；對應本節的機會品質卡與假設驗證。需搭配 Claude Code 安裝使用。</p></article></div>
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>產品機會描述、使用者證據與待驗證問題</li><li>目標使用者與使用者任務（User Story）</li><li>產品概念雛形與高風險假設</li><li>最小測試計畫與學習紀錄</li><li>成功條件（North Star Metric、input metrics 與護欄指標）</li></ul></div>

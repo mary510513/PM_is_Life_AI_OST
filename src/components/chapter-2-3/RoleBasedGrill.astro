@@ -1,0 +1,17 @@
+---
+const roles = [
+  ['🧑', '外部使用者', '這真的解決我的問題嗎？預估錯了怎麼辦？'],
+  ['💳', '外部購買者', '值得付費／採用嗎？跟其他選擇比優勢在哪？'],
+  ['🛠️', '工程師', '做得出來嗎？哪個假設錯了會讓方案垮掉？'],
+  ['🎨', '設計師', '使用者會不會看不懂？流程是否夠直覺？'],
+  ['🧭', '內部決策者', '值得投入資源嗎？成功指標夠不夠說服人？'],
+];
+---
+
+<div class="role-grill" aria-label="五個角色的 PRD 質疑重點">
+  {roles.map(([emoji, name, question]) => <article><span aria-hidden="true">{emoji}</span><h4>{name}</h4><p>{question}</p></article>)}
+</div>
+
+<style is:global>
+  .role-grill{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}.role-grill article{padding:13px 10px;border:1px solid var(--border);border-radius:9px;background:rgba(125,211,252,.07);text-align:center}.role-grill article:nth-child(2),.role-grill article:nth-child(4){background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.35)}.role-grill article:nth-child(3){background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.32)}.role-grill article:nth-child(5){background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.32)}.role-grill span{font-size:22px}.role-grill h4{margin:6px 0 4px;font-size:12px}.role-grill p{margin:0!important;color:var(--muted)!important;font-size:11px!important;line-height:1.55}@media(max-width:720px){.role-grill{grid-template-columns:repeat(2,minmax(0,1fr))}.role-grill article:last-child{grid-column:1/-1}}
+</style>

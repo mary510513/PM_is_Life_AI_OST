@@ -1,0 +1,8 @@
+<div class="cross-model" aria-label="不同 AI 模型的交叉驗證">
+  <div class="cross-model__models"><div>🤖<strong>AI 模型 A</strong><small>階段一使用的模型</small></div><span aria-hidden="true">⇄</span><div>🧠<strong>AI 模型 B</strong><small>換一個不同的模型</small></div></div>
+  <div class="cross-model__findings"><p><b>✓ 共同發現</b>Reach 數字（800 人／月）沒有標明資料來源</p><p><b>⚠ 只有 B 發現</b>完全沒考慮店家可能拒絕分享出餐資料</p></div>
+</div>
+
+<style is:global>
+  .cross-model{display:grid;gap:14px}.cross-model__models{display:flex;align-items:center;justify-content:center;gap:16px;text-align:center}.cross-model__models>div{display:grid;gap:3px;min-width:125px;padding:13px;border:1px solid rgba(125,211,252,.4);border-radius:9px;background:rgba(125,211,252,.08);font-size:21px}.cross-model__models strong{font-size:13px}.cross-model__models small{color:var(--muted);font-size:10px}.cross-model__models>span{color:var(--accent);font-size:24px}.cross-model__findings{display:grid;grid-template-columns:1fr 1fr;gap:9px}.cross-model__findings p{margin:0!important;padding:11px;border:1px solid;border-radius:8px;font-size:12px!important}.cross-model__findings p:first-child{border-color:rgba(52,211,153,.42);background:rgba(52,211,153,.1)}.cross-model__findings p:last-child{border-color:rgba(251,113,133,.42);background:rgba(251,113,133,.1)}.cross-model__findings b{display:block;margin-bottom:4px;color:#6ee7b7}.cross-model__findings p:last-child b{color:#fda4af}@media(max-width:520px){.cross-model__models{gap:8px}.cross-model__models>div{min-width:0;flex:1}.cross-model__findings{grid-template-columns:1fr}}
+</style>

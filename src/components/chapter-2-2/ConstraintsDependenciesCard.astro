@@ -1,0 +1,10 @@
+<div class="dependency-card" aria-label="限制與相依卡範例">
+  <div><b>假設</b><span>店家歷史出餐資料足以推估等待時間。</span></div>
+  <div><b>限制</b><span>MVP 不串接店家即時出餐系統。</span></div>
+  <div><b>相依</b><span>可取得訂單與店家歷史資料。</span></div>
+  <div class="dependency-impact"><b>若不成立</b><span>改顯示較粗略的等待區間，並列為待驗證風險。</span></div>
+</div>
+
+<style>
+  .dependency-card{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(100%,620px);font-size:11px}.dependency-card>div{display:grid;gap:6px;padding:10px;border:1px solid var(--border);border-radius:8px;background:#171a21;line-height:1.4}.dependency-card b{color:var(--accent);font-size:12px}.dependency-card span{color:var(--muted)}.dependency-card .dependency-impact{grid-column:1/-1;border-color:rgba(251,191,36,.42);background:rgba(251,191,36,.07)}.dependency-impact b{color:#f5d786}@media(max-width:520px){.dependency-card{grid-template-columns:1fr}.dependency-card .dependency-impact{grid-column:auto}}
+</style>

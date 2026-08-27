@@ -9,21 +9,133 @@ previous: 2-1
 next: 2-3
 ---
 
+import MethodCard from '../../components/MethodCard.astro';
+import PromptBlock from '../../components/PromptBlock.astro';
+import UserFlow from '../../components/chapter-2-2/UserFlow.astro';
+import ImpactMapping from '../../components/chapter-2-2/ImpactMapping.astro';
+import MoSCoW from '../../components/chapter-2-2/MoSCoW.astro';
+import RiceScoring from '../../components/chapter-2-2/RiceScoring.astro';
+import OnePagerPrd from '../../components/chapter-2-2/OnePagerPrd.astro';
+import RequirementTraceabilityCard from '../../components/chapter-2-2/RequirementTraceabilityCard.astro';
+import ConstraintsDependenciesCard from '../../components/chapter-2-2/ConstraintsDependenciesCard.astro';
+import AcceptanceCriteriaCard from '../../components/chapter-2-2/AcceptanceCriteriaCard.astro';
+import PrdToolkit from '../../components/chapter-2-2/PrdToolkit.astro';
+import MethodGrid from '../../components/chapter-2-2/MethodGrid.astro';
+
+<p class="difference"><strong>跟 2.1 的差異：</strong>2.1 給了零件（任務敘事、產品概念、成功指標）；2.2 則把這些零件排成流程、決定範圍，組裝成一份完整的 PRD 初稿。</p>
+
 ## WHY｜把零件組裝成可討論的規格
 
-PRD 初稿的目的不是一次寫完，而是讓團隊能看到流程、範圍、優先級與假設，開始具體討論。
+<ul class="why-list"><li>2.1 給的是零散的零件，還沒有排成使用者實際會走的流程。</li><li>沒有先決定 MVP 範圍，很容易把所有想到的功能都塞進去，做不完也做不好。</li><li>一份完整的 PRD，能讓工程師、設計師不用再回頭問「這個到底要不要做」。</li></ul>
 
-## HOW｜5 個方法
+### PRD 的 10 個欄位，素材從哪裡來？
 
-User Flow、Impact Mapping、MoSCoW、RICE Scoring 與 One-Pager PRD。RICE 維持 Reach、Impact、Confidence、Effort 四個維度；One-Pager 採檢查清單式摘要。
+| 欄位 | 素材來源 |
+|---|---|
+| 問題背景、目標使用者、使用情境、要解決的問題 | 1.3／2.1 已整理 |
+| 產品概念、成功指標 | 2.1 已整理 |
+| 核心使用流程、MVP 範圍、不處理的事情 | 本章新增：User Flow、MoSCoW |
+| 風險與待確認問題 | 帶入 1.3 假設清單，並補充本章新發現 |
 
-## WHAT｜提示詞
+## HOW｜依「鋪流程 → 檢查 → 定範圍 → 排序 → 組裝」的 5 個方法
 
-```text
-請根據以下產品機會素材：【貼上內容】
-產出 PRD 初稿，包含問題、目標使用者、目標與指標、使用者流程、範圍、優先級、假設、風險與待確認事項。缺少證據時請標記待確認。
-```
+<MethodGrid>
+  <MethodCard title="1. User Flow" tagline="把 2.1 的 User Story 畫成使用者實際操作的流程圖" example="把 2.1 的 User Story 拆成 6 個步驟，中間插入關鍵決策點，方便後面檢查每一步是否必要。"><UserFlow /></MethodCard>
+  <MethodCard title="2. Impact Mapping" tagline="從目標往下拆，檢查每個流程步驟是不是真的對目標有幫助" example="「顯示預估等待時間」連得到目標；店家 Actor 沒有對應功能，則是未來可探索的機會。"><ImpactMapping /></MethodCard>
+  <MethodCard title="3. MoSCoW" tagline="把檢查過的功能分成 Must／Should／Could／Won't" example="預估等待時間是這次一定要做的 Must；即時串接店家系統則明確列為這次不做的 Won't。"><MoSCoW /></MethodCard>
+  <MethodCard title="4. RICE Scoring" tagline="針對 Should／Could 的功能，用分數排出優先順序" example="沒有真實數據時，可合理推估 Reach 與 Confidence，但必須清楚標記為「推估」。公式為 (Reach × Impact × Confidence) / Effort。"><RiceScoring /></MethodCard>
+  <MethodCard title="5. One-Pager PRD" tagline="把以上所有結果，收斂成一頁完整的 PRD" example="用 10 項檢查清單收納前面方法的產出；資訊不足時標記待確認，不自行補造內容。"><OnePagerPrd /></MethodCard>
+</MethodGrid>
 
-## 建議產出
+## 工具箱｜讓 PRD 初稿可交付
 
-一份具備 10 個標準欄位、可供不同角色檢查的 PRD 初稿。
+這三張卡不會取代前面的五個方法；它們將需求、範圍與已知條件整理成工程、設計和利害關係人都能接手討論的紀錄。
+
+<PrdToolkit>
+  <article><span>01</span><h3>需求追溯卡</h3><p>把每個 Must-have 功能連回產品目標、流程節點與成功指標；要砍功能時，能看清楚會影響什麼。</p><RequirementTraceabilityCard /></article>
+  <article><span>02</span><h3>限制與相依卡</h3><p>分開記錄假設、實作限制與外部相依；若其中一項不成立，就能及早知道要調整哪個範圍。</p><ConstraintsDependenciesCard /></article>
+  <article><span>03 · 進階選配</span><h3>Must-have 驗收條件卡</h3><p>替最重要的功能寫下可觀察的結果與例外情境，讓 Must 不只是功能名稱。它只檢查單一功能，不取代 2.3 的整份 PRD 就緒檢查。</p><AcceptanceCriteriaCard /></article>
+</PrdToolkit>
+
+## WHAT｜提示詞範例
+
+<PromptBlock open title="User Flow 提示詞" prompt={`以下是我們的 User Story：
+
+【貼上 2.1 的 User Story】
+
+請幫我把這個故事拆成一個完整的使用者流程（User Flow），包含：
+1. 每個步驟使用者具體在做什麼
+2. 標出流程中的關鍵決策點（使用者需要做選擇的地方）
+3. 標出流程的起點和終點
+
+請用條列步驟呈現，不要跳過任何一個使用者實際會經歷的動作。`} />
+
+<PromptBlock title="Impact Mapping 提示詞" prompt={`我們的目標是：
+
+【填入目標，例如：降低取消率、提升某個行為比例】
+
+以下是我們目前規劃的流程與功能：
+
+【貼上 User Flow】
+
+請幫我用 Impact Mapping 的方式檢查：
+1. 誰（Actor）能幫助我們達成這個目標？
+2. 這些人需要做出什麼改變（Impact），目標才會被達成？
+3. 我們規劃的每個功能（Deliverable），分別對應到哪個 Impact？
+4. 有沒有哪個功能，其實對目標沒有明顯幫助？
+
+請誠實指出可能對目標沒有貢獻的功能，不要為了保留它硬找理由。`} />
+
+<PromptBlock title="MoSCoW 提示詞" prompt={`以下是我們目前規劃的功能清單：
+
+【貼上功能清單】
+
+請幫我用 MoSCoW 的方式分類：
+1. Must：沒有它，這次的目標就無法達成
+2. Should：重要但有替代方案，可以晚一點做
+3. Could：做了會更好，但不影響核心目標
+4. Won't：這次明確不做
+
+請針對每個功能說明分類理由，不要只給分類結果。`} />
+
+<PromptBlock title="RICE Scoring 提示詞" prompt={`以下是我們 MoSCoW 分類中的 Should／Could 功能：
+
+【貼上功能清單】
+
+請幫我用 RICE 方式評分並排序：
+1. Reach：這個功能每個月大約會影響多少使用者
+2. Impact：對這些使用者的影響程度（0.25=minimal、0.5=low、1=medium、2=high、3=massive）
+3. Confidence：對這個估算的信心程度（百分比）
+4. Effort：大約需要投入多少人月
+
+計算方式：RICE Score = (Reach × Impact × Confidence) / Effort
+
+如果沒有真實數據，請用合理推估填入，並明確標記「此為推估」，不要假裝是真實數據。最後依分數排序。`} />
+
+<PromptBlock title="One-Pager PRD 提示詞" prompt={`以下是我們目前累積的所有內容：
+
+【貼上問題背景、User Story、Product Vision Board、User Flow、MoSCoW、RICE 結果】
+
+請幫我整理成一份一頁版 PRD，包含以下 10 個項目，每項用 1–2 句話呈現：
+1. 問題背景
+2. 目標使用者
+3. 使用情境
+4. 要解決的問題
+5. 產品概念
+6. 核心使用流程
+7. MVP 範圍
+8. 不處理的事情
+9. 成功指標
+10. 風險與待確認問題
+
+請用清單格式呈現；資訊不足時請標記「待確認」，不要自行虛構內容。`} />
+
+## 延伸｜開源 AI Skill 資源
+
+<div class="resource-note"><p><strong>使用提醒：</strong>以下為社群開源延伸資源，非本手冊團隊開發或驗證；內容、網址、授權與使用方式可能變動。使用前請確認相容性與資料處理風險，引用內容時請保留原始出處與作者標註。</p></div>
+
+<div class="resource-list"><article><h3><a href="https://github.com/neurofoo/agent-skills" target="_blank" rel="noopener noreferrer">neurofoo/agent-skills — rice ↗</a></h3><p>協助以 RICE 評分候選功能，列出 Reach／Impact／Confidence／Effort 的估算依據並排序，對應本節的 RICE Scoring。需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://claudeskills.info/skills/lyndonkl/claude/one-pager-prd/" target="_blank" rel="noopener noreferrer">lyndonkl/claude — one-pager-prd ↗</a></h3><p>協助產出精簡、可決策的一頁式 PRD，涵蓋問題、解法、使用者、成功指標與範圍界定，對應本節的 One-Pager PRD。需搭配 Claude Code 安裝使用。</p></article><article><h3><a href="https://github.com/franklinxkk/ai-delivery-spec" target="_blank" rel="noopener noreferrer">進階：franklinxkk/ai-delivery-spec ↗</a></h3><p>適合需要把 PRD 初稿交接給設計、工程與測試協作時使用；可協助整理需求追溯、範圍與相依、例外情境及可觀察的驗收條件。支援 Codex、Claude Code 等相容工具。</p></article></div>
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>一頁版 PRD（檢查清單式摘要格式）</li><li>MVP 功能清單</li><li>使用者流程</li><li>不做清單</li><li>風險與待確認事項</li></ul></div>

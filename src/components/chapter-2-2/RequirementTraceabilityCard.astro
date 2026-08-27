@@ -1,0 +1,8 @@
+<div class="trace-card" aria-label="需求追溯卡範例">
+  <div class="trace-head"><span>需求</span><span>支援目標</span><span>流程節點</span><span>優先級</span><span>成功指標</span></div>
+  <div class="trace-row"><strong>顯示預估<br />等待時間</strong><span>降低外送員<br />等待取消率</span><span>抵達店家後<br />查看訂單</span><b>Must</b><span>因等待而<br />取消的比例</span></div>
+</div>
+
+<style>
+  .trace-card{width:min(100%,620px);overflow-x:auto;font-size:11px}.trace-head,.trace-row{display:grid;grid-template-columns:1.1fr 1.15fr 1.1fr .6fr 1.05fr;min-width:560px;gap:5px;text-align:center}.trace-head{margin-bottom:5px;color:var(--accent);font-weight:700}.trace-head span,.trace-row>*{display:grid;place-items:center;min-height:42px;padding:7px;border:1px solid var(--border);border-radius:7px;background:#171a21;line-height:1.35}.trace-row strong{color:var(--text);border-color:rgba(125,211,252,.42);background:rgba(125,211,252,.08)}.trace-row b{color:#8de6bc;border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.08)}.trace-row span{color:var(--muted)}
+</style>
