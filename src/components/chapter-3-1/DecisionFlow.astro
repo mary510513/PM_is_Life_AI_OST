@@ -1,0 +1,41 @@
+<div class="decision-flow" aria-label="決定完成度的三步判斷流程">
+  <article class="decision-step">
+    <p class="decision-step__title"><span>1</span>本次要推進哪一段工作範圍？</p>
+    <p>不要先預設要完成整個 MVP。從 PRD v2 選一個能對應本次目標的最小工作單位：一項假設、一段關鍵流程、MVP 核心範圍，或一個可部署的專案切片。</p>
+    <div class="decision-options" aria-label="外送情境的範例判斷"><b>範例判斷</b><span class="is-selected">驗證查看等待時間的核心流程</span><span>交付 MVP 核心範圍</span><span>推進可部署的專案切片</span></div>
+  </article>
+
+  <span class="decision-flow__arrow" aria-hidden="true">↓</span>
+
+  <article class="decision-step">
+    <p class="decision-step__title"><span>2</span>這段範圍裡，哪些風險一定要做出東西才能檢查？</p>
+    <p>回頭看 PRD v2 的「風險與待確認問題」，區分討論或查資料就能解決的項目，和必須以實際產出驗證的項目。</p>
+    <div class="decision-options" aria-label="外送情境的範例判斷"><b>範例判斷</b><span>店家資料來源 → 討論／查資料即可</span><span class="is-selected">預估時間準不準 → 必須做出東西測</span></div>
+  </article>
+
+  <span class="decision-flow__arrow" aria-hidden="true">↓</span>
+
+  <article class="decision-step">
+    <p class="decision-step__title"><span>3</span>對照光譜表，這段工作要停在哪一層？</p>
+    <p>依照前兩個答案，從下方光譜選出這段工作需要的完成度。目標是剛好回答眼前的問題，而不是做到最完整。</p>
+  </article>
+</div>
+
+<div class="completion-spectrum" role="region" aria-label="五層完整度光譜" tabindex="0">
+  <table>
+    <thead><tr><th scope="col">層級</th><th scope="col">形式</th><th scope="col">驗證什麼</th></tr></thead>
+    <tbody>
+      <tr><th scope="row"><span>1</span>文字流程</th><td>文字劇本／情境模擬對話</td><td>問題和流程本身合不合理</td></tr>
+      <tr><th scope="row"><span>2</span>Wireframe</th><td>畫面架構草圖／Storyboard</td><td>畫面架構和體驗流程</td></tr>
+      <tr class="is-example"><th scope="row"><span>3</span>可點擊原型 <em>範例選擇</em></th><td>可操作但用假資料的原型</td><td>使用者能不能順著流程走完</td></tr>
+      <tr><th scope="row"><span>4</span>可運作 Demo</th><td>真的能跑的核心邏輯</td><td>技術上做不做得出來</td></tr>
+      <tr><th scope="row"><span>5</span>可部署產品</th><td>真的能發布給任何人用</td><td>有沒有人真的想用</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<p class="decision-example"><strong>外送情境示範：</strong>這次最想驗證的是「預估等待時間的邏輯合不合理」，屬於流程層面而非技術可行性；選層級 3（可點擊原型）就足夠，不需要急著做到層級 5 的可部署產品。</p>
+
+<style is:global>
+  .decision-flow{display:grid;gap:10px}.decision-step{padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.decision-step p{margin:0;color:var(--muted);font-size:14px}.decision-step__title{display:flex;align-items:center;gap:9px;margin-bottom:8px!important;color:var(--text)!important;font-size:16px!important;font-weight:700}.decision-step__title span,.completion-spectrum th span{display:inline-grid;place-items:center;flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#0f1115;font:700 12px var(--mono)}.decision-options{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:13px}.decision-options b{font-size:11px;color:var(--accent2)}.decision-options span{padding:5px 9px;border:1px solid var(--border);border-radius:7px;background:#11141a;color:#cfd4dc;font-size:12px}.decision-options .is-selected{border-color:var(--accent);background:rgba(125,211,252,.1);color:var(--accent);font-weight:700}.decision-flow__arrow{text-align:center;color:var(--accent2);font-size:20px;line-height:1}.completion-spectrum{overflow-x:auto;margin-top:22px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.completion-spectrum table{width:100%;min-width:610px;margin:0!important;border-collapse:collapse}.completion-spectrum th,.completion-spectrum td{padding:12px 13px!important;border:0!important;border-bottom:1px solid var(--border)!important;text-align:left;vertical-align:top;font-size:13px}.completion-spectrum thead th{color:var(--accent);background:#1e222b;font-size:12px}.completion-spectrum tbody tr:last-child th,.completion-spectrum tbody tr:last-child td{border-bottom:0!important}.completion-spectrum tbody th{white-space:nowrap;color:var(--text)}.completion-spectrum th span{width:20px;height:20px;margin-right:5px;background:#1e222b;border:1px solid var(--border);color:var(--muted);font-size:10px}.completion-spectrum .is-example{background:rgba(125,211,252,.08)}.completion-spectrum .is-example th{border-left:3px solid var(--accent)!important}.completion-spectrum .is-example th span{background:var(--accent);border-color:var(--accent);color:#0f1115}.completion-spectrum em{display:inline-block;margin-left:5px;padding:1px 5px;border:1px solid rgba(52,211,153,.4);border-radius:4px;background:rgba(52,211,153,.12);color:#6ee7b7;font-size:10px;font-style:normal}.decision-example{margin:14px 0 0!important;padding:13px 15px;border-left:2px solid var(--accent);background:rgba(125,211,252,.05);color:var(--muted)!important;font-size:13px!important}.decision-example strong{color:var(--accent)}
+</style>

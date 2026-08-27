@@ -11,9 +11,9 @@
 | `2.1_prototype.html` | `/handbook/2-1/` | 2.1 | WHY → 5 方法 → 提示詞 | 已遷移 | MDX 已建立；發佈前補齊 PRD 素材對照表。 |
 | `2.2_prototype.html` | `/handbook/2-2/` | 2.2 | WHY → 5 方法 → 提示詞 | 已遷移 | MDX 已建立；One-Pager 方案 C 與 RICE 四維度已標示。 |
 | `2.3_prototype.html` | `/handbook/2-3/` | 2.3 | WHY → 3 階段／4 方法 → 提示詞 | 已遷移 | MDX 已建立；發佈前補齊回饋整理表與 DoR 細節。 |
-| `3.1_prototype.html` | `/handbook/3-1/` | 3.1 | WHY → 3 問題 → 5 層光譜 | 已遷移 | MDX 已建立，維持決策流程結構。 |
+| `3.1_prototype.html` | `/handbook/3-1/` | 3.1 | WHY → 3 問題 → 5 層光譜 | 已遷移 | MDX、決策流程元件與可複製提示詞已補齊；範例答案明確標示為示範。 |
 | `3.2_prototype.html` | `/handbook/3-2/` | 3.2 | WHY → 層級工具表 → 提示詞 | 已遷移 | MDX 已建立，並統一使用全站深色主題。 |
-| `3.3_prototype.html` | `/handbook/3-3/` | 3.3 | 回饋方法 → 診斷框架 → 提示詞 | 已遷移 | MDX 已建立，保留診斷而非只收集回饋的定位。 |
+| `3.3_prototype.html` | `/handbook/3-3/` | 3.3 | 回饋方法 → 診斷框架 → 提示詞 | 已遷移 | 已補齊三種回饋方法、兩段可複製提示詞、三分診斷框架與回饋工具箱；六層分類僅作為「局部卡住」時的細部追查。 |
 | `4.1-4.4_prototype.html` | `/handbook/4-1/` 至 `/handbook/4-4/` | 4.1–4.4 + 結語 | 索引／導覽型 | 已遷移 | 已拆為四份 MDX；結語併入 4.4，未建立 Part 5。 |
 
 ## 遷移執行順序

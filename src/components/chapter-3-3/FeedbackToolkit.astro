@@ -1,0 +1,62 @@
+---
+interface Props { section: 'observation' | 'diagnosis' | 'advanced' }
+const { section } = Astro.props;
+---
+
+{section === 'observation' && <article class="feedback-tool-card">
+  <span class="tool-kicker">TOOL 01</span>
+  <h3>任務觀察紀錄卡</h3>
+  <p>把「使用者做了什麼」和「我們覺得代表什麼」分開記，才不會在當下把自己的推論寫成事實。</p>
+  <dl class="observation-record" aria-label="任務觀察紀錄範例">
+    <div><dt>任務</dt><dd>查看等待時間後，決定要等還是接下一單。</dd></div>
+    <div><dt>實際行為／原話</dt><dd>停在首頁 12 秒，問：「這個數字是現在要等多久嗎？」</dd></div>
+    <div><dt>結果</dt><dd>未自行完成選擇；需要提問後才繼續。</dd></div>
+    <div><dt>暫定推論</dt><dd>等待時間的意義或位置不夠清楚，待更多觀察確認。</dd></div>
+  </dl>
+</article>}
+
+{section === 'diagnosis' && <div class="feedback-diagnosis-tools">
+  <article class="feedback-tool-card">
+    <span class="tool-kicker">TOOL 02</span>
+    <h3>回饋證據標籤</h3>
+    <p>每一則回饋先標記來源，再做判斷。標籤說明證據類型，不代表哪一種自動正確。</p>
+    <div class="evidence-tags" aria-label="回饋證據標籤">
+      <div><b>觀察到的行為</b><span>受測者實際做了什麼、卡在哪裡。</span></div>
+      <div><b>使用者自述</b><span>他如何解釋自己的感受、情境與需求。</span></div>
+      <div><b>使用者建議</b><span>他提出的解法；保留問題，不直接照做。</span></div>
+      <div><b>團隊假設</b><span>來自團隊或利害關係人的看法，仍需驗證。</span></div>
+    </div>
+    <p class="tool-note">同時記下出現次數，例如「3 位中的 2 位」；單一事件可以重要，但不要假裝它代表所有人。</p>
+  </article>
+  <article class="feedback-tool-card">
+    <span class="tool-kicker">TOOL 03</span>
+    <h3>問題優先矩陣</h3>
+    <p>當已確認是「某處卡住」，用發生頻率和對任務的影響排出修正順序。</p>
+    <div class="priority-matrix" role="img" aria-label="以發生頻率和任務影響排列修正優先順序的矩陣">
+      <span class="matrix-y">對任務影響 ↑</span>
+      <div class="matrix-grid"><div><b>持續觀察</b><span>少見、影響低</span></div><div><b>後修</b><span>常見、影響低</span></div><div><b>個案處理</b><span>少見、影響高</span></div><div class="matrix-first"><b>先修</b><span>常見、影響高</span></div></div>
+      <span class="matrix-x">發生頻率 →</span>
+    </div>
+    <p class="tool-note">這是修正排序，不是市場規模判斷；「方向可能不對」仍回到上方三分診斷。</p>
+  </article>
+</div>}
+
+{section === 'advanced' && <div class="advanced-feedback-tools">
+  <article class="feedback-tool-card">
+    <span class="tool-kicker">進階｜多人回饋</span>
+    <h3>回饋聚類板</h3>
+    <p>適合已有多位使用者或多份筆記時，用原始觀察讀出模式，而不是只挑最有感的一句話。</p>
+    <ol class="cluster-flow"><li>一張卡只寫一則原話或觀察</li><li>把相似卡片聚在一起</li><li>為群組命名，例如「看不懂等待時間」</li><li>連回診斷與下一步</li></ol>
+  </article>
+  <article class="feedback-tool-card">
+    <span class="tool-kicker">進階｜多輪原型</span>
+    <h3>快速迭代迴圈</h3>
+    <p>當卡點已明確是介面或流程問題時，不必等所有回饋收齊；小批測試、修正、再測，確認修正真的有效。</p>
+    <div class="rite-flow" aria-label="快速迭代流程"><span>測 3–5 人</span><i>→</i><span>修正明確卡點</span><i>→</i><span>再測確認</span></div>
+    <p class="tool-note">不適用於仍不確定痛點或方向的情況；那時應先回到三分診斷，而不是快速修畫面。</p>
+  </article>
+</div>}
+
+<style>
+  .feedback-tool-card{padding:20px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}.feedback-tool-card h3{margin:7px 0 5px;font-size:16px}.feedback-tool-card>p{margin:0 0 15px!important;color:var(--muted)!important;font-size:13px}.tool-kicker{display:block;color:var(--accent);font:700 11px var(--mono);letter-spacing:.05em}.observation-record{display:grid;gap:7px;margin:0}.observation-record div{display:grid;grid-template-columns:110px 1fr;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:#1e222b}.observation-record dt{color:var(--accent2);font-size:11px;font-weight:700}.observation-record dd{margin:0;color:#d1d5db;font-size:12px;line-height:1.55}.observation-record div:last-child{border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.05)}.feedback-diagnosis-tools,.advanced-feedback-tools{display:grid;gap:14px;margin:18px 0}.evidence-tags{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.evidence-tags div{padding:10px;border:1px solid var(--border);border-radius:8px;background:#1e222b}.evidence-tags b,.evidence-tags span{display:block}.evidence-tags b{margin-bottom:3px;color:var(--accent);font-size:12px}.evidence-tags span{color:#d1d5db;font-size:11px;line-height:1.5}.tool-note{margin:13px 0 0!important;padding-top:11px;border-top:1px dashed var(--border);font-size:12px!important}.priority-matrix{display:grid;grid-template-columns:20px 1fr;gap:7px;max-width:430px;margin:auto}.matrix-y{align-self:center;color:var(--muted);font-size:10px;writing-mode:vertical-rl;transform:rotate(180deg)}.matrix-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.matrix-grid div{min-height:58px;padding:9px;border:1px solid var(--border);border-radius:7px;background:#1e222b}.matrix-grid b,.matrix-grid span{display:block}.matrix-grid b{color:#d1d5db;font-size:11px}.matrix-grid span{color:var(--muted);font-size:10px}.matrix-grid .matrix-first{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.1)}.matrix-first b{color:#6ee7b7}.matrix-x{grid-column:2;color:var(--muted);font-size:10px;text-align:right}.cluster-flow{display:grid;gap:7px;margin:0;padding:0;list-style:none;counter-reset:cluster}.cluster-flow li{padding:9px 10px;border:1px solid var(--border);border-radius:7px;background:#1e222b;color:#d1d5db;font-size:12px}.cluster-flow li::before{content:counter(cluster);counter-increment:cluster;display:inline-grid;place-items:center;width:17px;height:17px;margin-right:7px;border-radius:50%;background:rgba(125,211,252,.16);color:var(--accent);font:700 10px var(--mono)}.rite-flow{display:flex;align-items:center;gap:7px;overflow-x:auto}.rite-flow span{flex:1 0 112px;padding:11px 8px;border:1px solid var(--border);border-radius:8px;background:#1e222b;color:#d1d5db;text-align:center;font-size:12px}.rite-flow i{color:var(--accent2);font-style:normal}@media(max-width:520px){.observation-record div,.evidence-tags{grid-template-columns:1fr}}
+</style>

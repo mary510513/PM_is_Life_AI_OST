@@ -1,0 +1,13 @@
+---
+import ReferenceTable from './ReferenceTable.astro';
+const rows = [
+  { first: '1.1', second: '問題探索', third: 'Design Thinking、5 Whys、JTBD、問題樹、Feynman Technique' },
+  { first: '1.2', second: '理解使用者', third: 'Empathy Map、User Journey Map、Persona、使用者訪談、觀察法' },
+  { first: '1.3', second: '收斂方向', third: 'Impact / Effort Matrix、How Might We、Problem Statement、假設地圖、Dot Voting' },
+  { first: '2.1', second: '形成產品機會', third: 'Value Proposition Canvas、User Story、Product Vision Board、Opportunity Solution Tree、North Star Metric' },
+  { first: '2.2', second: '建立 PRD', third: 'User Flow、Impact Mapping、MoSCoW、RICE Scoring、One-Pager PRD' },
+  { first: '2.3', second: '檢查 PRD', third: '角色壓力測試、換模型交叉驗證、回饋整理表、Definition of Ready' },
+  { first: '3.3', second: '驗證與回饋', third: '使用者測試、5 秒測試、Rose Thorn Bud' },
+];
+---
+<ReferenceTable headings={['章節', '用途', '方法']} rows={rows} />

@@ -1,0 +1,10 @@
+---
+const steps = [
+  { label: 'Part 1', title: '探索問題', description: '釐清需求、使用者與值得處理的機會。' },
+  { label: 'Part 2', title: '形成規格', description: '把問題轉成可檢查、可執行的 PRD。' },
+  { label: 'Part 3', title: '做出與學習', description: '完成 MVP、取得回饋，決定下一輪。' },
+];
+---
+<ol class="project-flow">
+  {steps.map((step) => <li><span>{step.label}</span><strong>{step.title}</strong><p>{step.description}</p></li>)}
+</ol>

@@ -9,21 +9,90 @@ previous: 3-2
 next: 4-1
 ---
 
-## 核心｜回饋不是答案，診斷才是
+import PromptBlock from '../../components/PromptBlock.astro';
+import FeedbackMethods from '../../components/chapter-3-3/FeedbackMethods.astro';
+import FeedbackDiagnosis from '../../components/chapter-3-3/FeedbackDiagnosis.astro';
+import FeedbackToolkit from '../../components/chapter-3-3/FeedbackToolkit.astro';
 
-做出東西是為了得到判斷。使用者反應不好，可能是問題、使用者、價值、方案、介面或驗證方式出了問題；先辨識它指向哪一層，再採取下一步。
+<p class="difference"><strong>使用單位：</strong>本章的一輪可以是一次工作、一個 Sprint、一段專案工作，或一次 MVP 驗證。重點不是經過多少時間，而是是否取得足以決定下一步的證據。</p>
 
-## HOW｜收集與診斷
+## WHY｜回饋不是答案，診斷才是
 
-可透過訪談、可用性測試與行為觀察收集回饋，再用診斷框架分辨：證據是否足夠、問題是否存在、解法是否有效、呈現是否造成誤解。
+<ul class="why-list"><li>做出東西不是終點，是為了得到一個判斷；回饋需要先被讀懂，才知道該怎麼辦。</li><li>新手常犯兩種錯：回饋說什麼就照單全收，或捨不得推翻已做的東西而選擇性忽略。兩者都沒有先分清回饋指向哪一層問題。</li><li>PRD → 產出 → 回饋是一個可持續滾動、越滾越準的方法；每次工作、衝刺或 MVP 驗證，都是其中一輪。</li></ul>
+
+## HOW｜3 個收集回饋的方法
+
+<FeedbackMethods />
+
+## 工具箱｜先記錄看見的事實
+
+在測試時，不用急著診斷或幫使用者找答案。先把任務、實際行為與原話記下來，測試結束後再討論它代表什麼。
+
+<FeedbackToolkit section="observation" />
+
+## WHAT｜跟 AI 一起設計驗證方式
+
+<PromptBlock title="綜合提示詞：依本輪產出設計驗證方式" open={true} prompt={`以下是我在本次工作／衝刺／MVP 驗證中做出的產出：
+
+【描述或貼上本輪產出】
+
+以下是我比較在意、還沒有把握的地方：
+
+【填入想確認的重點，例如：使用者看不看得懂等待時間的意思、流程會不會太長】
+
+請幫我一起設計一個適合的方式，來確認這些重點：
+1. 依照我做出來的東西的完整度，建議適合的驗證方式（例如找人試用、簡單問卷、觀察、口頭訪談等）。
+2. 幫我設計 2–3 個具體的驗證任務或問題。
+3. 提醒我在收集回饋時，容易忽略或誤判的地方。
+
+請根據我實際做出來的東西給建議，不要套用制式做法。`} />
+
+## 診斷框架｜這份回饋在說什麼
+
+<FeedbackDiagnosis />
+
+## 工具箱｜讓回饋變成可判斷的下一步
+
+若診斷結果是「某處卡住」，先分清證據來源，再決定哪些問題要優先修正；不要把一則建議或一句意見直接當成需求。
+
+<FeedbackToolkit section="diagnosis" />
 
 ## WHAT｜回饋診斷提示詞
 
-```text
-以下是產出、驗證目標與回饋：【貼上內容】
-請將每一則回饋分類為問題、使用者、價值、方案、介面或驗證方式；說明證據強度與最小的下一個驗證動作。
-```
+<PromptBlock title="診斷提示詞：判斷回饋屬於哪一種，並給出對應下一步" open={true} prompt={`以下是我們收到的回饋：
 
-## 建議產出
+【貼上回饋內容】
 
-回饋診斷表、下一輪假設與行動。判斷方向不值得繼續做，同樣是有價值的成果。
+以下是本輪工作做出的產出、PRD v2 與原本要驗證的目標：
+
+【貼上產出描述、PRD v2 與驗證目標】
+
+請幫我診斷這些回饋。每一條回饋都先判斷屬於以下哪一種情況（可能不只一種），並說明依據：
+
+1. 方向沒問題，體驗也順：告訴我可以往哪個方向繼續深化或落地。
+2. 方向大致沒問題，但某個地方卡住：具體指出卡在哪裡；必要時再從問題、使用者、價值、方案、介面、驗證方式分析。
+3. 這個方向可能不值得投入：說明判斷依據與下一個最小驗證動作。
+
+請誠實給出判斷；不要為了保留現有方向而硬找理由，也不要因為回饋不好就否定整個努力。不管結果是哪一種，都是有價值的判斷。`} />
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>收集到的回饋（依所選方法整理）</li><li>回饋診斷結果：三種分類中的哪一種，或哪幾種混合</li><li>對應的下一步行動或反思</li></ul></div>
+
+## 延伸工具｜多人或多輪測試時使用
+
+以下工具適合已有多份回饋，或已明確知道要修正哪個介面／流程問題時使用；它們不是每一次工作、衝刺或 MVP 驗證都必做的步驟。
+
+<FeedbackToolkit section="advanced" />
+
+## 延伸閱讀｜進一步做使用者測試與整理回饋
+
+以下資源是補充做法，不取代本章的診斷框架；當你需要設計更完整的測試、整理多輪資料或帶領團隊分析時再使用。
+
+<div class="resource-list"><article><h3><a href="https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing" target="_blank" rel="noopener noreferrer">GOV.UK — Using moderated usability testing ↗</a></h3><p>說明如何設計不引導使用者的任務、以中立方式進行測試、觀察行為並在測試後追問；對應本章的使用者測試與任務觀察紀錄卡。</p></article><article><h3><a href="https://www.gov.uk/service-manual/user-research/analyse-a-research-session" target="_blank" rel="noopener noreferrer">GOV.UK — Analyse a research session ↗</a></h3><p>提供從原始觀察、Affinity Mapping、洞察到下一步行動的完整分析流程；適合回饋聚類板需要擴充成團隊協作分析時參考。</p></article><article><h3><a href="https://www.nngroup.com/articles/affinity-diagram/" target="_blank" rel="noopener noreferrer">Nielsen Norman Group — Affinity Diagramming ↗</a></h3><p>說明如何將研究觀察聚成主題、命名洞察並排出行動優先順序；適合多人共同整理多份回饋。</p></article></div>
+
+## 延伸｜開源 AI Skill 資源
+
+<div class="resource-note"><p>需要用 AI 協助整理訪談、研究筆記或回饋時，請前往 <a href="/resources/">延伸資源</a> 查看集中管理的開源 AI Skill。使用前請確認授權、相容性與資料處理風險；訪談逐字稿、錄音與可識別個資不應直接上傳至未經核准的外部服務。</p></div>
+
+<p class="chapter-closing">不管診斷結果是哪一種，這次工作都完成了一輪 <strong>PRD → 產出 → 回饋</strong> 的學習迴圈。這個迴圈可以在專案、Sprint 與 MVP 驗證中反覆使用；「發現這條路不通」和「做出一個成功的產品」，同樣都是有價值的收穫。</p>

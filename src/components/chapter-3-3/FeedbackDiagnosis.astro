@@ -1,0 +1,11 @@
+<div class="diagnosis-intro">收集完回饋後，先別急著改東西——回饋不是答案，要先讀懂它在說什麼。</div>
+<div class="diagnosis-cards">
+  <article class="diagnosis-card diagnosis-card--continue"><span>方向沒問題</span><div><h3>體驗順、回饋正向</h3><p>這個方向值得繼續投入。</p><b>下一步：</b>依本輪證據決定要擴大範圍、提高完成度、驗證新風險，或進入交付／上線準備。</div></article>
+  <article class="diagnosis-card diagnosis-card--adjust"><span>某處卡住</span><div><h3>方向大致沒問題，但某些地方卡住</h3><p>東西本身或 PRD 有個地方需要調整。</p><b>下一步：</b>修正後再驗證；若修正超出本輪範圍，納入下一輪的優先項目。</div></article>
+  <article class="diagnosis-card diagnosis-card--rethink"><span>方向可能不對</span><div><h3>使用者沒有這個痛點，或方向不值得投入</h3><p>這是一個有價值的發現，不是失敗。</p><b>下一步：</b>帶著本輪取得的證據，回到問題與使用者需求，重新找出值得驗證的方向。</div></article>
+</div>
+<aside class="diagnosis-detail"><strong>想知道「某處卡住」是哪裡？</strong>再從問題、使用者、價值、方案、介面、驗證方式六個層面逐一檢查；這是細部追查工具，不取代上面的下一步判斷。</aside>
+
+<style>
+  .diagnosis-intro{margin:18px 0;padding:14px 17px;border:1px solid rgba(167,139,250,.35);border-radius:10px;background:rgba(167,139,250,.09);color:#ddd3f1;font-weight:700;text-align:center;font-size:14px}.diagnosis-cards{display:grid;gap:10px}.diagnosis-card{display:grid;grid-template-columns:116px 1fr;gap:16px;align-items:start;padding:16px 18px;border:1px solid var(--border);border-radius:10px;background:#1e222b}.diagnosis-card>span{padding:7px 6px;border-radius:7px;text-align:center;font-size:11px;font-weight:700}.diagnosis-card h3{margin:0 0 3px;color:var(--text);font-size:14px}.diagnosis-card p{margin:0 0 6px!important;color:var(--muted)!important;font-size:12px}.diagnosis-card div{color:#c8edfc;font-size:12px;line-height:1.55}.diagnosis-card div b{color:var(--accent2)}.diagnosis-card--continue>span{background:rgba(52,211,153,.14);color:#6ee7b7}.diagnosis-card--adjust>span{background:rgba(251,191,36,.14);color:#fcd34d}.diagnosis-card--rethink>span{background:rgba(167,139,250,.14);color:#c4b5fd}.diagnosis-detail{margin-top:13px;padding:12px 14px;border-left:2px solid var(--accent);background:rgba(125,211,252,.05);color:var(--muted);font-size:12px;line-height:1.6}.diagnosis-detail strong{color:var(--accent)}@media(max-width:520px){.diagnosis-card{grid-template-columns:1fr;gap:10px}.diagnosis-card>span{justify-self:start;padding-inline:10px}}
+</style>

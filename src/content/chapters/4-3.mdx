@@ -1,21 +1,25 @@
 ---
 title: 卡點對照地圖
-description: 依照你卡住的問題，找到應該回看的章節與下一個動作。
+description: 依目前的專案卡點，找到該回看的章節與下一個動作。
 part: 4
-partTitle: 回頭地圖與延伸方向
+partTitle: 專案導航與延伸工具
 number: 4.3
 readingTime: 5 分鐘
 previous: 4-2
 next: 4-4
 ---
 
-## 先辨識卡點
+import ProjectBlockerMap from '../../components/chapter-4/ProjectBlockerMap.astro';
+import MethodOverviewTable from '../../components/chapter-4/MethodOverviewTable.astro';
 
-| 你現在的問題 | 建議回看 |
-| --- | --- |
-| 不確定要解什麼問題 | 1.1–1.3 |
-| 有問題但不知道怎麼寫成規格 | 2.1–2.3 |
-| 有 PRD 但不知道做到什麼程度 | 3.1–3.2 |
-| 做完後不知道如何解讀回饋 | 3.3 |
+## 先辨識目前卡點
 
-方法工具庫提供方法索引；本頁的任務是幫你找到下一個動作，而不是要求你重走整條路。
+<ProjectBlockerMap />
+
+這張地圖處理的是「某個環節卡住」的情況；如果連想處理的問題都還不清楚，從 1.1 開始即可。它的任務是幫你找到下一步，而不是要求你重走整條路。
+
+## 方法總覽表
+
+需要特定框架時，可先用這張表縮小範圍，再回到對應章節查看做法與提示詞。
+
+<MethodOverviewTable />

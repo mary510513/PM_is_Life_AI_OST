@@ -1,6 +1,6 @@
 ---
 title: 依完整度層級選 AI 工具與形式
-description: 將 PRD v2 轉成 3.1 所選完整度需要的呈現方式與 AI 工具。
+description: 將 3.1 定義的工作範圍與完成度，轉成需要的呈現方式與 AI 工具。
 part: 3
 partTitle: 從 PRD 做出成果
 number: 3.2
@@ -9,28 +9,70 @@ previous: 3-1
 next: 3-3
 ---
 
+import PromptBlock from '../../components/PromptBlock.astro';
+import ProductionToolkit from '../../components/chapter-3-2/ProductionToolkit.astro';
+import BuildControlToolkit from '../../components/chapter-3-2/BuildControlToolkit.astro';
+
 ## WHY｜讓 PRD 變成可感受的體驗
 
-文字 PRD 無法直接驗證體驗。選對呈現方式與工具，是用最少力氣回答眼前需要驗證的問題。
+<ProductionToolkit section="why" />
 
-## 完整度與工具對照
+## HOW｜依完整度選呈現方式與工具
 
-| 層級 | 呈現方式 | 可考慮工具 |
-| --- | --- | --- |
-| 1 | 文字流程 | ChatGPT、Claude |
-| 2 | Wireframe | ChatGPT、Claude、Gemini |
-| 3 | 可點擊原型 | Gemini / AI Studio、v0 |
-| 4 | 可運作 Demo | Cursor、Claude Code |
-| 5 | 可部署產品 | Cursor / Claude Code、GitHub Pages、Vercel、Netlify |
+以下對照表的「做法」與「產出」是開始前的最低共識：先確認 3.1 定義的工作、衝刺或 MVP 範圍與完成度，再決定要開哪個工具。不要因為工具能做到更高層級，就擴大既定範圍。
 
-## WHAT｜萬用提示詞
+<ProductionToolkit section="comparison" />
 
-```text
-以下是我們的 PRD v2：【貼上 PRD】
-今天決定做到的完整度是：【填入層級】。
-請先回覆你對需求的理解與生成計畫；等我確認後才開始製作。
-```
+## 工具箱｜先控制生成範圍
 
-## 建議產出
+<BuildControlToolkit section="brief" />
 
-符合選定完整度的流程、原型、Demo 或可部署產品，以及使用工具與下一步清單。
+<BuildControlToolkit section="scope" />
+
+## WHAT｜萬用提示詞：先規劃，再生成
+
+<PromptBlock title="依完整度生成的提示詞" open={true} prompt={`以下是我們的 PRD v2：
+
+【貼上 PRD v2】
+
+本次工作／衝刺／MVP 的目標完整度是：
+【填入 3.1 選定的層級，例如：可點擊原型】
+
+請先不要直接生成內容，而是：
+1. 說明你理解這個層級應該包含哪些具體畫面或內容；不要超出這個層級該有的細節。
+2. 依照 PRD 裡的核心使用流程，說明你打算如何做成這個層級的產出。
+3. 如果我提供的資訊不足以生成，請具體告訴我還缺少什麼。
+
+等我確認你的理解和規劃都沒問題，並回覆「請開始」後，你才開始正式生成內容。`} />
+
+<ProductionToolkit section="flow" />
+
+## 工具箱｜驗收與迭代
+
+<BuildControlToolkit section="review" />
+
+<PromptBlock title="修改既有成果的迭代提示詞" prompt={`請以目前版本為基礎修改：
+
+保留：
+【哪些畫面、流程或內容不能動】
+
+修改：
+【具體指出要改的位置與希望的結果】
+
+不要新增：
+【本次工作不驗證的功能】
+
+完成條件：
+【使用者必須能完成的任務】`} />
+
+## CHECKLIST｜建議產出
+
+<div class="output-box"><ul><li>依 3.1 選定層級完成的成果：文字流程、畫面描述、可點擊網頁、可執行程式或可分享測試網址。</li><li>AI 對該層級的理解與生成規劃確認紀錄。</li><li>本次工作得到的驗證結論，以及支持下一個產品決策的下一步。</li><li>若選擇層級 5：一個可分享給測試者或利害關係人的網址。</li></ul></div>
+
+## 延伸工具｜依需求選用
+
+以下工具適合需要直接產出原型、網頁應用或可部署專案時使用。它們不改變前面的判斷原則：先依要驗證的問題與完整度選擇產出形式，再評估是否需要採用這些工具。
+
+<ProductionToolkit section="resources" />
+
+<BuildControlToolkit section="deployment" />

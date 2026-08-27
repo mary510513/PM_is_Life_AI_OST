@@ -1,0 +1,49 @@
+---
+interface Props { section: 'brief' | 'scope' | 'review' | 'deployment' }
+const { section } = Astro.props;
+---
+
+{section === 'brief' && <section class="build-toolkit build-brief" aria-label="生成需求 Brief">
+  <p class="toolkit-kicker">TOOLKIT 01</p>
+  <h3>生成需求 Brief｜先補齊 AI 不該猜的資訊</h3>
+  <p>貼上 PRD 前，先填完這張卡；它只定義本次工作範圍的生成邊界，不重新決定完整度。</p>
+  <dl>
+    <div><dt>本次工作的目標完整度</dt><dd>【填入 3.1 的選擇】</dd></div>
+    <div><dt>要驗證的核心問題</dt><dd>【例如：使用者能否理解預估送達時間】</dd></div>
+    <div><dt>目標使用者與情境</dt><dd>【誰、何時、為了完成什麼任務】</dd></div>
+    <div><dt>必須完成的核心任務</dt><dd>【使用者要能完成的 1 個流程】</dd></div>
+    <div><dt>裝置／平台</dt><dd>【手機、桌面或兩者】</dd></div>
+    <div><dt>可使用的假資料</dt><dd>【可直接寫死的資料或情境】</dd></div>
+    <div><dt>必須遵守的限制</dt><dd>【品牌、時間、技術或無障礙限制】</dd></div>
+    <div><dt>本次工作明確排除</dt><dd>【明確排除的功能與細節】</dd></div>
+  </dl>
+</section>}
+
+{section === 'scope' && <section class="build-toolkit" aria-label="真做與可假做範圍表">
+  <p class="toolkit-kicker">TOOLKIT 02</p>
+  <h3>真做／可假做｜控制每一層的範圍</h3>
+  <p>只把會影響本次驗證結論的部分做成真的；其餘先用假資料、假互動或文字替代。</p>
+  <div class="toolkit-table-wrap" role="region" aria-label="各完整度的真做與可假做範圍" tabindex="0"><table><thead><tr><th>層級</th><th>必須是真的</th><th>可以是假的</th></tr></thead><tbody>
+    <tr><th>文字流程</th><td>使用情境、關鍵決策、例外情況</td><td>UI、資料、技術邏輯</td></tr>
+    <tr><th>Wireframe</th><td>資訊層級、畫面元素、欄位與按鈕</td><td>點擊、真實內容、資料串接</td></tr>
+    <tr><th>可點擊原型</th><td>核心流程、主要狀態轉換</td><td>後端、帳號、真實運算</td></tr>
+    <tr><th>可運作 Demo</th><td>本次要驗證的核心規則或演算法</td><td>非核心流程、正式權限、完整資料庫</td></tr>
+    <tr><th>可分享測試版</th><td>測試者或利害關係人能進入並完成核心任務</td><td>不影響本次 MVP 驗證的產品化細節</td></tr>
+  </tbody></table></div>
+</section>}
+
+{section === 'review' && <section class="build-toolkit review-toolkit" aria-label="生成後驗收清單">
+  <p class="toolkit-kicker">TOOLKIT 03</p>
+  <h3>生成後驗收｜交付前先看這 6 件事</h3>
+  <ol><li>本次工作要驗證的核心任務，是否已有足夠證據？</li><li>有沒有生成 PRD 未要求的功能？</li><li>空資料、錯誤或取消時，有沒有合理回應？</li><li>假資料是否足以支撐本次要驗證的情境？</li><li>手機與桌面顯示是否都檢查過？</li><li>成果是否仍符合 3.1 選定的層級，並足以支持下一個產品決策？</li></ol>
+</section>}
+
+{section === 'deployment' && <section class="build-toolkit deployment-toolkit" aria-label="層級五對外測試前檢查">
+  <p class="toolkit-kicker">TOOLKIT 05 · LEVEL 5 ONLY</p>
+  <h3>對外測試前檢查｜可分享不等於可安全測試</h3>
+  <ul><li>目標測試對象是否能開啟網址，且核心任務確實可完成？</li><li>是否移除敏感資料、內部連結、金鑰與真實個資？</li><li>若有登入或資料庫，是否已檢查權限與資料存取規則？</li><li>是否準備測試帳號、假資料或明確的測試說明？</li><li>是否記下部署位置、版本與回退方式？</li></ul>
+</section>}
+
+<style>
+  .build-toolkit{margin:18px 0;padding:20px;border:1px solid var(--border);border-radius:12px;background:var(--surface)}.toolkit-kicker{margin:0 0 7px!important;color:var(--accent)!important;font:700 11px var(--mono)!important;letter-spacing:.08em}.build-toolkit h3{margin:0 0 7px;font-size:17px}.build-toolkit>p:not(.toolkit-kicker){margin:0 0 16px!important;color:var(--muted)!important;font-size:13px}.build-brief dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0}.build-brief dl div{padding:10px 11px;border:1px solid var(--border);border-radius:8px;background:#1e222b}.build-brief dt{margin-bottom:4px;color:var(--accent);font-size:11px;font-weight:700}.build-brief dd{margin:0;color:#d1d5db;font-size:12px;line-height:1.5}.toolkit-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px}.toolkit-table-wrap table{width:100%;min-width:680px;margin:0!important;border-collapse:collapse}.toolkit-table-wrap th,.toolkit-table-wrap td{padding:10px 11px!important;border:0!important;border-bottom:1px solid var(--border)!important;text-align:left;vertical-align:top;font-size:12px}.toolkit-table-wrap thead th{background:#1e222b;color:var(--accent);font-size:11px}.toolkit-table-wrap tbody tr:last-child th,.toolkit-table-wrap tbody tr:last-child td{border-bottom:0!important}.toolkit-table-wrap tbody th{color:var(--text);white-space:nowrap}.review-toolkit ol,.deployment-toolkit ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0;padding:0;list-style:none;counter-reset:review}.review-toolkit li,.deployment-toolkit li{padding:10px 11px;border:1px solid var(--border);border-radius:8px;background:#1e222b;color:#d1d5db;font-size:12px;line-height:1.55}.review-toolkit li{padding-left:37px;position:relative;counter-increment:review}.review-toolkit li::before{content:counter(review);position:absolute;left:13px;color:var(--accent);font:700 12px var(--mono)}.deployment-toolkit{border-color:rgba(251,191,36,.36);background:rgba(251,191,36,.05)}.deployment-toolkit .toolkit-kicker{color:#fbbf24!important}.deployment-toolkit li{border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.04)}@media(max-width:720px){.build-brief dl,.review-toolkit ol,.deployment-toolkit ul{grid-template-columns:1fr}}
+</style>

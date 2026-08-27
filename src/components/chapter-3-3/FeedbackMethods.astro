@@ -1,0 +1,30 @@
+<div class="feedback-methods">
+  <article>
+    <div class="method-heading"><span>01</span><div><h3>使用者測試</h3><p>讓真實使用者實際操作，觀察他卡在哪裡。</p></div></div>
+    <dl class="test-brief" aria-label="使用者測試範例">
+      <div><dt>使用者背景</dt><dd>兼職外送員，常抱怨等餐時間不確定。</dd></div>
+      <div><dt>任務目標</dt><dd>接單後查看等待時間，決定是否先接下一單。</dd></div>
+      <div><dt>觀察重點</dt><dd>是否注意到等待時間提示，而非直接忽略。</dd></div>
+      <div><dt>結束後可問</dt><dd>「你剛剛看到那個數字時，在想什麼？」</dd></div>
+    </dl>
+    <p class="fit"><b>適合：</b>可點擊原型、可運作 Demo、可部署產品；必須操作才看得出卡點。</p>
+  </article>
+  <article>
+    <div class="method-heading"><span>02</span><div><h3>5 秒測試</h3><p>只看 5 秒，測第一眼能不能看懂。</p></div></div>
+    <div class="five-seconds" aria-label="5 秒測試流程"><b>5s</b><p>給使用者看畫面 5 秒後收起來，再問：「你剛剛看到什麼？」</p></div>
+    <p class="fit"><b>適合：</b>Wireframe、可點擊原型；測的是第一眼有沒有講清楚重點，不是操作流程。</p>
+  </article>
+  <article>
+    <div class="method-heading"><span>03</span><div><h3>Rose, Thorn, Bud</h3><p>團隊一起複盤，把回饋分成三種花的比喻。</p></div></div>
+    <div class="rose-thorn-bud" aria-label="Rose Thorn Bud 定義與範例">
+      <div><b>🌹 Rose</b><span>成功、優勢與正向回饋。</span><i>例：等待時間提示讓人比較安心。</i></div>
+      <div><b>🥀 Thorn</b><span>痛點、摩擦或需要支援的瓶頸。</span><i>例：數字更新太慢，感覺不準。</i></div>
+      <div><b>🌱 Bud</b><span>值得培養的新點子與機會。</span><i>例：顯示店家忙碌狀況會更好。</i></div>
+    </div>
+    <p class="fit"><b>適合：</b>任何形式的產出；可在團隊內部或與使用者一起做。</p>
+  </article>
+</div>
+
+<style>
+  .feedback-methods{display:grid;gap:14px;margin:18px 0}.feedback-methods article{padding:20px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}.method-heading{display:flex;gap:12px;align-items:flex-start;margin-bottom:15px}.method-heading>span{display:grid;place-items:center;flex:0 0 28px;height:28px;border:1px solid rgba(125,211,252,.4);border-radius:7px;color:var(--accent);font:700 11px var(--mono)}.method-heading h3{margin:0;font-size:16px}.method-heading p{margin:2px 0 0!important;color:var(--muted)!important;font-size:13px}.test-brief{display:grid;gap:7px;margin:0}.test-brief div{display:grid;grid-template-columns:86px 1fr;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:#1e222b}.test-brief dt{color:var(--accent2);font-size:11px;font-weight:700}.test-brief dd{margin:0;color:#d1d5db;font-size:12px;line-height:1.55}.five-seconds{display:grid;justify-items:center;gap:9px;min-height:144px;padding:16px;border:1px solid var(--border);border-radius:9px;background:#1e222b;text-align:center}.five-seconds b{display:grid;place-items:center;width:63px;height:63px;border:3px solid var(--accent);border-radius:50%;color:var(--accent);font:700 15px var(--mono)}.five-seconds p{margin:0!important;color:var(--muted)!important;font-size:12px;line-height:1.55}.rose-thorn-bud{display:grid;gap:7px}.rose-thorn-bud div{display:grid;grid-template-columns:105px 1fr;gap:3px 8px;padding:10px 12px;border:1px solid var(--border);border-radius:8px;background:#1e222b}.rose-thorn-bud b{grid-row:span 2;color:var(--text);font-size:12px}.rose-thorn-bud span{color:#d1d5db;font-size:12px;line-height:1.45}.rose-thorn-bud i{color:var(--accent);font-size:11px;font-style:normal}.fit{margin:14px 0 0!important;padding-top:12px;border-top:1px dashed var(--border);color:var(--muted)!important;font-size:12px!important}.fit b{color:var(--accent)}@media(max-width:520px){.test-brief div,.rose-thorn-bud div{grid-template-columns:1fr}.rose-thorn-bud b{grid-row:auto}}
+</style>

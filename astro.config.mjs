@@ -6,5 +6,8 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL ?? 'https://pm-is-life-ai-ost.pages.dev',
+  devToolbar: {
+    enabled: false,
+  },
   integrations: [mdx(), sitemap()],
 });

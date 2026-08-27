@@ -1,0 +1,14 @@
+---
+import ReferenceTable from './ReferenceTable.astro';
+interface Props { section: 'skill' | 'deployment' }
+const { section } = Astro.props;
+const skillRows = [
+  { first: 'Anthropic Prompt Engineering', second: '英文', third: '從成功條件、測試方式到提示詞技巧的官方導覽。', href: 'https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview' },
+];
+const deploymentRows = [
+  { first: 'GitHub Pages Quickstart', second: '英文', third: '用 GitHub 儲存庫建立與發布靜態網站的官方入門。', href: 'https://docs.github.com/en/pages/quickstart' },
+  { first: 'Vercel Deployment Docs', second: '英文', third: '將 Git 儲存庫或現有專案部署為可分享網址的官方文件。', href: 'https://vercel.com/docs/deployments' },
+  { first: 'Netlify Start', second: '英文', third: '依專案程式碼所在位置選擇部署方式的官方導覽。', href: 'https://docs.netlify.com/start/choose-your-path/' },
+];
+---
+<ReferenceTable headings={['資源', '語言', '用途']} rows={section === 'skill' ? skillRows : deploymentRows} />

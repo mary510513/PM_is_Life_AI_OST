@@ -1,0 +1,6 @@
+---
+interface Row { first: string; second: string; third: string; href?: string }
+interface Props { headings: [string, string, string]; rows: Row[] }
+const { headings, rows } = Astro.props;
+---
+<div class="reference-table-wrap"><table class="reference-table"><thead><tr>{headings.map((heading) => <th scope="col">{heading}</th>)}</tr></thead><tbody>{rows.map((row) => <tr><td>{row.href ? <a href={row.href} target="_blank" rel="noopener noreferrer">{row.first} ↗</a> : row.first}</td><td>{row.second}</td><td>{row.third}</td></tr>)}</tbody></table></div>

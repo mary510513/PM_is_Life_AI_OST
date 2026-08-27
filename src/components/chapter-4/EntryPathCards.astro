@@ -1,0 +1,10 @@
+---
+const paths = [
+  { number: '01', title: '啟動新專案', description: '還在探索需求或尚未決定方向時，從 Part 1 開始建立完整脈絡。', href: '/handbook/1-1/', link: '從 1.1 開始' },
+  { number: '02', title: '推進既有專案', description: '已經有 PRD、原型、MVP 或回饋時，直接從目前卡住的環節繼續。', href: '/handbook/4-3/', link: '查看卡點地圖' },
+  { number: '03', title: '取用一項工具', description: '需要某個框架、模板或提示詞時，直接前往對應章節或方法工具庫。', href: '/methods/', link: '瀏覽方法工具庫' },
+];
+---
+<div class="entry-paths">
+  {paths.map((path) => <article><span>{path.number}</span><h3>{path.title}</h3><p>{path.description}</p><a href={path.href}>{path.link} →</a></article>)}
+</div>

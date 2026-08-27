@@ -1,0 +1,57 @@
+---
+interface Props { section: 'why' | 'comparison' | 'flow' | 'resources' }
+const { section } = Astro.props;
+---
+<div class="production-toolkit">
+  {section === 'why' && <>
+  <aside class="chapter-connection" aria-label="與 3.1 的關係"><strong>接續 3.1：</strong>3.1 決定本次工作要取得的最低驗證證據；3.2 則決定用什麼產出形式與 AI 工具，最快做出足以支持下一個決策的證據。</aside>
+  <ol class="experience-reasons">
+    <li>PRD 本身只是文字；要驗證體驗好不好，必須把它換成畫面、流程或可操作的東西，才看得出問題。</li>
+    <li>層級越高，呈現方式越接近真實使用情境，能測出的問題也越深；相對地，需要投入的時間與力氣也越多。</li>
+    <li>選對工具，是為了用最少力氣把 PRD 轉成需要的形式，而不是把時間花在學工具本身。</li>
+  </ol>
+  </>}
+
+  {section === 'comparison' && <>
+  <div class="production-table-wrap" role="region" aria-label="完整度與 AI 工具對照表" tabindex="0">
+    <table class="production-table">
+      <thead><tr><th scope="col">層級</th><th scope="col">工具</th><th scope="col">做法</th><th scope="col">產出</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><span class="level"><b>1</b>文字流程</span></th><td><span class="tool">ChatGPT</span><span class="tool">Claude</span></td><td>請 AI 把 User Flow 寫成情境模擬對話或文字劇本。</td><td>一段文字；唸出來就能感覺流程順不順。</td></tr>
+        <tr><th scope="row"><span class="level"><b>2</b>Wireframe</span></th><td><span class="tool">ChatGPT</span><span class="tool">Claude</span><span class="tool">Gemini</span></td><td>條列每個畫面該有的元素與排列；需要示意圖時，再請 AI 生成。</td><td>畫面架構描述或簡易示意圖。</td></tr>
+        <tr><th scope="row"><span class="level"><b>3</b>可點擊原型</span></th><td><span class="tool">Gemini / AI Studio</span><span class="tool">v0</span></td><td>請 AI 用假資料生成可在瀏覽器操作的網頁原型。</td><td>能打開、能點擊操作的網頁。</td></tr>
+        <tr><th scope="row"><span class="level"><b>4</b>可運作 Demo</span></th><td><span class="tool">Cursor</span><span class="tool">Claude Code</span></td><td>請 AI 協助寫出核心邏輯，例如實際計算預估時間。</td><td>能實際執行、可驗證邏輯的程式。</td></tr>
+        <tr><th scope="row"><span class="level"><b>5</b>可分享測試版</span></th><td><span class="tool">Cursor / Claude Code</span><span class="tool">GitHub Pages</span><span class="tool">Vercel</span><span class="tool">Netlify</span></td><td>在 Demo 基礎上加上部署步驟，讓測試者或利害關係人能透過網址使用。</td><td>可分享、可完成核心流程的測試網址。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <aside class="level-five-note"><strong>層級 5 補充：</strong>只有當本次 MVP 要驗證資料持久化或登入時，才需要評估 Supabase、Firebase 等後端服務；否則不必加入資料庫與帳號系統。</aside>
+  </>}
+
+  {section === 'flow' && <>
+  <div class="generation-flow" aria-label="與 AI 協作的五步流程">
+    <div><b>Step 1</b><span>貼上 PRD<br />填入層級</span></div><i aria-hidden="true">→</i>
+    <div><b>Step 2</b><span>AI 回覆理解<br />與規劃</span></div><i aria-hidden="true">→</i>
+    <div><b>Step 3</b><span>確認沒問題</span></div><i aria-hidden="true">→</i>
+    <div><b>Step 4</b><span>回覆「請開始」</span></div><i aria-hidden="true">→</i>
+    <div><b>Step 5</b><span>AI 正式生成</span></div>
+  </div>
+
+  <p class="flow-note">先確認理解與規劃，再讓 AI 正式生成，可避免方向錯誤後大幅重做。</p>
+  </>}
+
+  {section === 'resources' && <>
+  <div class="resource-list" aria-label="延伸工具資源">
+    <article><h3>Dyad</h3><p>適合探索本機執行的 AI 應用程式建置流程。</p><span>適用完整度：4–5</span></article>
+    <article><h3>bolt.diy</h3><p>適合探索在瀏覽器中生成網頁應用的工作方式。</p><span>適用完整度：3–5</span></article>
+    <article><h3>ai-app-builder-open</h3><p>適合想進一步研究自架式 app builder 的讀者。</p><span>適用完整度：4–5</span></article>
+    <article><h3>Llama Coder</h3><p>適合從一句需求快速產出小型網頁應用的練習。</p><span>適用完整度：3–4</span></article>
+    <article><h3>Adorable</h3><p>適合探索文字轉網站的自架替代方案。</p><span>適用完整度：3–4</span></article>
+  </div>
+  </>}
+</div>
+
+<style>
+  .production-toolkit{display:grid;gap:18px;margin:18px 0}.chapter-connection,.level-five-note{padding:16px 18px;border-radius:10px;font-size:14px;line-height:1.7}.chapter-connection{border-left:3px solid var(--accent2);background:rgba(167,139,250,.08);color:#d8d2e7}.chapter-connection strong{color:var(--accent2)}.experience-reasons{display:grid;gap:10px;margin:0;padding:0;list-style:none;counter-reset:reason}.experience-reasons li{position:relative;padding:15px 17px 15px 52px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:#d1d5db;font-size:14px}.experience-reasons li::before{position:absolute;left:18px;top:15px;content:counter(reason);counter-increment:reason;color:var(--accent);font:700 14px var(--mono)}.production-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px}.production-table{width:100%;min-width:800px;margin:0!important;border-collapse:collapse}.production-table th,.production-table td{padding:13px!important;border:0!important;border-bottom:1px solid var(--border)!important;text-align:left;vertical-align:top;font-size:12px;line-height:1.6}.production-table thead th{background:#1e222b;color:var(--accent);font-size:11px}.production-table tbody tr:last-child th,.production-table tbody tr:last-child td{border-bottom:0!important}.production-table tbody th{width:135px;color:var(--text)}.level{display:flex;align-items:center;gap:7px;white-space:nowrap}.level b{display:grid;place-items:center;width:21px;height:21px;border-radius:50%;background:var(--accent);color:#0f1115;font:700 11px var(--mono)}.tool{display:inline-block;margin:0 4px 4px 0;padding:2px 7px;border:1px solid rgba(125,211,252,.38);border-radius:999px;background:rgba(125,211,252,.08);color:#c8edfc;font-size:10px;white-space:nowrap}.level-five-note{border:1px solid rgba(251,191,36,.35);background:rgba(251,191,36,.07);color:#e7d5a2}.level-five-note strong{color:#fbbf24}.generation-flow{display:flex;align-items:stretch;gap:7px;overflow-x:auto;padding:2px}.generation-flow>div{display:grid;gap:5px;flex:1 0 118px;padding:13px 11px;border:1px solid var(--border);border-radius:9px;background:#1e222b;text-align:center}.generation-flow b{color:var(--accent);font:700 10px var(--mono)}.generation-flow span{color:#d1d5db;font-size:12px;line-height:1.45}.generation-flow i{align-self:center;color:var(--accent2);font-style:normal}.flow-note{margin:0!important;padding:11px 13px;border-left:2px solid var(--accent);background:rgba(125,211,252,.05);color:var(--muted)!important;font-size:13px!important}.resource-list{grid-template-columns:repeat(2,minmax(0,1fr));margin:0}.resource-list article:last-child{grid-column:1/-1}.resource-list span{display:block;margin-top:12px;color:var(--accent);font:700 11px var(--mono)}@media(max-width:720px){.generation-flow{align-items:center}.generation-flow i{transform:rotate(90deg)}.resource-list{grid-template-columns:1fr}.resource-list article:last-child{grid-column:auto}}
+</style>
